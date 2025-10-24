@@ -1270,7 +1270,7 @@
                     </svg>
                     WhatsApp
                 </a>
-                <a href="mailto:contact@moovecityparis.fr?subject=Demande de connexion&body=Bonjour, je souhaite créer un compte client." class="btn btn-outline">Se connecter</a>
+                <a href="https://wa.me/33751213255?text=Bonjour, je souhaite créer un compte client" class="btn btn-outline" target="_blank" rel="noopener">Se connecter</a>
                 <a href="#hero" class="btn btn-primary">RÉSERVER - DEVIS GRATUIT !</a>
             </div>
         </nav>
@@ -1365,7 +1365,7 @@
             <h2 class="fade-in">Pourquoi choisir Moove City Paris</h2>
             <div class="features-grid">
                 <div class="feature-card slide-in-left stagger-delay-1">
-                    <div class="feature-icon">⚡️</div>
+                    <div class="feature-icon">⚡</div>
                     <h3>Disponible dans l'heure</h3>
                     <p>Nos transporteurs sont disponibles dans l'heure sur le lieu de départ, ou plus tard sur rendez-vous.</p>
                 </div>
@@ -1375,7 +1375,7 @@
                     <p>Notre équipe est disponible 7 jours sur 7, de 7h à 20h pour vous répondre.</p>
                 </div>
                 <div class="feature-card slide-in-right stagger-delay-3">
-                    <div class="feature-icon">🛡️</div>
+                    <div class="feature-icon">🛡</div>
                     <h3>Qualité garantie</h3>
                     <p>Nos chauffeurs sont sélectionnés selon des critères stricts : permis de conduire valide, expérience professionnelle et formation continue. Chaque transporteur est assuré et suit nos protocoles de sécurité.</p>
                 </div>
@@ -1424,7 +1424,7 @@
             
             <div class="tournees-grid">
                 <div class="tournee-card slide-in-left stagger-delay-1">
-                    <div class="tournee-icon">🗺️</div>
+                    <div class="tournee-icon">🗺</div>
                     <h3>Planification intelligente</h3>
                     <p>Nos algorithmes optimisent automatiquement vos trajets pour réduire les coûts et le temps de transport</p>
                 </div>
@@ -1858,7 +1858,7 @@
             }, 1000);
         }
 
-        // Redirection vers la page de réservation avec tracking
+        // Redirection vers WhatsApp avec les détails de réservation
         function redirectToBooking() {
             const startAddress = document.getElementById('depart').value;
             const endAddress = document.getElementById('arrivee').value;
@@ -1875,8 +1875,18 @@
                 trackConversion('booking_start', 1);
             }
 
-            const bookingUrl = `booking.html?start_adr=${encodeURIComponent(startAddress)}&end_adr=${encodeURIComponent(endAddress)}&date_order=${date}%20${heure}`;
-            window.location.href = bookingUrl;
+            // Créer le message WhatsApp
+            let message = `Bonjour, je souhaite réserver un transport avec Moove City Paris.`;
+            message += `\n\nDétails de ma demande :`;
+            message += `\n• Départ : ${startAddress}`;
+            message += `\n• Arrivée : ${endAddress}`;
+            message += `\n• Date : ${date}`;
+            message += `\n• Heure : ${heure}`;
+            message += `\n\nPouvez-vous me faire un devis ?`;
+
+            // Rediriger vers WhatsApp
+            const whatsappUrl = `https://wa.me/33751213255?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
         }
 
         // Système de confirmation de réservation
