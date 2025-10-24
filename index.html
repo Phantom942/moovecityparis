@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Moove City Paris - Transport avec chauffeur professionnel</title>
     <!-- Watermark invisible: © 2026 Moove City Paris - Phantom Design -->
-    <meta name="description" content="Transport professionnel avec chauffeur dans toute la région parisienne. Disponible dans l'heure, tarifs transparents, service de qualité.">
+    <meta name="description" content="🚛 Transport avec chauffeur Paris - Disponible dans l'heure ! Déménagement, livraison, transport de marchandises. Tarifs transparents, service professionnel. Réservez maintenant !">
     
     <!-- SEO Meta Tags -->
-    <meta name="keywords" content="transport avec chauffeur, déménagement Paris, livraison express, camionnette chauffeur, transport professionnel, déménagement région parisienne, livraison rapide, transport marchandises, service groupage, système tournées">
+    <meta name="keywords" content="transport avec chauffeur Paris, déménagement Paris, livraison express Paris, camionnette chauffeur, transport professionnel Paris, déménagement région parisienne, livraison rapide Paris, transport marchandises Paris, service groupage Paris, système tournées Paris, transport urgence Paris, déménagement pas cher Paris, livraison dans l'heure Paris">
     <meta name="author" content="Moove City Paris">
     <meta name="robots" content="index, follow">
     <meta name="language" content="fr">
@@ -137,6 +137,26 @@
     
     <!-- Twemoji - Emojis style Apple pour tous les systèmes -->
     <script src="https://unpkg.com/twemoji@latest/dist/twemoji.min.js" crossorigin="anonymous"></script>
+    
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID');
+        
+        // Tracking des conversions
+        function trackConversion(action, value) {
+            gtag('event', 'conversion', {
+                'send_to': 'GA_MEASUREMENT_ID',
+                'value': value,
+                'currency': 'EUR',
+                'event_category': 'transport',
+                'event_label': action
+            });
+        }
+    </script>
     
     <style>
         /* Reset & Base Styles */
@@ -1251,7 +1271,7 @@
                     WhatsApp
                 </a>
                 <a href="mailto:contact@moovecityparis.fr?subject=Demande de connexion&body=Bonjour, je souhaite créer un compte client." class="btn btn-outline">Se connecter</a>
-                <a href="#hero" class="btn btn-primary">Réserver maintenant</a>
+                <a href="#hero" class="btn btn-primary">🚀 RÉSERVER - DEVIS GRATUIT !</a>
             </div>
         </nav>
     </header>
@@ -1261,8 +1281,8 @@
     <section class="hero" role="banner">
         <div class="container">
             <div class="hero-content">
-                <h1 class="fade-in">Votre camionnette avec chauffeur disponible dans l'heure</h1>
-                <p class="fade-in stagger-delay-1">Transport professionnel rapide et fiable dans toute la région parisienne</p>
+                <h1 class="fade-in">🚛 Transport avec chauffeur Paris - Disponible dans l'heure !</h1>
+                <p class="fade-in stagger-delay-1">✅ Déménagement, livraison, transport de marchandises - Service professionnel 7j/7 - Réservez maintenant !</p>
                 
                 <!-- Booking Form -->
                 <div class="booking-form fade-in stagger-delay-2">
@@ -1307,7 +1327,7 @@
                         </div>
                     </div>
                     <div class="form-row-center">
-                        <button class="btn btn-primary btn-large" onclick="redirectToBooking()">Réserver maintenant</button>
+                        <button class="btn btn-primary btn-large" onclick="redirectToBooking()">🚀 RÉSERVER MAINTENANT - DEVIS GRATUIT !</button>
                     </div>
                 </div>
             </div>
@@ -1320,24 +1340,20 @@
             <h2 class="fade-in">Nos véhicules</h2>
             <div class="services-grid">
                 <div class="service-card scale-in stagger-delay-1" data-vehicle="urban">
-                    <h3>URBAN</h3>
-                    <p>6 m³ - 800 kg<br>Parfait pour la ville, manœuvrable et efficace.</p>
-                    <div class="service-price">40€</div>
+                    <h3>🚛 URBAN</h3>
+                    <p><strong>6 m³ - 800 kg</strong><br>✅ Parfait pour la ville, manœuvrable et efficace.<br>💰 <strong>À partir de 40€</strong></p>
                 </div>
                 <div class="service-card scale-in stagger-delay-2" data-vehicle="express">
-                    <h3>EXPRESS</h3>
-                    <p>9 m³ - 1200 kg<br>Rapidité et fiabilité pour vos livraisons express.</p>
-                    <div class="service-price">50€</div>
+                    <h3>⚡ EXPRESS</h3>
+                    <p><strong>9 m³ - 1200 kg</strong><br>✅ Rapidité et fiabilité pour vos livraisons express.<br>💰 <strong>À partir de 50€</strong></p>
                 </div>
                 <div class="service-card scale-in stagger-delay-3" data-vehicle="premium">
-                    <h3>PREMIUM</h3>
-                    <p>12 m³ - 1400 kg<br>Confort et espace pour vos transports importants.</p>
-                    <div class="service-price">60€</div>
+                    <h3>👑 PREMIUM</h3>
+                    <p><strong>12 m³ - 1400 kg</strong><br>✅ Confort et espace pour vos transports importants.<br>💰 <strong>À partir de 60€</strong></p>
                 </div>
                 <div class="service-card scale-in stagger-delay-4" data-vehicle="titan">
-                    <h3>TITAN</h3>
-                    <p>20 m³ - 700 kg<br>Avec hayon (500kg max). La puissance pour les gros volumes.</p>
-                    <div class="service-price">100€</div>
+                    <h3>💪 TITAN</h3>
+                    <p><strong>20 m³ - 700 kg</strong><br>✅ Avec hayon (500kg max). La puissance pour les gros volumes.<br>💰 <strong>À partir de 100€</strong></p>
                 </div>
             </div>
         </div>
@@ -1842,7 +1858,7 @@
             }, 1000);
         }
 
-        // Redirection vers la page de réservation
+        // Redirection vers la page de réservation avec tracking
         function redirectToBooking() {
             const startAddress = document.getElementById('depart').value;
             const endAddress = document.getElementById('arrivee').value;
@@ -1852,6 +1868,11 @@
             if (!startAddress || !endAddress || !date || !heure) {
                 alert('Veuillez remplir tous les champs obligatoires.');
                 return;
+            }
+
+            // Tracking de la conversion
+            if (typeof trackConversion === 'function') {
+                trackConversion('booking_start', 1);
             }
 
             const bookingUrl = `booking.html?start_adr=${encodeURIComponent(startAddress)}&end_adr=${encodeURIComponent(endAddress)}&date_order=${date}%20${heure}`;

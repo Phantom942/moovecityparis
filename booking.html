@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réservation - Moove City Paris</title>
+    <meta name="description" content="Réservez votre transport avec chauffeur - Moove City Paris">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="fr">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Réservation - Moove City Paris">
+    <meta property="og:description" content="Réservez votre transport avec chauffeur - Moove City Paris">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://phantom942.github.io/moovecityparis/booking.html">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🚛%3C/text%3E%3C/svg%3E">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #1a1a1a;
+            --secondary-color: #ffffff;
+            --accent-color: #f8f9fa;
+            --text-primary: #2c3e50;
+            --text-secondary: #6c757d;
+            --border-color: #e9ecef;
+            --shadow-light: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-medium: 0 4px 16px rgba(0,0,0,0.12);
+            --shadow-heavy: 0 8px 32px rgba(0,0,0,0.16);
+            --border-radius: 8px;
+            --transition: all 0.3s ease;
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --blue-primary: #4a5568;
+            --green-primary: #059669;
+            --gradient-primary: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+            --gradient-secondary: linear-gradient(135deg, #059669 0%, #047857 100%);
+        }
+
+        body {
+            font-family: var(--font-family);
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--secondary-color);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            border: 2px solid transparent;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .btn-outline {
+            border-color: var(--border-color);
+            color: var(--text-primary);
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            background: var(--accent-color);
+            border-color: var(--blue-primary);
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: var(--secondary-color);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1rem;
+            background: #25D366;
+            color: white;
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: var(--transition);
+            border: 2px solid #25D366;
+        }
+
+        .whatsapp-btn:hover {
+            background: #128C7E;
+            border-color: #128C7E;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+        }
+
+        /* Main Content */
+        main {
+            padding: 4rem 0;
+        }
+
+        .booking-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--text-primary);
+            font-size: 2.5rem;
+        }
+
+        /* Booking Summary */
+        .booking-summary {
+            background: var(--accent-color);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 3rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .booking-summary h2 {
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            text-align: center;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .summary-item {
+            background: var(--secondary-color);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+        }
+
+        .summary-label {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .summary-value {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        /* Vehicle Selection */
+        .vehicle-selection {
+            margin-bottom: 3rem;
+        }
+
+        .vehicle-selection h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+        }
+
+        .vehicles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .vehicle-card {
+            background: var(--secondary-color);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            border: 2px solid var(--border-color);
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .vehicle-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-medium);
+            border-color: var(--blue-primary);
+        }
+
+        .vehicle-card.selected {
+            border-color: var(--green-primary);
+            background: rgba(5, 150, 105, 0.05);
+        }
+
+        .vehicle-card h3 {
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            font-size: 1.4rem;
+        }
+
+        .vehicle-specs {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .vehicle-price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--green-primary);
+            margin-bottom: 1rem;
+        }
+
+        .vehicle-features {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .vehicle-features li {
+            padding: 0.25rem 0;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .vehicle-features li::before {
+            content: "✓";
+            color: var(--green-primary);
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .select-vehicle-btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--gradient-primary);
+            color: var(--secondary-color);
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .select-vehicle-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .select-vehicle-btn.selected {
+            background: var(--gradient-secondary);
+        }
+
+        /* Additional Info */
+        .additional-info {
+            background: var(--accent-color);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 3rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .additional-info h2 {
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
+            background: var(--secondary-color);
+            font-family: var(--font-family);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--blue-primary);
+            box-shadow: 0 0 0 3px rgba(74, 85, 104, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Price Summary */
+        .price-summary {
+            background: var(--gradient-primary);
+            color: var(--secondary-color);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .price-summary h2 {
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+
+        .price-breakdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .price-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+        }
+
+        .price-item-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 0.5rem;
+        }
+
+        .price-item-value {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .total-price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-top: 1rem;
+            color: var(--secondary-color);
+        }
+
+        /* Final Booking */
+        .final-booking {
+            text-align: center;
+            background: var(--secondary-color);
+            padding: 3rem;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+        }
+
+        .final-booking h2 {
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .final-booking p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .booking-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .booking-action {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--accent-color);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+        }
+
+        .booking-action h3 {
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .booking-action p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .vehicles-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .price-breakdown {
+                grid-template-columns: 1fr;
+            }
+            
+            .booking-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-buttons {
+                gap: 0.5rem;
+            }
+
+            .btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="container">
+            <a href="index.html" class="logo">Moove City Paris</a>
+            <div class="nav-buttons">
+                <a href="https://wa.me/33751213255" class="whatsapp-btn" target="_blank" rel="noopener">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+                    </svg>
+                    WhatsApp
+                </a>
+                <a href="index.html" class="btn btn-outline">Retour au site</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+        <div class="booking-container">
+                <h1>Réservation de transport</h1>
+                
+                <!-- Booking Summary -->
+                <div class="booking-summary">
+                    <h2>📋 Résumé de votre demande</h2>
+                    <div class="summary-grid">
+                        <div class="summary-item">
+                            <div class="summary-label">Départ</div>
+                            <div class="summary-value" id="departure">Adresse de départ</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">Arrivée</div>
+                            <div class="summary-value" id="arrival">Adresse d'arrivée</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">Date</div>
+                            <div class="summary-value" id="date">Date sélectionnée</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">Heure</div>
+                            <div class="summary-value" id="time">Heure sélectionnée</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vehicle Selection -->
+                <div class="vehicle-selection">
+                    <h2>🚛 Choisissez votre véhicule</h2>
+                    <div class="vehicles-grid">
+                        <div class="vehicle-card" data-vehicle="urban" data-price="40">
+                            <h3>URBAN</h3>
+                            <div class="vehicle-specs">6 m³ - 800 kg</div>
+                        <div class="vehicle-price">À partir de 40€</div>
+                            <ul class="vehicle-features">
+                                <li>Parfait pour la ville</li>
+                                <li>Manœuvrable et efficace</li>
+                                <li>Idéal pour petits déménagements</li>
+                            </ul>
+                            <button class="select-vehicle-btn" onclick="selectVehicle('urban', 40)">Sélectionner</button>
+                    </div>
+
+                        <div class="vehicle-card" data-vehicle="express" data-price="50">
+                            <h3>EXPRESS</h3>
+                            <div class="vehicle-specs">9 m³ - 1200 kg</div>
+                        <div class="vehicle-price">À partir de 50€</div>
+                            <ul class="vehicle-features">
+                                <li>Rapidité et fiabilité</li>
+                                <li>Livraisons express</li>
+                                <li>Transport professionnel</li>
+                            </ul>
+                            <button class="select-vehicle-btn" onclick="selectVehicle('express', 50)">Sélectionner</button>
+                    </div>
+
+                        <div class="vehicle-card" data-vehicle="premium" data-price="60">
+                            <h3>PREMIUM</h3>
+                            <div class="vehicle-specs">12 m³ - 1400 kg</div>
+                        <div class="vehicle-price">À partir de 60€</div>
+                            <ul class="vehicle-features">
+                                <li>Confort et espace</li>
+                                <li>Transports importants</li>
+                                <li>Service premium</li>
+                            </ul>
+                            <button class="select-vehicle-btn" onclick="selectVehicle('premium', 60)">Sélectionner</button>
+                </div>
+
+                        <div class="vehicle-card" data-vehicle="titan" data-price="100">
+                            <h3>TITAN</h3>
+                            <div class="vehicle-specs">20 m³ - 700 kg avec hayon</div>
+                            <div class="vehicle-price">À partir de 100€</div>
+                            <ul class="vehicle-features">
+                                <li>La puissance pour gros volumes</li>
+                                <li>Avec hayon (500kg max)</li>
+                                <li>Transport industriel</li>
+                            </ul>
+                            <button class="select-vehicle-btn" onclick="selectVehicle('titan', 100)">Sélectionner</button>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- Price Calculator -->
+                <div class="additional-info">
+                    <h2>💰 Calcul du prix</h2>
+                    <div class="form-group">
+                        <label for="distance">Distance estimée (km) :</label>
+                        <input type="number" id="distance" placeholder="Ex: 15" min="0" onchange="calculatePrice()">
+                    </div>
+                    <div class="form-group">
+                        <label for="weight">Poids estimé (kg) :</label>
+                        <input type="number" id="weight" placeholder="Ex: 500" min="0" onchange="calculatePrice()">
+                    </div>
+                    <div class="form-group">
+                        <label for="manutention">Manutentionnaire nécessaire :</label>
+                        <select id="manutention" onchange="calculatePrice()">
+                            <option value="0">Non</option>
+                            <option value="20">Oui (+20€)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="escaliers">Montée d'escaliers :</label>
+                        <select id="escaliers" onchange="calculatePrice()">
+                            <option value="0">Non</option>
+                            <option value="10">Oui (+10€)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="weekend">Transport le weekend :</label>
+                        <select id="weekend" onchange="calculatePrice()">
+                            <option value="0">Non</option>
+                            <option value="15">Oui (+15€)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Additional Information -->
+                <div class="additional-info">
+                    <h2>📝 Informations supplémentaires</h2>
+                    <div class="form-group">
+                        <label for="transport-description">Décrivez ce que vous souhaitez transporter :</label>
+                        <textarea id="transport-description" placeholder="Ex: Meubles, cartons, équipements professionnels, etc."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="special-requirements">Exigences particulières :</label>
+                        <textarea id="special-requirements" placeholder="Ex: Montée d'escaliers, accès difficile, horaires spécifiques, etc."></textarea>
+                </div>
+                    <div class="form-group">
+                        <label for="contact-name">Votre nom :</label>
+                        <input type="text" id="contact-name" placeholder="Votre nom complet">
+                    </div>
+                    <div class="form-group">
+                        <label for="contact-phone">Votre téléphone :</label>
+                        <input type="tel" id="contact-phone" placeholder="Votre numéro de téléphone">
+                    </div>
+                    <div class="form-group">
+                        <label for="contact-email">Votre email :</label>
+                        <input type="email" id="contact-email" placeholder="Votre adresse email">
+                    </div>
+                </div>
+
+                <!-- Price Summary -->
+                <div class="price-summary" id="price-summary" style="display: none;">
+                    <h2>💰 Récapitulatif des prix</h2>
+                    <div class="price-breakdown">
+                        <div class="price-item">
+                            <div class="price-item-label">Véhicule sélectionné</div>
+                            <div class="price-item-value" id="selected-vehicle-price">0€</div>
+                </div>
+                        <div class="price-item">
+                            <div class="price-item-label">Frais de service</div>
+                            <div class="price-item-value">5€</div>
+                </div>
+                </div>
+                    <div class="total-price" id="total-price">0€</div>
+                </div>
+
+                <!-- Final Booking -->
+                <div class="final-booking">
+                    <h2>✅ Finaliser votre réservation</h2>
+                    <p>Une fois votre véhicule sélectionné, contactez-nous pour finaliser votre réservation.</p>
+                    
+                    <div class="booking-actions">
+                        <div class="booking-action">
+                            <h3>📞 Appelez-nous</h3>
+                            <p>Pour une réservation immédiate</p>
+                            <a href="tel:+33751213255" class="btn btn-primary">+33 7 51 21 32 55</a>
+                </div>
+                        
+                        <div class="booking-action">
+                            <h3>💬 WhatsApp</h3>
+                            <p>Pour un devis rapide</p>
+                            <a href="#" class="btn btn-primary" id="whatsapp-link" target="_blank" rel="noopener">Envoyer un message</a>
+            </div>
+
+                        <div class="booking-action">
+                            <h3>📧 Email</h3>
+                            <p>Pour une demande détaillée</p>
+                            <a href="#" class="btn btn-primary" id="email-link">Envoyer un email</a>
+                </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let selectedVehicle = null;
+        let selectedPrice = 0;
+
+        // Récupérer les paramètres de l'URL
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            var results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+
+        // Afficher les détails de la réservation
+        document.addEventListener('DOMContentLoaded', function() {
+            const layouts = getUrlParameter('start_adr');
+            const arrival = getUrlParameter('end_adr');
+            const date = getUrlParameter('date_order');
+
+            if (layouts) {
+                document.getElementById('departure').textContent = layouts;
+            }
+            if (arrival) {
+                document.getElementById('arrival').textContent = arrival;
+            }
+            if (date) {
+                document.getElementById('date').textContent = date;
+                document.getElementById('time').textContent = date;
+            }
+        });
+
+        // Sélectionner un véhicule
+        function selectVehicle(vehicle, price) {
+            // Retirer la sélection précédente
+            document.querySelectorAll('.vehicle-card').forEach(card => {
+                card.classList.remove('selected');
+                card.querySelector('.select-vehicle-btn').classList.remove('selected');
+                card.querySelector('.select-vehicle-btn').textContent = 'Sélectionner';
+            });
+
+            // Sélectionner le nouveau véhicule
+            const selectedCard = document.querySelector(`[data-vehicle="${vehicle}"]`);
+            selectedCard.classList.add('selected');
+            selectedCard.querySelector('.select-vehicle-btn').classList.add('selected');
+            selectedCard.querySelector('.select-vehicle-btn').textContent = 'Sélectionné ✓';
+
+            selectedVehicle = vehicle;
+            selectedPrice = price;
+
+            // Mettre à jour le prix
+            updatePrice();
+        }
+
+        // Calculer le prix dynamique
+        function calculatePrice() {
+            if (!selectedVehicle) return;
+
+            const distance = parseFloat(document.getElementById('distance').value) || 0;
+            const weight = parseFloat(document.getElementById('weight').value) || 0;
+            const manutention = parseFloat(document.getElementById('manutention').value) || 0;
+            const escaliers = parseFloat(document.getElementById('escaliers').value) || 0;
+            const weekend = parseFloat(document.getElementById('weekend').value) || 0;
+
+            // Prix de base selon le véhicule
+            let basePrice = selectedPrice;
+
+            // Calcul selon la distance (1€ par km)
+            const distancePrice = distance * 1;
+
+            // Calcul selon le poids (0.1€ par kg)
+            const weightPrice = weight * 0.1;
+
+            // Prix total
+            const totalPrice = basePrice + distancePrice + weightPrice + manutention + escaliers + weekend;
+
+            // Mettre à jour l'affichage
+            updatePriceDisplay(totalPrice, distancePrice, weightPrice, manutention, escaliers, weekend);
+        }
+
+        // Mettre à jour l'affichage du prix
+        function updatePriceDisplay(totalPrice, distancePrice, weightPrice, manutention, escaliers, weekend) {
+            if (selectedVehicle && totalPrice > 0) {
+                document.getElementById('selected-vehicle-price').textContent = selectedPrice + '€';
+                
+                // Mettre à jour le récapitulatif détaillé
+                const priceBreakdown = document.getElementById('price-breakdown');
+                priceBreakdown.innerHTML = `
+                    <div class="price-item">
+                        <div class="price-item-label">Véhicule ${selectedVehicle.toUpperCase()}</div>
+                        <div class="price-item-value">${selectedPrice}€</div>
+                    </div>
+                    <div class="price-item">
+                        <div class="price-item-label">Distance</div>
+                        <div class="price-item-value">${distancePrice.toFixed(2)}€</div>
+                    </div>
+                    <div class="price-item">
+                        <div class="price-item-label">Poids</div>
+                        <div class="price-item-value">${weightPrice.toFixed(2)}€</div>
+                    </div>
+                    ${manutention > 0 ? `
+                    <div class="price-item">
+                        <div class="price-item-label">Manutentionnaire</div>
+                        <div class="price-item-value">${manutention}€</div>
+                    </div>
+                    ` : ''}
+                    ${escaliers > 0 ? `
+                    <div class="price-item">
+                        <div class="price-item-label">Montée d'escaliers</div>
+                        <div class="price-item-value">${escaliers}€</div>
+                    </div>
+                    ` : ''}
+                    ${weekend > 0 ? `
+                    <div class="price-item">
+                        <div class="price-item-label">Transport weekend</div>
+                        <div class="price-item-value">${weekend}€</div>
+                    </div>
+                    ` : ''}
+                `;
+
+                document.getElementById('total-price').textContent = totalPrice.toFixed(2) + '€';
+                document.getElementById('price-summary').style.display = 'block';
+
+                // Mettre à jour les liens WhatsApp et email
+                updateContactLinks();
+            }
+        }
+
+        // Mettre à jour le prix
+        function updatePrice() {
+            if (selectedVehicle && selectedPrice > 0) {
+                calculatePrice();
+            }
+        }
+
+        // Mettre à jour les liens de contact
+        function updateContactLinks() {
+            const departure = document.getElementById('departure').textContent;
+            const arrival = document.getElementById('arrival').textContent;
+            const date = document.getElementById('date').textContent;
+            const description = document.getElementById('transport-description').value;
+            const name = document.getElementById('contact-name').value;
+            const phone = document.getElementById('contact-phone').value;
+
+            let message = `Bonjour, je souhaite réserver un transport avec le véhicule ${selectedVehicle.toUpperCase()} (${selectedPrice}€).`;
+            message += `\n\nDétails :`;
+            message += `\n• Départ : ${departure}`;
+            message += `\n• Arrivée : ${arrival}`;
+            message += `\n• Date : ${date}`;
+            if (description) {
+                message += `\n• Transport : ${description}`;
+            }
+            if (name) {
+                message += `\n• Nom : ${name}`;
+            }
+            if (phone) {
+                message += `\n• Téléphone : ${phone}`;
+            }
+
+            // Lien WhatsApp
+            const whatsappLink = `https://wa.me/33751213255?text=${encodeURIComponent(message)}`;
+            document.getElementById('whatsapp-link').href = whatsappLink;
+
+            // Lien Email
+            const emailSubject = `Réservation transport - ${selectedVehicle.toUpperCase()}`;
+            const emailBody = message.replace(/\n/g, '%0D%0A');
+            const emailLink = `mailto:contact@moovecityparis.fr?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(message)}`;
+            document.getElementById('email-link').href = emailLink;
+        }
+
+        // Mettre à jour les liens quand les champs changent
+        document.getElementById('transport-description').addEventListener('input', updateContactLinks);
+        document.getElementById('contact-name').addEventListener('input', updateContactLinks);
+        document.getElementById('contact-phone').addEventListener('input', updateContactLinks);
+    </script>
+</body>
+</html>
