@@ -1,0 +1,21 @@
+# Fichiers à ignorer pour GitHub
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.temp
+
+# Fichiers de sauvegarde
+*.bak
+*.backup
+*~
+
+# Fichiers d'éditeur
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Fichiers de dépendances (si ajoutés plus tard)
+node_modules/
+package-lock.json
