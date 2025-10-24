@@ -8,8 +8,8 @@
     <meta name="description" content="🚛 Transport avec chauffeur - Disponible dans l'heure ! Déménagement, livraison, transport de marchandises. Tarifs transparents, service professionnel. Réservez maintenant !">
     
     <!-- SEO Meta Tags -->
-    <meta name="keywords" content="transport avec chauffeur Paris, déménagement Paris, livraison express Paris, camionnette chauffeur, transport professionnel Paris, déménagement région parisienne, livraison rapide Paris, transport marchandises Paris, service groupage Paris, système tournées Paris, transport urgence Paris, déménagement pas cher Paris, livraison dans l'heure Paris">
-    <meta name="author" content="Moove City Paris">
+    <meta name="keywords" content="transport avec chauffeur, déménagement, livraison express, camionnette chauffeur, transport professionnel, déménagement région parisienne, livraison rapide, transport marchandises, service groupage, système tournées, transport urgence, déménagement pas cher, livraison dans l'heure">
+    <meta name="author" content="Moove City">
     <meta name="robots" content="index, follow">
     <meta name="language" content="fr">
     <meta name="geo.region" content="FR-75">
@@ -443,6 +443,14 @@
         .whatsapp-btn:hover {
             background: #128C7E;
             border-color: #128C7E;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+        }
+
+        /* Bouton WhatsApp dans le formulaire */
+        .btn[onclick="redirectToWhatsApp()"]:hover {
+            background: #128C7E !important;
+            border-color: #128C7E !important;
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
         }
@@ -1190,11 +1198,35 @@
 
             .nav-buttons {
                 gap: 0.5rem;
+                flex-wrap: wrap;
+                justify-content: center;
             }
 
             .btn {
                 padding: 0.6rem 1rem;
                 font-size: 0.8rem;
+            }
+
+            .whatsapp-btn {
+                padding: 0.5rem 0.8rem;
+                font-size: 0.75rem;
+            }
+
+            .whatsapp-btn svg {
+                width: 16px;
+                height: 16px;
+            }
+
+            .nav-buttons .btn {
+                margin: 0.2rem;
+                flex: 1;
+                min-width: 120px;
+            }
+
+            .nav-buttons .whatsapp-btn {
+                margin: 0.2rem;
+                flex: 1;
+                min-width: 100px;
             }
 
             .hero {
@@ -1328,6 +1360,11 @@
                     </div>
                     <div class="form-row-center">
                         <button class="btn btn-primary btn-large" onclick="redirectToBooking()">RÉSERVER MAINTENANT - DEVIS GRATUIT !</button>
+                    </div>
+                    <div class="form-row-center" style="margin-top: 15px;">
+                        <button class="btn btn-outline" onclick="redirectToWhatsApp()" style="background: #25D366; color: white; border-color: #25D366;">
+                            💬 WhatsApp Direct
+                        </button>
                     </div>
                 </div>
             </div>
@@ -1858,15 +1895,16 @@
             }, 1000);
         }
 
-        // Redirection vers WhatsApp avec les détails de réservation
+        // Redirection vers la page de réservation avec les données
         function redirectToBooking() {
             const startAddress = document.getElementById('depart').value;
             const endAddress = document.getElementById('arrivee').value;
             const date = document.getElementById('date').value;
             const heure = document.getElementById('heure').value;
 
+            // Validation des champs obligatoires
             if (!startAddress || !endAddress || !date || !heure) {
-                alert('Veuillez remplir tous les champs obligatoires.');
+                showErrorMessage('⚠️ Veuillez remplir tous les champs obligatoires : départ, arrivée, date et heure.');
                 return;
             }
 
@@ -1875,18 +1913,93 @@
                 trackConversion('booking_start', 1);
             }
 
+            // Construire l'URL avec les paramètres
+            const params = new URLSearchParams({
+                start_adr: startAddress,
+                end_adr: endAddress,
+                date_order: `${date} ${heure}`
+            });
+
+            // Rediriger vers la page de réservation
+            window.location.href = `booking.html?${params.toString()}`;
+        }
+
+        // Redirection vers WhatsApp avec les détails de réservation
+        function redirectToWhatsApp() {
+            const startAddress = document.getElementById('depart').value;
+            const endAddress = document.getElementById('arrivee').value;
+            const date = document.getElementById('date').value;
+            const heure = document.getElementById('heure').value;
+
             // Créer le message WhatsApp
-            let message = `Bonjour, je souhaite réserver un transport avec Moove City Paris.`;
+            let message = `Bonjour, je souhaite réserver un transport avec Moove City.`;
             message += `\n\nDétails de ma demande :`;
-            message += `\n• Départ : ${startAddress}`;
-            message += `\n• Arrivée : ${endAddress}`;
-            message += `\n• Date : ${date}`;
-            message += `\n• Heure : ${heure}`;
+            message += `\n• Départ : ${startAddress || 'Non spécifié'}`;
+            message += `\n• Arrivée : ${endAddress || 'Non spécifié'}`;
+            message += `\n• Date : ${date || 'Non spécifiée'}`;
+            message += `\n• Heure : ${heure || 'Non spécifiée'}`;
             message += `\n\nPouvez-vous me faire un devis ?`;
 
             // Rediriger vers WhatsApp
             const whatsappUrl = `https://wa.me/33751213255?text=${encodeURIComponent(message)}`;
             window.open(whatsappUrl, '_blank');
+        }
+
+        // Afficher un message d'erreur stylé
+        function showErrorMessage(message) {
+            // Supprimer les anciens messages d'erreur
+            const existingError = document.querySelector('.error-message');
+            if (existingError) {
+                existingError.remove();
+            }
+
+            // Créer le message d'erreur
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.style.cssText = `
+                background: #fee2e2;
+                border: 2px solid #fca5a5;
+                color: #dc2626;
+                padding: 15px 20px;
+                border-radius: 8px;
+                margin: 20px 0;
+                text-align: center;
+                font-weight: 600;
+                animation: slideDown 0.3s ease-out;
+            `;
+            errorDiv.textContent = message;
+
+            // Ajouter l'animation CSS
+            if (!document.querySelector('#error-animation')) {
+                const style = document.createElement('style');
+                style.id = 'error-animation';
+                style.textContent = `
+                    @keyframes slideDown {
+                        from {
+                            opacity: 0;
+                            transform: translateY(-20px);
+                        }
+                        to {
+                            opacity: 1;
+                            transform: translateY(0);
+                        }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+
+            // Insérer le message après le formulaire
+            const bookingForm = document.querySelector('.booking-form');
+            if (bookingForm) {
+                bookingForm.parentNode.insertBefore(errorDiv, bookingForm.nextSibling);
+                
+                // Supprimer le message après 5 secondes
+                setTimeout(() => {
+                    if (errorDiv.parentNode) {
+                        errorDiv.remove();
+                    }
+                }, 5000);
+            }
         }
 
         // Système de confirmation de réservation
