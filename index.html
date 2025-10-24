@@ -1359,12 +1359,7 @@
                         </div>
                     </div>
                     <div class="form-row-center">
-                        <button class="btn btn-primary btn-large" onclick="redirectToBooking()">RÉSERVER MAINTENANT - DEVIS GRATUIT !</button>
-                    </div>
-                    <div class="form-row-center" style="margin-top: 15px;">
-                        <button class="btn btn-primary btn-large" onclick="redirectToWhatsApp()" style="background: #25D366; border-color: #25D366;">
-                            WhatsApp Direct
-                        </button>
+                        <button class="btn btn-primary btn-large" onclick="redirectToWhatsApp()">RÉSERVER MAINTENANT - DEVIS GRATUIT !</button>
                     </div>
                 </div>
             </div>
@@ -1895,8 +1890,8 @@
             }, 1000);
         }
 
-        // Redirection vers la page de réservation avec les données
-        function redirectToBooking() {
+        // Redirection vers WhatsApp avec les détails de réservation
+        function redirectToWhatsApp() {
             const startAddress = document.getElementById('depart').value;
             const endAddress = document.getElementById('arrivee').value;
             const date = document.getElementById('date').value;
@@ -1913,32 +1908,14 @@
                 trackConversion('booking_start', 1);
             }
 
-            // Construire l'URL avec les paramètres
-            const params = new URLSearchParams({
-                start_adr: startAddress,
-                end_adr: endAddress,
-                date_order: `${date} ${heure}`
-            });
-
-            // Rediriger vers la page de réservation
-            window.location.href = `booking.html?${params.toString()}`;
-        }
-
-        // Redirection vers WhatsApp avec les détails de réservation
-        function redirectToWhatsApp() {
-            const startAddress = document.getElementById('depart').value;
-            const endAddress = document.getElementById('arrivee').value;
-            const date = document.getElementById('date').value;
-            const heure = document.getElementById('heure').value;
-
             // Créer le message WhatsApp
-            let message = `Bonjour, je souhaite réserver un transport avec Moove City.`;
-            message += `\n\nDétails de ma demande :`;
-            message += `\n• Départ : ${startAddress || 'Non spécifié'}`;
-            message += `\n• Arrivée : ${endAddress || 'Non spécifié'}`;
-            message += `\n• Date : ${date || 'Non spécifiée'}`;
-            message += `\n• Heure : ${heure || 'Non spécifiée'}`;
-            message += `\n\nPouvez-vous me faire un devis ?`;
+            let message = `🚛 Bonjour ! Je souhaite réserver un transport avec Moove City.\n\n`;
+            message += `📋 **Détails de ma demande :**\n`;
+            message += `📍 Départ : ${startAddress}\n`;
+            message += `📍 Arrivée : ${endAddress}\n`;
+            message += `📅 Date : ${date}\n`;
+            message += `🕐 Heure : ${heure}\n\n`;
+            message += `Pouvez-vous me faire un devis personnalisé ? Merci !`;
 
             // Rediriger vers WhatsApp
             const whatsappUrl = `https://wa.me/33751213255?text=${encodeURIComponent(message)}`;
