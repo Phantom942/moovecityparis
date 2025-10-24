@@ -1,0 +1,57 @@
+# Configuration GitHub Pages pour Moove City Paris
+
+# Informations du site
+title: "Moove City Paris"
+description: "Transport professionnel avec chauffeur dans toute la région parisienne"
+url: "https://moovecityparis.fr"
+baseurl: ""
+
+# Auteur
+author:
+  name: "Moove City Paris"
+  email: "contact@moovecityparis.fr"
+
+# Configuration GitHub Pages
+plugins:
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Paramètres SEO
+google_site_verification: ""
+google_analytics: ""
+
+# Configuration du site
+markdown: kramdown
+highlighter: rouge
+sass:
+  style: compressed
+
+# Exclusions
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+
+# Inclusions
+include:
+  - _pages
+
+# Collections
+collections:
+  pages:
+    output: true
+    permalink: /:path/
+
+# Configuration par défaut
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+      author: "Moove City Paris"
