@@ -2,20 +2,4 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://moovecityparis.fr/sitemap.xml
-
-# Optimisation pour les moteurs de recherche
-Crawl-delay: 1
-
-# Autoriser l'indexation de toutes les pages
-Allow: /index.html
-Allow: /MODEL SPVN.html
-
-# Bloquer les fichiers non nécessaires
-Disallow: /*.css$
-Disallow: /*.js$
-Disallow: /*.png$
-Disallow: /*.jpg$
-Disallow: /*.jpeg$
-Disallow: /*.gif$
-Disallow: /*.svg$
+Sitemap: https://www.moovecity.fr/sitemap.xml

@@ -40,6 +40,15 @@ Pour mettre à jour le site :
 3. Push vers GitHub
 4. Le site se met à jour automatiquement
 
+## 📈 SEO & Suivi
+
+- **Search Console** : ajouter la propriété `https://www.moovecity.fr/`, valider le domaine puis soumettre le fichier `sitemap.xml`.
+- **Google Analytics / Tag Manager** : remplacer `GA_MEASUREMENT_ID` dans `index.html` par votre ID réel (GA4 ou Matomo).
+- **Google Business Profile** : maintenir la fiche à jour (photos, avis, horaires).
+- **Backlinks** : inscrire l’entreprise sur des annuaires locaux (PagesJaunes, 118000, etc.) et partenaires B2B.
+- **Clé Google Maps** : restreindre la clé API dans Google Cloud Console (referrers + API Places uniquement).
+- **Audit régulier** : lancer un test PageSpeed/Lighthouse et corriger les éventuels points faibles (poids images, cache, accessibilité).
+
 ---
 
 *Site optimisé pour mobile et desktop*
