@@ -1,4 +1,4 @@
-# SEO & Suivi – Moove City Paris
+# SEO & Suivi – Moove City
 
 Ce guide récapitule ce qui a déjà été mis en place côté code et ce qu’il reste à effectuer manuellement côté outils Google / marketing.
 

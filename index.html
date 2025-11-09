@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Moove City - Transport avec chauffeur professionnel</title>
-    <!-- Watermark invisible: © 2026 Moove City Paris - Phantom Design -->
+    <!-- Watermark invisible: © 2026 Moove City - Phantom Design -->
     <meta name="description" content="🚛 Transport avec chauffeur 24h/24 et 7j/7 ! Déménagement, livraison, transport de marchandises. Tarifs transparents, service professionnel. Réservez maintenant !">
     
     <!-- SEO Meta Tags -->
@@ -18,7 +18,7 @@
     <meta name="ICBM" content="48.8566, 2.3522">
     
     <!-- Protection légale -->
-    <meta name="copyright" content="© 2026 Moove City Paris - Tous droits réservés">
+    <meta name="copyright" content="© 2026 Moove City - Tous droits réservés">
     <meta name="author" content="Phantom Design">
     <meta name="rights" content="Propriété intellectuelle protégée">
     
@@ -146,6 +146,7 @@
     
     <!-- Canonical URL -->
     <link rel="canonical" href="https://www.moovecity.fr/">
+    <link rel="preload" as="image" href="images/hero-moove-city.jpg" fetchpriority="high">
     
     <!-- Sitemap -->
     <link rel="sitemap" type="application/xml" href="/sitemap.xml">
@@ -316,13 +317,19 @@
         .logo {
             display: inline-flex;
             align-items: center;
-            gap: 0.75rem;
-            font-size: 1.5rem;
+            gap: 0.9rem;
+            font-size: 1.75rem;
             font-weight: 700;
             color: var(--text-primary);
             text-decoration: none;
             letter-spacing: -0.02em;
             transition: var(--transition);
+        }
+
+        .logo img {
+            display: block;
+            width: 96px;
+            height: 96px;
         }
 
         .logo:hover {
@@ -1207,7 +1214,7 @@
     <header>
         <nav class="container">
             <a href="index.html" class="logo">
-                <img src="brand/moove-city-logo.svg" alt="Moove City Logo" width="64" height="64">
+                <img src="brand/moove-city-logo.svg" alt="Moove City Logo" width="96" height="96">
                 Moove City
             </a>
             <ul class="nav-menu">
@@ -1217,7 +1224,7 @@
                 <li><a href="#contact">Contact</a></li>
             </ul>
             <div class="nav-buttons">
-                <a href="https://wa.me/33751213255" class="whatsapp-btn" target="_blank" rel="noopener">
+                <a href="https://wa.me/33751213255" class="whatsapp-btn" target="_blank" rel="noopener noreferrer">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
                     </svg>
@@ -1278,29 +1285,30 @@
                 </div>
                 <div class="contact-card fade-in stagger-delay-3">
                     <h3>Envoyer une demande par email</h3>
-                    <form class="contact-form" action="https://formsubmit.co/contact@moovecityparis.fr" method="POST">
+                    <form class="contact-form" action="https://formsubmit.co/contact@moovecityparis.fr" method="POST" autocomplete="off">
                         <input type="hidden" name="_subject" value="Nouvelle demande depuis moovecity.fr">
                         <input type="hidden" name="_captcha" value="false">
                         <input type="hidden" name="_template" value="table">
+                        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
 
                         <div class="contact-inline">
                             <div class="form-group">
                                 <label for="contact-name">Nom complet</label>
-                                <input type="text" id="contact-name" name="Nom" placeholder="Votre nom" required>
+                                <input type="text" id="contact-name" name="Nom" placeholder="Votre nom" autocomplete="name" required>
                             </div>
                             <div class="form-group">
                                 <label for="contact-email">Email</label>
-                                <input type="email" id="contact-email" name="Email" placeholder="exemple@email.com" required>
+                                <input type="email" id="contact-email" name="Email" placeholder="exemple@email.com" autocomplete="email" required>
                             </div>
                             <div class="form-group">
                                 <label for="contact-phone">Téléphone</label>
-                                <input type="tel" id="contact-phone" name="Téléphone" placeholder="06 12 34 56 78">
+                                <input type="tel" id="contact-phone" name="Téléphone" placeholder="06 12 34 56 78" autocomplete="tel">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="contact-message">Votre demande</label>
-                            <textarea id="contact-message" name="Message" placeholder="Décrivez votre besoin (volume, date, lieu...)" required></textarea>
+                            <textarea id="contact-message" name="Message" placeholder="Décrivez votre besoin (volume, date, lieu...)" autocomplete="off" required></textarea>
                         </div>
 
                         <div class="contact-actions">
@@ -1345,7 +1353,7 @@
     <!-- Features Section -->
     <section class="features" id="features">
         <div class="container">
-            <h2 class="fade-in">Pourquoi choisir Moove City Paris</h2>
+            <h2 class="fade-in">Pourquoi choisir Moove City</h2>
             <div class="features-grid">
                 <div class="feature-card slide-in-left stagger-delay-1">
                     <div class="feature-icon">⚡</div>
@@ -1373,19 +1381,19 @@
             <p class="fade-in stagger-delay-1">Quelques clichés de nos opérations à Paris et en Île-de-France : chargement, manutention sécurisée et livraison de vos marchandises.</p>
             <div class="gallery-grid">
                 <figure class="gallery-item fade-in stagger-delay-1">
-                    <img src="images/operation-chariot.jpg" alt="Chauffeurs Moove City chargeant des cartons dans un camion">
+                    <img src="images/operation-chariot.jpg" alt="Chauffeurs Moove City chargeant des cartons dans un camion" loading="lazy" decoding="async" width="1200" height="800">
                     <span>Manutention sur diable – livraison express</span>
                 </figure>
                 <figure class="gallery-item fade-in stagger-delay-2">
-                    <img src="images/operation-chargement.jpg" alt="Livreur Moove City manipulant un diable">
+                    <img src="images/operation-chargement.jpg" alt="Livreur Moove City manipulant un diable" loading="lazy" decoding="async" width="1200" height="800">
                     <span>Chargement des camions 20 m³</span>
                 </figure>
                 <figure class="gallery-item fade-in stagger-delay-3">
-                    <img src="images/camion-interieur.jpg" alt="Intérieur d'un camion rempli de cartons">
+                    <img src="images/camion-interieur.jpg" alt="Intérieur d'un camion rempli de cartons" loading="lazy" decoding="async" width="1200" height="800">
                     <span>Protection et calage des cartons fragiles</span>
                 </figure>
                 <figure class="gallery-item fade-in stagger-delay-4">
-                    <img src="images/manutention-equipe.jpg" alt="Membre de l'équipe Moove City portant des cartons">
+                    <img src="images/manutention-equipe.jpg" alt="Membre de l'équipe Moove City portant des cartons" loading="lazy" decoding="async" width="1200" height="800">
                     <span>Equipe dédiée pour vos déménagements</span>
                 </figure>
             </div>
@@ -1470,7 +1478,7 @@
                 <div class="footer-section">
                     <h4>Contact</h4>
                     <p>📞 <a href="tel:+33751213255">+33 7 51 21 32 55</a></p>
-                    <a href="https://wa.me/33751213255" target="_blank" rel="noopener" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">
+                    <a href="https://wa.me/33751213255" target="_blank" rel="noopener noreferrer" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">
                         💬 WhatsApp
                     </a>
                     <p>📧 <a href="mailto:contact@moovecityparis.fr">contact@moovecityparis.fr</a></p>
@@ -1641,6 +1649,7 @@
             window.initMooveCityAutocomplete = function () {
                 setupPlacesAutocomplete();
             };
+
         })();
     </script>
 </body>

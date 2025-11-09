@@ -1,14 +1,14 @@
-# Configuration GitHub Pages pour Moove City Paris
+# Configuration GitHub Pages pour Moove City
 
 # Informations du site
-title: "Moove City Paris"
+title: "Moove City"
 description: "Transport professionnel avec chauffeur dans toute la région parisienne"
 url: "https://moovecityparis.fr"
 baseurl: ""
 
 # Auteur
 author:
-  name: "Moove City Paris"
+  name: "Moove City"
   email: "contact@moovecityparis.fr"
 
 # Configuration GitHub Pages
@@ -54,4 +54,4 @@ defaults:
       type: "pages"
     values:
       layout: "default"
-      author: "Moove City Paris"
+      author: "Moove City"

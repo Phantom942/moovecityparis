@@ -1,4 +1,4 @@
-# Identité visuelle – Moove City Paris
+# Identité visuelle – Moove City
 
 Une mini-charte graphique prête à l’emploi pour tes supports (site, réseaux sociaux, documents commerciaux).
 

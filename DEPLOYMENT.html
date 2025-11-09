@@ -1,4 +1,4 @@
-# 🚀 Guide de Déploiement - Moove City Paris
+# 🚀 Guide de Déploiement - Moove City
 
 ## 📋 Fichiers à déployer
 
@@ -23,7 +23,7 @@ Voici la liste des fichiers à mettre sur GitHub :
 ### 2. Créer un nouveau repository
 - Cliquer sur "New repository"
 - Nom : `moovecityparis` ou `moove-city-paris`
-- Description : "Site web Moove City Paris - Transport avec chauffeur"
+- Description : "Site web Moove City - Transport avec chauffeur"
 - ✅ Cocher "Public"
 - ✅ Cocher "Add a README file"
 - Cliquer "Create repository"
@@ -31,7 +31,7 @@ Voici la liste des fichiers à mettre sur GitHub :
 ### 3. Uploader les fichiers
 - Cliquer sur "uploading an existing file"
 - Glisser-déposer tous les fichiers
-- Message de commit : "Initial deployment - Moove City Paris website"
+- Message de commit : "Initial deployment - Moove City website"
 - Cliquer "Commit changes"
 
 ### 4. Activer GitHub Pages

@@ -1,6 +1,6 @@
-# Moove City Paris - Site Web
+# Moove City - Site Web
 
-Site web professionnel pour Moove City Paris, spécialisé dans le transport avec chauffeur dans toute la région parisienne.
+Site web professionnel pour Moove City, spécialisé dans le transport avec chauffeur dans toute la région parisienne.
 
 ## 🚛 Services
 
@@ -29,7 +29,7 @@ Ce site est hébergé sur GitHub Pages et optimisé pour le référencement Goog
 
 ## 📝 Licence
 
-© 2026 Moove City Paris - Tous droits réservés
+© 2026 Moove City - Tous droits réservés
 Designed by **Phantom Design**
 
 ## 🔧 Maintenance
@@ -65,7 +65,6 @@ Un mini-kit est disponible dans `brand/` :
 - `livraison-express.html` : courses urgentes et express.
 - `transport-entreprises.html` : offres B2B et tournées.
 - Mettre à jour le sitemap en cas d’ajout de nouvelles pages (`sitemap.xml`).
-
 ---
 
 *Site optimisé pour mobile et desktop*
