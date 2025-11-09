@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Déménagement Paris & Île-de-France – Moove City Paris</title>
+    <meta name="description" content="Moove City Paris organise votre déménagement sur-mesure à Paris et en Île-de-France. Chauffeur professionnel, camion de 6 à 20 m³, hayon, manutention soignée. Devis rapide.">
+    <meta name="keywords" content="déménagement Paris, déménagement Île-de-France, camion avec chauffeur, déménagement professionnel, déménageur rapide Paris">
+    <link rel="canonical" href="https://www.moovecity.fr/demenagement-paris.html">
+    <meta property="og:title" content="Déménagement Paris & Île-de-France – Moove City Paris">
+    <meta property="og:description" content="Camion + chauffeur dans l’heure pour votre déménagement à Paris. Volume de 6 à 20 m³, hayon, assurance et service client 7j/7.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.moovecity.fr/demenagement-paris.html">
+    <meta property="og:site_name" content="Moove City Paris">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Déménagement Paris & Île-de-France – Moove City Paris">
+    <meta name="twitter:description" content="Chauffeurs professionnels, véhicules équipés, devis rapide. Déménagez à Paris avec Moove City.">
+    <link rel="icon" type="image/svg+xml" href="brand/moove-city-logo.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WC9EEBKP2E"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-WC9EEBKP2E');
+    </script>
+
+    <style>
+        :root {
+            --bg-dark: #1f2937;
+            --bg-light: #f8fafc;
+            --primary: #10b981;
+            --primary-dark: #0f9a6f;
+            --text: #1f2933;
+            --text-muted: #4b5563;
+            --radius: 16px;
+            --shadow: 0 20px 45px rgba(15, 23, 42, 0.12);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: white;
+            color: var(--text);
+            line-height: 1.6;
+        }
+        header {
+            background: var(--bg-dark);
+            color: white;
+            padding: 22px 0;
+        }
+        .container {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        .logo img { width: 64px; height: 64px; display: block; }
+        nav a.btn {
+            padding: 0.7rem 1.4rem;
+            border-radius: 999px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 12px 30px rgba(16, 185, 129, 0.28);
+        }
+        nav a.btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 40px rgba(16, 185, 129, 0.32);
+        }
+        .hero {
+            padding: 80px 0 60px;
+            background: linear-gradient(135deg, #1f2937 0%, #0f766e 100%);
+            color: white;
+        }
+        .hero h1 {
+            font-size: clamp(2.2rem, 4vw, 3rem);
+            margin-bottom: 1.2rem;
+            font-weight: 700;
+        }
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 720px;
+            color: rgba(255, 255, 255, 0.85);
+        }
+        .hero-actions {
+            margin-top: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.85rem 1.8rem;
+            border-radius: 999px;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+        .cta-primary {
+            background: white;
+            color: var(--bg-dark);
+        }
+        .cta-secondary {
+            background: rgba(255,255,255,0.18);
+            color: white;
+        }
+        section {
+            padding: 90px 0;
+        }
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2.5rem;
+            text-align: center;
+        }
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.8rem;
+        }
+        .card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 2.2rem;
+            box-shadow: var(--shadow);
+        }
+        .card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+        }
+        .card p {
+            color: var(--text-muted);
+        }
+        .steps {
+            display: grid;
+            gap: 1.2rem;
+        }
+        .step-item {
+            display: flex;
+            gap: 1.2rem;
+            align-items: flex-start;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            background: var(--bg-light);
+        }
+        .step-number {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+        .faq {
+            display: grid;
+            gap: 1rem;
+        }
+        details {
+            background: white;
+            border-radius: var(--radius);
+            padding: 1.4rem 1.6rem;
+            box-shadow: var(--shadow);
+        }
+        summary {
+            font-weight: 600;
+            cursor: pointer;
+        }
+        details[open] summary {
+            margin-bottom: 0.6rem;
+        }
+        .contact-panel {
+            background: var(--bg-dark);
+            color: white;
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.4rem;
+            align-items: flex-start;
+            box-shadow: var(--shadow);
+        }
+        .contact-panel a {
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .contact-panel a.cta {
+            margin-top: 0.6rem;
+        }
+
+        .contact-panel a.cta-primary {
+            color: var(--bg-dark);
+            background: white;
+            box-shadow: 0 12px 28px rgba(15, 23, 42, 0.25);
+        }
+
+        .contact-panel a.cta-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 34px rgba(15, 23, 42, 0.28);
+        }
+        .comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+        .comparison-card {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 1.8rem;
+        }
+        .comparison-card h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+        }
+        ul { margin-left: 1.2rem; }
+        ul li { margin-bottom: 0.5rem; color: var(--text-muted); }
+        footer {
+            background: #0f1729;
+            color: rgba(255,255,255,0.86);
+            padding: 2rem 0;
+            text-align: center;
+        }
+        .back-home {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+        }
+        @media (max-width: 720px) {
+            nav { flex-direction: column; gap: 1rem; }
+            .hero { padding: 60px 0; }
+            .hero-actions { flex-direction: column; align-items: flex-start; }
+            section { padding: 70px 0; }
+            .contact-panel { padding: 2.4rem 1.8rem; }
+        }
+    </style>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "serviceType": "Déménagement avec chauffeur - Paris",
+        "provider": {
+            "@type": "LocalBusiness",
+            "name": "Moove City Paris",
+            "telephone": "+33751213255",
+            "areaServed": ["Paris", "Île-de-France", "France"],
+            "url": "https://www.moovecity.fr/"
+        },
+        "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Formules de déménagement",
+            "itemListElement": [
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Formule URBAN 6 m³" } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Formule PREMIUM 12 m³" } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Formule TITAN 20 m³ avec hayon" } }
+            ]
+        }
+    }
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a class="logo" href="index.html">
+                    <img src="brand/moove-city-logo.svg" alt="Moove City Logo" width="40" height="40">
+                    Moove City Paris
+                </a>
+                <a class="btn" href="index.html#hero">Demander un devis</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Déménagement à Paris et en Île-de-France avec chauffeur professionnel</h1>
+            <p>
+                Besoin d’un déménageur réactif pour un appartement, un bureau ou un transfert logistique ?
+                Moove City Paris met à votre disposition un chauffeur expérimenté, un camion adapté (6 à 20 m³) et une organisation sur-mesure.
+                Disponibilité dans l’heure, manutention soignée et devis transparent.
+            </p>
+            <div class="hero-actions">
+                <a class="cta cta-primary" href="https://wa.me/33751213255">Réserver sur WhatsApp</a>
+                <a class="cta cta-secondary" href="index.html#hero">Demande par email</a>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <h2 class="section-title">Des formules adaptées à chaque déménagement</h2>
+            <div class="cards">
+                <div class="card">
+                    <h3>Formule URBAN – 6 m³</h3>
+                    <p>Idéale pour les studios et livraisons express dans Paris intra-muros. Chauffeur, diable, couvertures inclus.</p>
+                </div>
+                <div class="card">
+                    <h3>Formule PREMIUM – 12 m³</h3>
+                    <p>Pour les appartements 2/3 pièces. Organisation avec ou sans manutention, protection des meubles fragiles.</p>
+                </div>
+                <div class="card" id="volume-titan">
+                    <h3>Formule TITAN – 20 m³ avec hayon</h3>
+                    <p>Parfaite pour les déménagements complets ou les charges lourdes. Hayon (500 kg), sangles et rampe fournis.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section style="background: var(--bg-light);">
+        <div class="container">
+            <h2 class="section-title">Notre méthode en 4 étapes</h2>
+            <div class="steps">
+                <div class="step-item">
+                    <div class="step-number">1</div>
+                    <div>
+                        <h3>Brief rapide</h3>
+                        <p>Vous nous indiquez le volume estimé, les étages, les contraintes d’accès et la date souhaitée.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">2</div>
+                    <div>
+                        <h3>Devis et planning</h3>
+                        <p>Nous confirmons la formule adaptée, le tarif et l’heure d’arrivée du chauffeur (intervention possible dans l’heure).</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">3</div>
+                    <div>
+                        <h3>Chargement sécurisé</h3>
+                        <p>Protection des meubles, démontage/remontage si nécessaire, utilisation du hayon pour les charges lourdes.</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-number">4</div>
+                    <div>
+                        <h3>Livraison & installation</h3>
+                        <p>Transport direct jusqu’à destination (Paris, IDF ou province), installation selon vos consignes, signature de mission.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <h2 class="section-title">Pourquoi choisir Moove City pour déménager à Paris ?</h2>
+            <div class="comparison">
+                <div class="comparison-card">
+                    <h4>Réactivité</h4>
+                    <ul>
+                        <li>Prise en charge dans l’heure sur Paris intramuros</li>
+                        <li>Planification flexible tôt le matin ou en soirée</li>
+                        <li>Suivi WhatsApp en temps réel</li>
+                    </ul>
+                </div>
+                <div class="comparison-card">
+                    <h4>Professionnalisme</h4>
+                    <ul>
+                        <li>Chauffeurs expérimentés et assurés</li>
+                        <li>Équipement complet (diables, couvertures, sangles)</li>
+                        <li>Assistance administrative (autorisations de stationnement)</li>
+                    </ul>
+                </div>
+                <div class="comparison-card">
+                    <h4>Transparence</h4>
+                    <ul>
+                        <li>Devis clair, sans frais cachés</li>
+                        <li>Tarifs adaptés au volume et à la distance</li>
+                        <li>Option manutention ou formule “chauffeur + camion”</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section style="background: var(--bg-light);">
+        <div class="container">
+            <h2 class="section-title">Questions fréquentes</h2>
+            <div class="faq">
+                <details>
+                    <summary>Proposez-vous des cartons et du matériel de protection ?</summary>
+                    <p>Oui, nous pouvons fournir cartons, penderies, papier bulle et protections. Indiquez-le lors de votre demande afin que nous préparions tout.</p>
+                </details>
+                <details>
+                    <summary>Pouvez-vous gérer le déménagement d’un bureau ?</summary>
+                    <p>Nous assurons les transferts de postes de travail, d’archives et de matériel informatique. Un coordinateur peut se déplacer pour un repérage.</p>
+                </details>
+                <details>
+                    <summary>Quels documents sont nécessaires ?</summary>
+                    <p>Simplement vos coordonnées, les adresses de départ/arrivée et, si besoin, l’autorisation de stationnement. Nous pouvons vous guider pour cette démarche.</p>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="container contact-panel">
+            <h2 style="font-size: 2rem;">Vous déménagez prochainement ? Nous sommes prêts.</h2>
+            <p style="color: rgba(255,255,255,0.82); max-width: 620px;">
+                Contactez-nous pour un devis immédiat : un conseiller vous rappelle, et un chauffeur peut être missionné très rapidement.
+            </p>
+            <a href="https://wa.me/33751213255">💬 WhatsApp : +33 7 51 21 32 55</a>
+            <a href="tel:+33751213255">📞 Téléphone : +33 7 51 21 32 55</a>
+            <a href="mailto:contact@moovecityparis.fr">📧 contact@moovecityparis.fr</a>
+            <a class="cta cta-primary" href="index.html#hero">Remplir le formulaire de devis</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            © 2026 Moove City Paris – <a class="back-home" href="mentions-legales.html">Mentions légales</a> – <a class="back-home" href="index.html#faq">FAQ</a>
+        </div>
+    </footer>
+</body>
+</html>
+

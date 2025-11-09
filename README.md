@@ -49,6 +49,23 @@ Pour mettre à jour le site :
 - **Clé Google Maps** : restreindre la clé API dans Google Cloud Console (referrers + API Places uniquement).
 - **Audit régulier** : lancer un test PageSpeed/Lighthouse et corriger les éventuels points faibles (poids images, cache, accessibilité).
 
+## 🎨 Identité visuelle
+
+Un mini-kit est disponible dans `brand/` :
+
+- `moove-city-logo.svg` : pictogramme circulaire.
+- `moove-city-wordmark.svg` : logo complet.
+- `social-banner.svg` : visuel 1200×630 pour réseaux sociaux.
+- `brand/README.md` : palette, typographies et bonnes pratiques.
+- Dossier `images/` : ajoutez vos photos optimisées (voir `images/README.txt` pour les noms attendus).
+
+## 📄 Pages SEO dédiées
+
+- `demenagement-paris.html` : déménagement sur Paris/IDF.
+- `livraison-express.html` : courses urgentes et express.
+- `transport-entreprises.html` : offres B2B et tournées.
+- Mettre à jour le sitemap en cas d’ajout de nouvelles pages (`sitemap.xml`).
+
 ---
 
 *Site optimisé pour mobile et desktop*

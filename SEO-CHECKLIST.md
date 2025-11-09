@@ -12,6 +12,8 @@ Ce guide récapitule ce qui a déjà été mis en place côté code et ce qu’i
 - `robots.txt` nettoyé et sitemap mis à jour (`https://www.moovecity.fr/sitemap.xml`).
 - Page `mentions-legales.html` disponible et référencée.
 - Google Maps Places réactivé (autocomplete départ / arrivée).
+- Pages de service dédiées créées : `demenagement-paris.html`, `livraison-express.html`, `transport-entreprises.html`.
+  Elles reprennent GA4, meta tags et CTA vers le formulaire principal.
 
 ---
 
