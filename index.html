@@ -232,6 +232,7 @@
             background: var(--secondary-color);
             overflow-x: hidden;
             position: relative;
+            padding-top: 118px;
         }
 
         /* Styled Professional Background */
@@ -1125,6 +1126,10 @@
 
         /* Responsive Design */
         @media (max-width: 768px) {
+            body {
+                padding-top: 96px;
+            }
+
             nav {
                 flex-direction: column;
                 align-items: flex-start;
@@ -1205,6 +1210,10 @@
         }
 
         @media (max-width: 480px) {
+            body {
+                padding-top: 84px;
+            }
+
             .container {
                 padding: 0 15px;
             }
@@ -1647,6 +1656,7 @@
             function initHeaderScrollBehaviour() {
                 const header = document.querySelector('header');
                 if (!header) return;
+                if (window.innerWidth <= 768) return;
 
                 let lastScrollTop = 0;
                 window.addEventListener(
