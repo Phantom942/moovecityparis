@@ -57,397 +57,636 @@
     }
     </script>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <style>
-        :root {
-            --primary-color: #059669;
-            --secondary-color: #10b981;
-            --accent-color: #34d399;
-            --text-primary: #1f2937;
-            --text-secondary: #6b7280;
-            --background: #ffffff;
-            --surface: #f9fafb;
-            --border: #e5e7eb;
-            --border-radius: 12px;
-            --shadow-light: 0 1px 3px rgba(0, 0, 0, 0.1);
-            --shadow-medium: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --shadow-large: 0 10px 25px rgba(0, 0, 0, 0.15);
+        .container {
+            width: min(1080px, 92%);
+            margin: 0 auto;
+            position: relative;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
+        :root {
+            --brand-dark: #0f172a;
+            --brand-primary: #10b981;
+            --brand-secondary: #0ea5e9;
+            --brand-accent: #22d3ee;
+            --text-primary: #111827;
+            --text-secondary: #4b5563;
+            --surface: #ffffff;
+            --surface-muted: #f1f5f9;
+            --border: #e2e8f0;
+            --radius-lg: 20px;
+            --radius-md: 14px;
+            --shadow-sm: 0 10px 30px rgba(15, 23, 42, 0.08);
+            --shadow-md: 0 20px 45px rgba(15, 23, 42, 0.12);
+        }
+
+        *, *::before, *::after {
             box-sizing: border-box;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
+            margin: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             color: var(--text-primary);
-            background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+            background: linear-gradient(180deg, #f8fafc 0%, #ecfdf5 100%);
             min-height: 100vh;
         }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
+        a {
+            color: inherit;
         }
 
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding: 40px 0;
-            background: white;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-medium);
+        .topbar {
+            background: rgba(15, 23, 42, 0.9);
+            color: white;
+            backdrop-filter: blur(8px);
         }
 
-        .header h1 {
-            font-size: 2.5rem;
-            color: var(--primary-color);
-            margin-bottom: 10px;
-            font-weight: 700;
+        .topbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            padding: 1.25rem 0;
         }
 
-        .header p {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            margin-bottom: 20px;
-        }
-
-        .whatsapp-badge {
+        .logo {
             display: inline-flex;
             align-items: center;
-            background: #25D366;
+            gap: 0.8rem;
             color: white;
-            padding: 12px 24px;
-            border-radius: 50px;
             text-decoration: none;
             font-weight: 600;
-            font-size: 1.1rem;
-            box-shadow: var(--shadow-medium);
-            transition: all 0.3s ease;
+            letter-spacing: -0.01em;
         }
 
-        .whatsapp-badge:hover {
-            background: #128C7E;
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-large);
-        }
-
-        .whatsapp-badge svg {
-            width: 24px;
-            height: 24px;
-            margin-right: 10px;
-        }
-
-        .quote-form {
-            background: white;
-            padding: 40px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-medium);
-            margin-bottom: 30px;
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-        }
-
-        .form-group label {
+        .logo img {
+            width: 52px;
+            height: 52px;
             display: block;
-            margin-bottom: 8px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav a {
+            color: rgba(255, 255, 255, 0.85);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        nav a:hover {
+            color: white;
+        }
+
+        .hero {
+            padding: 72px 0 48px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+            gap: 48px;
+            align-items: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.2rem, 4vw, 3rem);
+            margin-bottom: 1rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--brand-dark);
+        }
+
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .hero-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(15, 23, 42, 0.05);
+            color: var(--brand-dark);
+            padding: 0.6rem 1rem;
+            border-radius: 999px;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.9rem 1.8rem;
+            border-radius: 999px;
+            background: linear-gradient(130deg, var(--brand-primary), #34d399);
+            color: white;
+            text-decoration: none;
             font-weight: 600;
-            color: var(--text-primary);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid var(--border);
-            border-radius: var(--border-radius);
-            font-size: 1rem;
-            transition: border-color 0.3s ease;
+        .hero-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
 
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--primary-color);
+        .hero-cta svg {
+            width: 22px;
+            height: 22px;
         }
 
-        .form-group textarea {
-            resize: vertical;
-            min-height: 100px;
+        .form-wrapper {
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+            gap: 32px;
+            margin: 0 auto 56px;
+        }
+
+        .card {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            font-size: 1.6rem;
+            color: var(--brand-dark);
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 22px;
         }
 
         .form-row {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 20px;
         }
 
-        .btn {
-            background: var(--primary-color);
+        label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            margin-bottom: 0.6rem;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 0.95rem 1rem;
+            font-size: 1rem;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            background: white;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--brand-secondary);
+            box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.12);
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(120deg, var(--brand-secondary), var(--brand-primary));
             color: white;
             border: none;
-            padding: 18px 36px;
-            border-radius: var(--border-radius);
-            font-size: 1.1rem;
+            border-radius: 14px;
+            padding: 1rem 1.8rem;
+            font-size: 1.05rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
             width: 100%;
-            box-shadow: var(--shadow-medium);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: var(--shadow-sm);
         }
 
-        .btn:hover {
-            background: var(--secondary-color);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-large);
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
         }
 
-        .btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none !important;
-        }
-
-        .btn:disabled:hover {
-            transform: none !important;
-            box-shadow: none !important;
-        }
-
-        .vehicles-info {
-            background: white;
-            padding: 30px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-medium);
-            margin-bottom: 30px;
-        }
-
-        .vehicles-info h3 {
-            color: var(--primary-color);
-            margin-bottom: 20px;
-            font-size: 1.5rem;
-        }
-
-        .vehicle-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 20px;
-        }
-
-        .vehicle-item {
-            text-align: center;
-            padding: 20px;
-            border: 2px solid var(--border);
-            border-radius: var(--border-radius);
-            transition: all 0.3s ease;
-        }
-
-        .vehicle-item:hover {
-            border-color: var(--primary-color);
-            transform: translateY(-2px);
-        }
-
-        .vehicle-item h4 {
-            color: var(--primary-color);
-            margin-bottom: 10px;
-            font-size: 1.2rem;
-        }
-
-        .vehicle-item p {
+        .privacy-note {
+            font-size: 0.85rem;
             color: var(--text-secondary);
-            font-size: 0.9rem;
         }
 
-        .contact-info {
-            background: white;
-            padding: 30px;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-medium);
-            text-align: center;
+        .contact-card {
+            display: grid;
+            gap: 24px;
+            background: radial-gradient(circle at top right, rgba(14, 165, 233, 0.1), transparent 60%), white;
         }
 
-        .contact-info h3 {
-            color: var(--primary-color);
-            margin-bottom: 20px;
-            font-size: 1.5rem;
+        .contact-card h3 {
+            margin: 0;
+            font-size: 1.4rem;
+            color: var(--brand-dark);
+        }
+
+        .contact-card p {
+            margin: 0;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .contact-list {
+            display: grid;
+            gap: 18px;
         }
 
         .contact-item {
-            margin-bottom: 15px;
-            font-size: 1.1rem;
+            display: grid;
+            gap: 0.4rem;
         }
 
-        .contact-item a {
-            color: var(--primary-color);
-            text-decoration: none;
+        .contact-item span {
             font-weight: 600;
+            color: var(--text-primary);
         }
 
-        .contact-item a:hover {
-            text-decoration: underline;
+        .contact-actions {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 0.85rem 1.6rem;
+            border-radius: 14px;
+            border: 1.5px solid rgba(15, 23, 42, 0.1);
+            background: white;
+            color: var(--brand-dark);
+            font-weight: 600;
+            text-decoration: none;
+            transition: border-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .btn-outline:hover {
+            border-color: rgba(14, 165, 233, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .info-section {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 32px;
+            margin: 0 auto 56px;
+        }
+
+        .vehicle-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 18px;
+        }
+
+        .vehicle-card {
+            border: 1px solid rgba(15, 23, 42, 0.08);
+            border-radius: 16px;
+            padding: 1.4rem;
+            background: #f8fafc;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .vehicle-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(14, 165, 233, 0.4);
+        }
+
+        .vehicle-card h4 {
+            margin: 0 0 0.6rem;
+            color: var(--brand-secondary);
+            font-size: 1.05rem;
+        }
+
+        .vehicle-card p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .bullet-list {
+            display: grid;
+            gap: 0.9rem;
+            margin: 1rem 0 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .bullet-list li {
+            display: inline-flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            color: var(--text-secondary);
+        }
+
+        .bullet-list li::before {
+            content: "✓";
+            color: var(--brand-primary);
+            font-weight: 700;
+        }
+
+        .cta-strip {
+            background: linear-gradient(120deg, rgba(14, 165, 233, 0.12), rgba(16, 185, 129, 0.15));
+            border-radius: var(--radius-lg);
+            padding: 32px 40px;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 72px;
+        }
+
+        .cta-strip h3 {
+            margin: 0 0 0.6rem;
+            font-size: 1.4rem;
+            color: var(--brand-dark);
+        }
+
+        .cta-strip p {
+            margin: 0;
+            color: var(--text-secondary);
+        }
+
+        .cta-strip-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        footer {
+            padding: 24px 0 40px;
+            text-align: center;
+            color: rgba(15, 23, 42, 0.6);
+            font-size: 0.9rem;
         }
 
         .error-message {
             background: #fee2e2;
-            border: 2px solid #fca5a5;
-            color: #dc2626;
-            padding: 15px 20px;
-            border-radius: var(--border-radius);
-            margin: 20px 0;
+            border: 1px solid #fca5a5;
+            color: #b91c1c;
+            padding: 0.9rem 1.2rem;
+            border-radius: 12px;
+            margin-top: 1rem;
             text-align: center;
             font-weight: 600;
-            animation: slideDown 0.3s ease-out;
         }
 
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+        @media (max-width: 992px) {
+            .hero-grid,
+            .form-wrapper,
+            .info-section {
+                grid-template-columns: 1fr;
             }
         }
 
-        @media (max-width: 768px) {
-            .container {
-                padding: 10px;
+        @media (max-width: 720px) {
+            .topbar .container {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 1rem 0;
             }
 
-            .header h1 {
-                font-size: 2rem;
+            nav ul {
+                gap: 1rem;
+                flex-wrap: wrap;
+            }
+
+            .card {
+                padding: 32px 24px;
             }
 
             .form-row {
                 grid-template-columns: 1fr;
             }
-            
-            .vehicle-list {
-                grid-template-columns: 1fr;
+
+            .cta-strip {
+                padding: 28px 24px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-    <!-- Header -->
-        <div class="header">
-            <h1>🚛 Devis Gratuit</h1>
-            <p>Obtenez votre devis personnalisé en quelques secondes</p>
-            <a href="https://wa.me/33751213255" class="whatsapp-badge" target="_blank">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
-                </svg>
-                WhatsApp Direct
+    <header class="topbar">
+        <div class="container">
+            <a class="logo" href="index.html">
+                <img src="brand/moove-city-logo.svg" alt="Logo Moove City">
+                Moove City
             </a>
-                </div>
-
-        <!-- Quote Form -->
-        <div class="quote-form">
-            <h2 style="color: var(--primary-color); margin-bottom: 30px; text-align: center;">📋 Formulaire de Devis</h2>
-            
-            <form id="quoteForm">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="departure">📍 Adresse de départ *</label>
-                        <input type="text" id="departure" placeholder="Ex: 123 Rue de la Paix, Paris" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="arrival">📍 Adresse d'arrivée *</label>
-                        <input type="text" id="arrival" placeholder="Ex: 456 Avenue des Champs, Paris" required>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="date">📅 Date souhaitée *</label>
-                        <input type="date" id="date" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="time">🕐 Heure souhaitée *</label>
-                        <input type="time" id="time" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="vehicle">🚛 Type de véhicule souhaité</label>
-                    <select id="vehicle">
-                        <option value="">Sélectionnez un véhicule</option>
-                        <option value="urban">URBAN - 6 m³ (800 kg)</option>
-                        <option value="express">EXPRESS - 9 m³ (1200 kg)</option>
-                        <option value="premium">PREMIUM - 12 m³ (1400 kg)</option>
-                        <option value="titan">TITAN - 20 m³ (700 kg) avec hayon</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="description">📝 Description du transport</label>
-                    <textarea id="description" placeholder="Décrivez ce que vous souhaitez transporter (meubles, cartons, objets fragiles, etc.)"></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="name">👤 Votre nom *</label>
-                    <input type="text" id="name" placeholder="Votre nom complet" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="phone">📞 Votre téléphone *</label>
-                    <input type="tel" id="phone" placeholder="06 12 34 56 78" required>
-                </div>
-
-                <button type="button" class="btn" onclick="sendQuoteRequest()">
-                    🚀 Demander mon devis gratuit
-                </button>
-            </form>
-            </div>
-
-        <!-- Vehicles Info -->
-        <div class="vehicles-info">
-            <h3>🚛 Nos Véhicules</h3>
-            <div class="vehicle-list">
-                <div class="vehicle-item">
-                    <h4>URBAN</h4>
-                    <p>6 m³ - 800 kg<br>À partir de 40€</p>
-                </div>
-                <div class="vehicle-item">
-                    <h4>EXPRESS</h4>
-                    <p>9 m³ - 1200 kg<br>À partir de 50€</p>
-                </div>
-                <div class="vehicle-item">
-                    <h4>PREMIUM</h4>
-                    <p>12 m³ - 1400 kg<br>À partir de 60€</p>
-                </div>
-                <div class="vehicle-item">
-                    <h4>TITAN</h4>
-                    <p>20 m³ - 700 kg<br>À partir de 100€<br>Avec hayon</p>
-                </div>
-            </div>
-                </div>
-                
-        <!-- Contact Info -->
-        <div class="contact-info">
-            <h3>📞 Contact</h3>
-            <div class="contact-item">
-                <strong>Téléphone :</strong> <a href="tel:+33751213255">+33 7 51 21 32 55</a>
-            </div>
-            <div class="contact-item">
-                <strong>WhatsApp :</strong> <a href="https://wa.me/33751213255" target="_blank">Cliquez ici</a>
-            </div>
-            <div class="contact-item">
-                <strong>Disponibilité :</strong> 7j/7, 24h/24
-            </div>
+            <nav aria-label="Navigation principale">
+                <ul>
+                    <li><a href="index.html#services">Services</a></li>
+                    <li><a href="index.html#galerie">Galerie</a></li>
+                    <li><a href="index.html#faq">FAQ</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                </ul>
+            </nav>
         </div>
-    </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container hero-grid">
+                <div>
+                    <h1>Votre devis transport & déménagement en moins d’une minute</h1>
+                    <p>Renseignez votre trajet, choisissez un véhicule et recevez instantanément un message WhatsApp pré-rempli pour échanger directement avec notre équipe disponible 24h/24 et 7j/7.</p>
+                    <div class="hero-badges">
+                        <span class="badge">🚀 Devis immédiat</span>
+                        <span class="badge">🧾 Tarif transparent</span>
+                        <span class="badge">📦 Chauffeurs professionnels</span>
+                    </div>
+                </div>
+                <div>
+                    <a class="hero-cta" href="https://wa.me/33751213255" target="_blank" rel="noopener noreferrer">
+                        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+                        </svg>
+                        Contacter un conseiller
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="container form-wrapper" id="devis">
+            <div class="card">
+                <h2>📋 Formulaire de devis</h2>
+                <form id="quoteForm" autocomplete="on">
+                    <input type="text" name="_honey" id="honey" tabindex="-1" autocomplete="off" style="display:none;">
+                    <div class="form-grid">
+                        <div class="form-row">
+                            <div>
+                                <label for="departure">📍 Adresse de départ *</label>
+                                <input type="text" id="departure" name="departure" placeholder="Ex : 12 rue de la Paix, Paris" autocomplete="street-address" required>
+                            </div>
+                            <div>
+                                <label for="arrival">📍 Adresse d'arrivée *</label>
+                                <input type="text" id="arrival" name="arrival" placeholder="Ex : 18 avenue de Lyon, Créteil" autocomplete="street-address" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div>
+                                <label for="date">📅 Date souhaitée *</label>
+                                <input type="date" id="date" name="date" required>
+                            </div>
+                            <div>
+                                <label for="time">🕐 Heure souhaitée *</label>
+                                <input type="time" id="time" name="time" required>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="vehicle">🚛 Type de véhicule souhaité</label>
+                            <select id="vehicle" name="vehicle">
+                                <option value="">Sélectionnez un véhicule</option>
+                                <option value="URBAN">URBAN — 6 m³ (800 kg)</option>
+                                <option value="EXPRESS">EXPRESS — 9 m³ (1200 kg)</option>
+                                <option value="PREMIUM">PREMIUM — 12 m³ (1400 kg)</option>
+                                <option value="TITAN">TITAN — 20 m³ (700 kg) avec hayon</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="description">📝 Description du transport</label>
+                            <textarea id="description" name="description" placeholder="Détaillez les volumes, objets fragiles, logement avec ascenseur ou non, contraintes horaires..."></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div>
+                                <label for="name">👤 Votre nom *</label>
+                                <input type="text" id="name" name="name" placeholder="Votre nom complet" autocomplete="name" required>
+                            </div>
+                            <div>
+                                <label for="phone">📞 Votre téléphone *</label>
+                                <input type="tel" id="phone" name="phone" placeholder="06 12 34 56 78" autocomplete="tel" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-footer">
+                        <p class="privacy-note">En cliquant sur “Demander mon devis”, un message WhatsApp pré-rempli s’ouvrira pour finaliser votre demande.</p>
+                        <button type="button" class="btn-primary" onclick="sendQuoteRequest()">🚀 Demander mon devis gratuit</button>
+                    </div>
+                    <div id="formError" class="error-message" style="display:none;" role="alert" aria-live="polite"></div>
+                </form>
+            </div>
+
+            <aside class="card contact-card">
+                <div>
+                    <h3>Besoin d’un devis express ?</h3>
+                    <p>Notre équipe est disponible 7j/7, 24h/24 pour confirmer votre trajet, réserver un créneau et vous aider à choisir le véhicule adapté.</p>
+                </div>
+                <div class="contact-list">
+                    <div class="contact-item">
+                        <span>📞 Téléphone</span>
+                        <a href="tel:+33751213255">+33 7 51 21 32 55</a>
+                    </div>
+                    <div class="contact-item">
+                        <span>💬 WhatsApp</span>
+                        <a href="https://wa.me/33751213255" target="_blank" rel="noopener noreferrer">Discuter en direct</a>
+                    </div>
+                    <div class="contact-item">
+                        <span>🕒 Disponibilités</span>
+                        24h/24 – 7j/7 en Île-de-France
+                    </div>
+                </div>
+                <div class="contact-actions">
+                    <a class="btn-outline" href="mailto:contact@moovecityparis.fr">Envoyer un email</a>
+                    <a class="btn-outline" href="index.html#faq">Consulter la FAQ</a>
+                </div>
+            </aside>
+        </section>
+
+        <section class="container info-section">
+            <div class="card">
+                <h3>🚛 Nos véhicules disponibles</h3>
+                <div class="vehicle-grid">
+                    <div class="vehicle-card">
+                        <h4>URBAN</h4>
+                        <p>6 m³ — 800 kg<br>Idéal pour un studio ou quelques meubles.</p>
+                        <p><strong>À partir de 40€</strong></p>
+                    </div>
+                    <div class="vehicle-card">
+                        <h4>EXPRESS</h4>
+                        <p>9 m³ — 1200 kg<br>Livraison express, événements, tournée commerciale.</p>
+                        <p><strong>À partir de 50€</strong></p>
+                    </div>
+                    <div class="vehicle-card">
+                        <h4>PREMIUM</h4>
+                        <p>12 m³ — 1400 kg<br>Déménagement T2/T3, mobilier volumineux.</p>
+                        <p><strong>À partir de 60€</strong></p>
+                    </div>
+                    <div class="vehicle-card">
+                        <h4>TITAN</h4>
+                        <p>20 m³ — 700 kg avec hayon<br>Plateaux palettes, matériels lourds.</p>
+                        <p><strong>À partir de 100€</strong></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Pourquoi choisir Moove City ?</h3>
+                <ul class="bullet-list">
+                    <li>Chauffeurs expérimentés et assurés pour vos biens.</li>
+                    <li>Devis personnalisés en quelques minutes par WhatsApp.</li>
+                    <li>Service 24/7 partout en Île-de-France et départs province.</li>
+                    <li>Option manutention complète et matériaux de protection.</li>
+                    <li>Suivi en temps réel et interlocuteur unique jusqu’à la livraison.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="container cta-strip">
+            <h3>Prêt à réserver votre chauffeur ?</h3>
+            <p>Choisissez la solution la plus pratique pour vous, nous intervenons en moins de 2 heures sur Paris et sa région.</p>
+            <div class="cta-strip-actions">
+                <a class="btn-primary" href="https://wa.me/33751213255" target="_blank" rel="noopener noreferrer">Démarrer la discussion WhatsApp</a>
+                <a class="btn-outline" href="tel:+33751213255">Appeler Moove City</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        © 2026 Moove City — Transport avec chauffeur à Paris & Île-de-France
+    </footer>
 
     <script>
         // Auto-fill date with today
@@ -459,6 +698,11 @@
         document.getElementById('time').value = now.toTimeString().slice(0, 5);
 
         function sendQuoteRequest() {
+            const honey = document.getElementById('honey').value;
+            if (honey) {
+                return;
+            }
+
             const departure = document.getElementById('departure').value;
             const arrival = document.getElementById('arrival').value;
             const date = document.getElementById('date').value;
@@ -467,10 +711,10 @@
             const description = document.getElementById('description').value;
             const name = document.getElementById('name').value;
             const phone = document.getElementById('phone').value;
-            
+
             // Validation
             if (!departure || !arrival || !date || !time || !name || !phone) {
-                showErrorMessage('⚠️ Veuillez remplir tous les champs obligatoires marqués d\'un *');
+                showErrorMessage('⚠️ Veuillez remplir tous les champs obligatoires marqués d’un *');
                 return;
             }
 
@@ -489,7 +733,7 @@
             if (description) {
                 message += `📝 Description : ${description}\n`;
             }
-            
+
             message += `\n👤 **Mes coordonnées :**\n`;
             message += `Nom : ${name}\n`;
             message += `Téléphone : ${phone}\n\n`;
@@ -498,31 +742,44 @@
             // Redirect to WhatsApp
             const whatsappUrl = `https://wa.me/33751213255?text=${encodeURIComponent(message)}`;
             window.open(whatsappUrl, '_blank');
+            showErrorMessage('✅ Une conversation WhatsApp vient de s’ouvrir dans un nouvel onglet.', true);
         }
 
-        function showErrorMessage(message) {
-            // Remove existing error messages
-            const existingError = document.querySelector('.error-message');
-            if (existingError) {
-                existingError.remove();
+        function initBookingAutocomplete() {
+            const options = {
+                types: ['address'],
+                componentRestrictions: { country: ['fr'] }
+            };
+
+            const departureInput = document.getElementById('departure');
+            const arrivalInput = document.getElementById('arrival');
+
+            if (departureInput) {
+                const departureAutocomplete = new google.maps.places.Autocomplete(departureInput, options);
+                departureAutocomplete.setFields(['formatted_address']);
             }
 
-            // Create error message
-            const errorDiv = document.createElement('div');
-            errorDiv.className = 'error-message';
-            errorDiv.textContent = message;
+            if (arrivalInput) {
+                const arrivalAutocomplete = new google.maps.places.Autocomplete(arrivalInput, options);
+                arrivalAutocomplete.setFields(['formatted_address']);
+            }
+        }
 
-            // Insert after form
-            const form = document.getElementById('quoteForm');
-            form.parentNode.insertBefore(errorDiv, form.nextSibling);
-            
-            // Remove after 5 seconds
-            setTimeout(() => {
-                if (errorDiv.parentNode) {
-                    errorDiv.remove();
-                }
-            }, 5000);
+        function showErrorMessage(message, success = false) {
+            const errorBox = document.getElementById('formError');
+            errorBox.style.display = 'block';
+            errorBox.style.background = success ? '#ecfdf5' : '#fee2e2';
+            errorBox.style.borderColor = success ? '#6ee7b7' : '#fca5a5';
+            errorBox.style.color = success ? '#047857' : '#b91c1c';
+            errorBox.textContent = message;
+
+            if (success) {
+                setTimeout(() => {
+                    errorBox.style.display = 'none';
+                }, 4000);
+            }
         }
     </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBj-30c7SBJUcHHdw_hBT17jtH__NRz0L8&libraries=places&callback=initBookingAutocomplete" async defer></script>
 </body>
 </html>
