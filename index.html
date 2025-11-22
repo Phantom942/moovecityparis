@@ -187,7 +187,12 @@
         }
     </script>
     
-    <!-- Google Maps Places API (remplacez YOUR_GOOGLE_MAPS_KEY par votre clé restreinte) -->
+    <!-- Google Maps Places API -->
+    <!-- ⚠️ SÉCURITÉ : Cette clé API DOIT être restreinte dans Google Cloud Console -->
+    <!-- Restrictions requises :
+         - HTTP referrers : https://www.moovecity.fr/* et https://moovecity.fr/*
+         - API restrictions : Places API uniquement
+         - Voir API-SETUP.md pour les instructions complètes -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBj-30c7SBJUcHHdw_hBT17jtH__NRz0L8&libraries=places&callback=initMooveCityAutocomplete" async defer></script>
     
     <style>
@@ -1342,11 +1347,12 @@
                 </div>
                 <div class="contact-card fade-in stagger-delay-3">
                     <h3>Envoyer une demande par email</h3>
-                    <form class="contact-form" action="https://formsubmit.co/contact@moovecityparis.fr" method="POST" autocomplete="off">
+                    <form class="contact-form" action="https://formsubmit.co/contact@moovecityparis.fr" method="POST" autocomplete="off" id="contactForm" novalidate>
                         <input type="hidden" name="_subject" value="Nouvelle demande depuis moovecity.fr">
                         <input type="hidden" name="_captcha" value="false">
                         <input type="hidden" name="_template" value="table">
-                        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+                        <!-- Honeypot anti-spam -->
+                        <input type="text" name="_honey" id="honey-field" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
 
                         <div class="contact-inline">
                             <div class="form-group">
@@ -1694,11 +1700,68 @@
                 );
             }
 
+            // Validation améliorée du formulaire de contact
+            function validateContactForm() {
+                const form = document.getElementById('contactForm');
+                if (!form) return;
+
+                form.addEventListener('submit', function(e) {
+                    // Vérification du honeypot
+                    const honeyField = document.getElementById('honey-field');
+                    if (honeyField && honeyField.value !== '') {
+                        e.preventDefault();
+                        console.warn('Spam détecté via honeypot');
+                        return false;
+                    }
+
+                    // Validation des champs
+                    const name = document.getElementById('contact-name')?.value.trim();
+                    const email = document.getElementById('contact-email')?.value.trim();
+                    const message = document.getElementById('contact-message')?.value.trim();
+
+                    // Validation email
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (email && !emailRegex.test(email)) {
+                        e.preventDefault();
+                        showErrorMessage('⚠️ Veuillez entrer une adresse email valide.');
+                        document.getElementById('contact-email')?.focus();
+                        return false;
+                    }
+
+                    // Validation longueur minimale
+                    if (name && name.length < 2) {
+                        e.preventDefault();
+                        showErrorMessage('⚠️ Le nom doit contenir au moins 2 caractères.');
+                        document.getElementById('contact-name')?.focus();
+                        return false;
+                    }
+
+                    if (message && message.length < 10) {
+                        e.preventDefault();
+                        showErrorMessage('⚠️ Le message doit contenir au moins 10 caractères.');
+                        document.getElementById('contact-message')?.focus();
+                        return false;
+                    }
+
+                    // Protection contre les soumissions multiples
+                    const submitButton = form.querySelector('button[type="submit"]');
+                    if (submitButton) {
+                        submitButton.disabled = true;
+                        submitButton.textContent = 'Envoi en cours...';
+                        setTimeout(() => {
+                            submitButton.disabled = false;
+                            submitButton.textContent = 'Envoyer ma demande';
+                        }, 5000);
+                    }
+                });
+            }
+
             document.addEventListener('DOMContentLoaded', () => {
                 enhanceServiceCards();
                 setDefaultBookingDate();
                 initScrollAnimations();
                 initHeaderScrollBehaviour();
+                validateContactForm();
                 if (window.google && google.maps && google.maps.places) {
                     setupPlacesAutocomplete();
                 }
