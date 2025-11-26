@@ -7,12 +7,12 @@ Site web professionnel pour Moove City, spécialisé dans le transport avec chau
 - **Transport URBAN** : 6 m³ - 800 kg
 - **Transport EXPRESS** : 9 m³ - 1200 kg  
 - **Transport PREMIUM** : 12 m³ - 1400 kg
-- **Transport TITAN** : 20 m³ - 700 kg avec hayon
+- **Transport TITAN** : 20 m³ - 1500 kg avec hayon
 
 ## 📞 Contact
 
 - **Téléphone** : +33 7 51 21 32 55
-- **Email** : contact@moovecityparis.fr
+- **Email** : contact@moovecity.fr
 - **WhatsApp** : [Cliquez ici](https://wa.me/33751213255)
 
 ## 🌐 Déploiement
@@ -31,7 +31,6 @@ Ce site est hébergé sur GitHub Pages et optimisé pour le référencement Goog
 
 © 2026 Moove City - Tous droits réservés
 Designed by **Phantom Design**
-
 ## 🔧 Maintenance
 
 Pour mettre à jour le site :
@@ -46,7 +45,7 @@ Pour mettre à jour le site :
 - **Google Analytics / Tag Manager** : remplacer `GA_MEASUREMENT_ID` dans `index.html` par votre ID réel (GA4 ou Matomo).
 - **Google Business Profile** : maintenir la fiche à jour (photos, avis, horaires).
 - **Backlinks** : inscrire l’entreprise sur des annuaires locaux (PagesJaunes, 118000, etc.) et partenaires B2B.
-- **Clé Google Maps** : restreindre la clé API dans Google Cloud Console (referrers + API Places uniquement).
+- **Clé Google Maps** : ⚠️ **IMPORTANT** - Consultez `API-SETUP.md` pour configurer et sécuriser votre clé API Google Maps.
 - **Audit régulier** : lancer un test PageSpeed/Lighthouse et corriger les éventuels points faibles (poids images, cache, accessibilité).
 
 ## 🎨 Identité visuelle
@@ -68,3 +67,4 @@ Un mini-kit est disponible dans `brand/` :
 ---
 
 *Site optimisé pour mobile et desktop*
+

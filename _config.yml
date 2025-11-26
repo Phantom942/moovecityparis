@@ -3,13 +3,13 @@
 # Informations du site
 title: "Moove City"
 description: "Transport professionnel avec chauffeur dans toute la région parisienne"
-url: "https://moovecityparis.fr"
+url: "https://www.moovecity.fr"
 baseurl: ""
 
 # Auteur
 author:
   name: "Moove City"
-  email: "contact@moovecityparis.fr"
+  email: "contact@moovecity.fr"
 
 # Configuration GitHub Pages
 plugins:

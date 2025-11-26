@@ -156,9 +156,8 @@
     <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🚛%3C/text%3E%3C/svg%3E">
     
     <!-- Security Headers -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://maps.googleapis.com https://maps.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://maps.googleapis.com https://maps.gstatic.com;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://maps.googleapis.com https://maps.gstatic.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://maps.googleapis.com https://maps.gstatic.com https://www.googletagmanager.com;">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="X-Frame-Options" content="DENY">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
     
@@ -188,12 +187,82 @@
     </script>
     
     <!-- Google Maps Places API -->
-    <!-- ⚠️ SÉCURITÉ : Cette clé API DOIT être restreinte dans Google Cloud Console -->
-    <!-- Restrictions requises :
-         - HTTP referrers : https://www.moovecity.fr/* et https://moovecity.fr/*
-         - API restrictions : Places API uniquement
-         - Voir API-SETUP.md pour les instructions complètes -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBj-30c7SBJUcHHdw_hBT17jtH__NRz0L8&libraries=places&callback=initMooveCityAutocomplete" async defer></script>
+    <script>
+        // Variable globale pour stocker l'état de chargement de l'API
+        window.googleMapsLoaded = false;
+        
+        // Fonction callback appelée par Google Maps API
+        window.initMooveCityAutocomplete = function () {
+            window.googleMapsLoaded = true;
+            console.log('Google Maps API chargée');
+            
+            // Initialiser l'autocomplétion une fois que le DOM est prêt
+            function tryInitAutocomplete() {
+                const departInput = document.getElementById('depart');
+                const arriveeInput = document.getElementById('arrivee');
+                
+                if (!departInput || !arriveeInput) {
+                    // Réessayer après 100ms si les éléments ne sont pas encore dans le DOM
+                    setTimeout(tryInitAutocomplete, 100);
+                    return;
+                }
+                
+                if (window.google && window.google.maps && window.google.maps.places) {
+                    try {
+                        const options = {
+                            componentRestrictions: { country: 'fr' },
+                            fields: ['formatted_address', 'geometry', 'name'],
+                            types: ['address']
+                        };
+                        
+                        // Vérifier si l'autocomplétion n'est pas déjà initialisée
+                        if (!departInput.getAttribute('data-autocomplete-initialized')) {
+                            new google.maps.places.Autocomplete(departInput, options);
+                            departInput.setAttribute('data-autocomplete-initialized', 'true');
+                        }
+                        
+                        if (!arriveeInput.getAttribute('data-autocomplete-initialized')) {
+                            new google.maps.places.Autocomplete(arriveeInput, options);
+                            arriveeInput.setAttribute('data-autocomplete-initialized', 'true');
+                        }
+                        
+                        console.log('Autocomplétion Google Maps initialisée avec succès');
+                    } catch (error) {
+                        console.error('Erreur lors de l\'initialisation de l\'autocomplétion:', error);
+                    }
+                }
+            }
+            
+            // Attendre que le DOM soit chargé
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', tryInitAutocomplete);
+            } else {
+                tryInitAutocomplete();
+            }
+        };
+    </script>
+    <script>
+        // Gestion des erreurs de chargement de l'API
+        window.gm_authFailure = function() {
+            console.error('❌ Erreur d\'authentification Google Maps API. La clé API est invalide ou a expiré.');
+            alert('Erreur: La clé API Google Maps n\'est pas valide. Veuillez vérifier votre configuration.');
+        };
+        
+        // Diagnostic : vérifier si l'API se charge
+        setTimeout(function() {
+            if (!window.google || !window.google.maps || !window.google.maps.places) {
+                console.error('⚠️ Google Maps Places API n\'a pas pu se charger après 3 secondes.');
+                console.error('Vérifiez:');
+                console.error('1. Que la clé API AIzaSyBj-30c7SBJUcHHdw_hBT17jtH__NRz0L8 est valide');
+                console.error('2. Que l\'API "Places API" est activée dans Google Cloud Console');
+                console.error('3. Que les restrictions de la clé API autorisent votre domaine');
+                console.error('4. Ouvrez la console réseau (F12 > Network) et cherchez les erreurs liées à maps.googleapis.com');
+            } else {
+                console.log('✅ Google Maps Places API chargée correctement');
+            }
+        }, 3000);
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBj-30c7SBJUcHHdw_hBT17jtH__NRz0L8&libraries=places&callback=initMooveCityAutocomplete" async defer onerror="console.error('Erreur de chargement du script Google Maps')"></script>
     
     <style>
         /* Reset & Base Styles */
@@ -467,9 +536,6 @@
 
         .hero {
             position: relative;
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.7) 0%, rgba(15, 118, 110, 0.55) 100%), url('images/hero-moove-city.jpg');
-            background-size: cover;
-            background-position: center;
             padding: 120px 0 80px;
             overflow: hidden;
             min-height: 100vh;
@@ -477,15 +543,26 @@
             align-items: center;
         }
 
-        .hero::before {
-            content: '';
+        .hero-video {
             position: absolute;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(120deg, rgba(15, 23, 42, 0.5) 0%, rgba(15, 118, 110, 0.25) 100%);
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
         }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.7) 0%, rgba(15, 118, 110, 0.55) 100%);
+            z-index: 1;
+        }
+
 
         .hero-content {
             position: relative;
@@ -493,6 +570,7 @@
             text-align: center;
             max-width: 800px;
             margin: 0 auto;
+            width: 100%;
         }
 
         .hero h1 {
@@ -619,11 +697,15 @@
         /* Services Section */
         .services {
             padding: 100px 0;
-            background: 
-                var(--secondary-color),
-                radial-gradient(circle at 20% 20%, rgba(74, 85, 104, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(5, 150, 105, 0.05) 0%, transparent 50%);
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.7) 0%, rgba(15, 118, 110, 0.6) 100%), url('images/hero-moove-city.jpg');
+            background-size: cover;
+            background-position: center;
             position: relative;
+        }
+
+        .services .container {
+            position: relative;
+            z-index: 2;
         }
 
         .services::before {
@@ -643,7 +725,7 @@
         .services h2 {
             text-align: center;
             margin-bottom: 3rem;
-            color: var(--text-primary);
+            color: var(--secondary-color);
         }
 
         .services-grid {
@@ -655,12 +737,13 @@
         }
 
         .service-card {
-            background: var(--accent-color);
+            background: rgba(255, 255, 255, 0.95);
             padding: 2.5rem 2rem;
             border-radius: var(--border-radius);
             text-align: center;
             transition: var(--transition);
             border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-medium);
         }
 
         .service-card:hover {
@@ -712,10 +795,9 @@
         /* Features Section */
         .features {
             padding: 100px 0;
-            background: 
-                var(--accent-color),
-                radial-gradient(circle at 70% 30%, rgba(5, 150, 105, 0.08) 0%, transparent 60%),
-                radial-gradient(circle at 30% 70%, rgba(74, 85, 104, 0.08) 0%, transparent 60%);
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.7) 0%, rgba(15, 118, 110, 0.6) 100%), url('images/hero-moove-city.jpg');
+            background-size: cover;
+            background-position: center;
             position: relative;
         }
 
@@ -737,7 +819,7 @@
         .features h2 {
             text-align: center;
             margin-bottom: 3rem;
-            color: var(--text-primary);
+            color: var(--secondary-color);
         }
 
         .features-grid {
@@ -746,14 +828,15 @@
             gap: 2rem;
             position: relative;
             z-index: 2;
+            margin-top: 2rem;
         }
 
         .feature-card {
-            background: var(--secondary-color);
+            background: rgba(255, 255, 255, 0.95);
             padding: 2.5rem 2rem;
             border-radius: var(--border-radius);
             text-align: center;
-            box-shadow: var(--shadow-light);
+            box-shadow: var(--shadow-medium);
             transition: var(--transition);
         }
 
@@ -822,6 +905,18 @@
             color: var(--text-secondary);
         }
 
+
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
         .feature-icon {
             font-size: 1.8rem;
             margin-bottom: 1rem;
@@ -859,17 +954,6 @@
             height: 1.2rem !important;
             max-width: 1.2rem !important;
             max-height: 1.2rem !important;
-        }
-
-        .feature-card h3 {
-            font-size: 1.4rem;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-        }
-
-        .feature-card p {
-            color: var(--text-secondary);
-            line-height: 1.6;
         }
 
         /* Gallery Section */
@@ -1058,8 +1142,8 @@
 
         /* Animations simplifiées et robustes */
         .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
+            opacity: 1;
+            transform: translateY(0);
             transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
 
@@ -1069,8 +1153,8 @@
         }
 
         .slide-in-left {
-            opacity: 0;
-            transform: translateX(-40px);
+            opacity: 1;
+            transform: translateX(0);
             transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
 
@@ -1080,8 +1164,8 @@
         }
 
         .slide-in-right {
-            opacity: 0;
-            transform: translateX(40px);
+            opacity: 1;
+            transform: translateX(0);
             transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
 
@@ -1091,8 +1175,8 @@
         }
 
         .scale-in {
-            opacity: 0;
-            transform: scale(0.95);
+            opacity: 1;
+            transform: scale(1);
             transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
 
@@ -1111,6 +1195,9 @@
 
         /* Google Maps Autocomplete Styles */
         .pac-container {
+            z-index: 10000 !important;
+            position: absolute !important;
+            display: block !important;
             background: var(--secondary-color);
             border: 1px solid var(--border-color);
             border-radius: var(--border-radius);
@@ -1283,10 +1370,11 @@
                 <li><a href="#features">À propos</a></li>
                 <li><a href="#galerie">Galerie</a></li>
                 <li><a href="#faq">FAQ</a></li>
+                <li><a href="transport-entreprises.html">B2B</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
             <div class="nav-buttons">
-                <a href="https://wa.me/33751213255" class="whatsapp-btn" target="_blank" rel="noopener noreferrer">
+                <a href="https://wa.me/33751213255" class="whatsapp-btn" target="_blank" rel="noopener noreferrer" onclick="trackWhatsAppClick()">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
                     </svg>
@@ -1300,6 +1388,11 @@
     <!-- Hero Section -->
     <main>
     <section class="hero" id="hero" role="banner">
+        <video class="hero-video" autoplay muted loop playsinline>
+            <source src="videos/Work.mp4" type="video/mp4">
+            Votre navigateur ne supporte pas la vidéo HTML5.
+        </video>
+        <div class="hero-overlay"></div>
         <div class="container">
             <div class="hero-content">
                 <h1 class="fade-in">Transport avec chauffeur 24h/24 et 7j/7</h1>
@@ -1347,12 +1440,13 @@
                 </div>
                 <div class="contact-card fade-in stagger-delay-3">
                     <h3>Envoyer une demande par email</h3>
-                    <form class="contact-form" action="https://formsubmit.co/contact@moovecityparis.fr" method="POST" autocomplete="off" id="contactForm" novalidate>
-                        <input type="hidden" name="_subject" value="Nouvelle demande depuis moovecity.fr">
+                    <form class="contact-form" action="https://formsubmit.co/contact@moovecity.fr" method="POST" autocomplete="off">
+                        <input type="hidden" name="_subject" value="🚛 Nouvelle demande depuis moovecity.fr">
                         <input type="hidden" name="_captcha" value="false">
                         <input type="hidden" name="_template" value="table">
-                        <!-- Honeypot anti-spam -->
-                        <input type="text" name="_honey" id="honey-field" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
+                        <input type="hidden" name="_next" value="merci.html">
+                        <input type="hidden" name="_autoresponse" value="Merci pour votre demande ! Nous vous recontactons dans les plus brefs délais. L'équipe Moove City">
+                        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
 
                         <div class="contact-inline">
                             <div class="form-group">
@@ -1375,8 +1469,8 @@
                         </div>
 
                         <div class="contact-actions">
-                            <button type="submit" class="btn btn-primary">Envoyer ma demande</button>
-                            <a class="btn btn-outline" href="mailto:contact@moovecityparis.fr">Email direct</a>
+                            <button type="submit" class="btn btn-primary" onclick="trackFormSubmission()">Envoyer ma demande</button>
+                            <a class="btn btn-outline" href="mailto:contact@moovecity.fr">Email direct</a>
                         </div>
                     </form>
                 </div>
@@ -1384,44 +1478,39 @@
         </div>
     </section>
 
-    <!-- Services Section -->
+    <!-- Services & Features Section unifiée -->
     <section class="services" id="services">
         <div class="container">
             <h2 class="fade-in">Nos véhicules</h2>
             <div class="services-grid">
                 <div class="service-card scale-in stagger-delay-1" data-vehicle="urban">
                     <h3>URBAN</h3>
-                    <p><strong>6 m³ - 800 kg</strong><br>Parfait pour la ville, manœuvrable et efficace.<br><span class="service-price">À partir de 40€</span></p>
-                    <a class="service-link" href="demenagement-paris.html">En savoir plus</a>
+                    <p><strong>6m³</strong><br>Parfait pour la ville, manœuvrable et efficace.<br><span class="service-price">À partir de 40€</span></p>
+                    <a class="service-link" href="urban.html">En savoir plus</a>
                 </div>
                 <div class="service-card scale-in stagger-delay-2" data-vehicle="express">
                     <h3>EXPRESS</h3>
-                    <p><strong>9 m³ - 1200 kg</strong><br>Rapidité et fiabilité pour vos livraisons express.<br><span class="service-price">À partir de 50€</span></p>
-                    <a class="service-link" href="livraison-express.html">En savoir plus</a>
+                    <p><strong>8 à 10m³</strong><br>Rapidité et fiabilité pour vos livraisons express.<br><span class="service-price">À partir de 50€</span></p>
+                    <a class="service-link" href="express.html">En savoir plus</a>
                 </div>
                 <div class="service-card scale-in stagger-delay-3" data-vehicle="premium">
                     <h3>PREMIUM</h3>
-                    <p><strong>12 m³ - 1400 kg</strong><br>Confort et espace pour vos transports importants.<br><span class="service-price">À partir de 60€</span></p>
-                    <a class="service-link" href="transport-entreprises.html">En savoir plus</a>
+                    <p><strong>12m³ à 14m³</strong><br>Confort et espace pour vos transports importants.<br><span class="service-price">À partir de 60€</span></p>
+                    <a class="service-link" href="premium.html">En savoir plus</a>
                 </div>
                 <div class="service-card scale-in stagger-delay-4" data-vehicle="titan">
                     <h3>TITAN</h3>
                     <p><strong>20 m³ - 1500 kg</strong><br>Avec hayon (500kg max). La puissance pour les gros volumes.<br><span class="service-price">À partir de 100€</span></p>
-                    <a class="service-link" href="demenagement-paris.html#volume-titan">Capacités détaillées</a>
+                    <a class="service-link" href="titan.html">Capacités détaillées</a>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section class="features" id="features">
-        <div class="container">
-            <h2 class="fade-in">Pourquoi choisir Moove City</h2>
+            
+            <h2 class="fade-in" style="margin-top: 80px;">Pourquoi choisir Moove City</h2>
             <div class="features-grid">
                 <div class="feature-card slide-in-left stagger-delay-1">
                     <div class="feature-icon">⚡</div>
                     <h3>Disponible 24h/24 – intervention rapide</h3>
-                    <p>Nos chauffeurs sont mobilisables à toute heure, avec intervention dans l’heure sur Paris ou planification sur rendez-vous.</p>
+                    <p>Nos chauffeurs sont mobilisables à toute heure, avec intervention dans l'heure sur Paris ou planification sur rendez-vous.</p>
                 </div>
                 <div class="feature-card fade-in stagger-delay-2">
                     <div class="feature-icon">📞</div>
@@ -1544,7 +1633,7 @@
                     <a href="https://wa.me/33751213255" target="_blank" rel="noopener noreferrer" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">
                         💬 WhatsApp
                     </a>
-                    <p>📧 <a href="mailto:contact@moovecityparis.fr">contact@moovecityparis.fr</a></p>
+                    <p>📧 <a href="mailto:contact@moovecity.fr">contact@moovecity.fr</a></p>
                 </div>
             </div>
             <div class="footer-bottom">
@@ -1561,6 +1650,31 @@
     </footer>
 
     <script>
+        // Fonctions globales pour tracking (doivent être disponibles immédiatement)
+        function trackFormSubmission() {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'form_submission', {
+                    'event_category': 'contact',
+                    'event_label': 'Formulaire contact page principale',
+                    'value': 1
+                });
+            }
+        }
+
+        function trackWhatsAppClick() {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'whatsapp_click', {
+                    'event_category': 'contact',
+                    'event_label': 'Clic WhatsApp',
+                    'value': 1
+                });
+            }
+        }
+
+        // Exporter immédiatement pour les onclick
+        window.trackFormSubmission = trackFormSubmission;
+        window.trackWhatsAppClick = trackWhatsAppClick;
+
         (function () {
             const SERVICE_PRICES = {
                 urban: { label: 'À partir de 40€', basePrice: 40 },
@@ -1568,6 +1682,20 @@
                 premium: { label: 'À partir de 60€', basePrice: 60 },
                 titan: { label: 'À partir de 100€', basePrice: 100 }
             };
+
+            // Fonction de calcul du prix avec 10€ par heure
+            function calculatePrice(vehicleKey, durationHours) {
+                if (!vehicleKey || !durationHours) return null;
+                const vehicle = SERVICE_PRICES[vehicleKey];
+                if (!vehicle) return null;
+                const basePrice = vehicle.basePrice;
+                const hourlyRate = 10; // 10€ par heure
+                const totalPrice = basePrice + (durationHours * hourlyRate);
+                return Math.round(totalPrice);
+            }
+
+            // Exposer la fonction globalement
+            window.calculatePrice = calculatePrice;
             let departAutocompleteInstance;
             let arriveeAutocompleteInstance;
 
@@ -1598,7 +1726,7 @@
                 const heure = document.getElementById('heure')?.value;
 
                 if (!startAddress || !endAddress || !date || !heure) {
-                    showErrorMessage('⚠️ Merci de remplir le départ, l’arrivée, la date et l’heure avant de réserver.');
+                    showErrorMessage('⚠️ Merci de remplir le départ, l'arrivée, la date et l'heure avant de réserver.');
                     return;
                 }
 
@@ -1639,22 +1767,42 @@
                 const arriveeInput = document.getElementById('arrivee');
 
                 if (!departInput || !arriveeInput) {
+                    console.warn('Les champs d\'adresse ne sont pas trouvés dans le DOM');
+                    return;
+                }
+
+                // Vérifier si l'autocomplétion n'est pas déjà initialisée
+                if (departInput.getAttribute('data-autocomplete-initialized') === 'true' || 
+                    arriveeInput.getAttribute('data-autocomplete-initialized') === 'true') {
+                    console.log('Autocomplétion déjà initialisée');
                     return;
                 }
 
                 if (!(window.google && google.maps && google.maps.places)) {
                     console.warn('Google Maps Places API non disponible. Vérifiez la clé renseignée.');
+                    // Réessayer après 500ms
+                    setTimeout(setupPlacesAutocomplete, 500);
                     return;
                 }
 
-                const options = {
-                    componentRestrictions: { country: 'fr' },
-                    fields: ['formatted_address', 'geometry', 'name'],
-                    types: ['address']
-                };
+                try {
+                    const options = {
+                        componentRestrictions: { country: 'fr' },
+                        fields: ['formatted_address', 'geometry', 'name'],
+                        types: ['address']
+                    };
 
-                departAutocompleteInstance = new google.maps.places.Autocomplete(departInput, options);
-                arriveeAutocompleteInstance = new google.maps.places.Autocomplete(arriveeInput, options);
+                    departAutocompleteInstance = new google.maps.places.Autocomplete(departInput, options);
+                    arriveeAutocompleteInstance = new google.maps.places.Autocomplete(arriveeInput, options);
+                    
+                    // Marquer comme initialisé
+                    departInput.setAttribute('data-autocomplete-initialized', 'true');
+                    arriveeInput.setAttribute('data-autocomplete-initialized', 'true');
+                    
+                    console.log('Autocomplétion Google Maps initialisée avec succès via setupPlacesAutocomplete');
+                } catch (error) {
+                    console.error('Erreur lors de l\'initialisation de l\'autocomplétion:', error);
+                }
             }
 
             function initScrollAnimations() {
@@ -1700,70 +1848,29 @@
                 );
             }
 
-            // Validation améliorée du formulaire de contact
-            function validateContactForm() {
-                const form = document.getElementById('contactForm');
-                if (!form) return;
-
-                form.addEventListener('submit', function(e) {
-                    // Vérification du honeypot
-                    const honeyField = document.getElementById('honey-field');
-                    if (honeyField && honeyField.value !== '') {
-                        e.preventDefault();
-                        console.warn('Spam détecté via honeypot');
-                        return false;
-                    }
-
-                    // Validation des champs
-                    const name = document.getElementById('contact-name')?.value.trim();
-                    const email = document.getElementById('contact-email')?.value.trim();
-                    const message = document.getElementById('contact-message')?.value.trim();
-
-                    // Validation email
-                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                    if (email && !emailRegex.test(email)) {
-                        e.preventDefault();
-                        showErrorMessage('⚠️ Veuillez entrer une adresse email valide.');
-                        document.getElementById('contact-email')?.focus();
-                        return false;
-                    }
-
-                    // Validation longueur minimale
-                    if (name && name.length < 2) {
-                        e.preventDefault();
-                        showErrorMessage('⚠️ Le nom doit contenir au moins 2 caractères.');
-                        document.getElementById('contact-name')?.focus();
-                        return false;
-                    }
-
-                    if (message && message.length < 10) {
-                        e.preventDefault();
-                        showErrorMessage('⚠️ Le message doit contenir au moins 10 caractères.');
-                        document.getElementById('contact-message')?.focus();
-                        return false;
-                    }
-
-                    // Protection contre les soumissions multiples
-                    const submitButton = form.querySelector('button[type="submit"]');
-                    if (submitButton) {
-                        submitButton.disabled = true;
-                        submitButton.textContent = 'Envoi en cours...';
-                        setTimeout(() => {
-                            submitButton.disabled = false;
-                            submitButton.textContent = 'Envoyer ma demande';
-                        }, 5000);
-                    }
-                });
-            }
-
             document.addEventListener('DOMContentLoaded', () => {
                 enhanceServiceCards();
                 setDefaultBookingDate();
                 initScrollAnimations();
                 initHeaderScrollBehaviour();
-                validateContactForm();
-                if (window.google && google.maps && google.maps.places) {
+                
+                // Initialiser l'autocomplétion si l'API est déjà chargée
+                if (window.googleMapsLoaded && window.google && google.maps && google.maps.places) {
                     setupPlacesAutocomplete();
+                } else if (window.google && google.maps && google.maps.places) {
+                    // Si l'API est chargée mais que le flag n'est pas encore défini
+                    setupPlacesAutocomplete();
+                } else {
+                    // Sinon, attendre que l'API soit chargée
+                    const checkGoogleMaps = setInterval(() => {
+                        if (window.google && google.maps && google.maps.places) {
+                            setupPlacesAutocomplete();
+                            clearInterval(checkGoogleMaps);
+                        }
+                    }, 100);
+                    
+                    // Arrêter la vérification après 10 secondes
+                    setTimeout(() => clearInterval(checkGoogleMaps), 10000);
                 }
 
                 if (typeof twemoji !== 'undefined') {
@@ -1771,10 +1878,22 @@
                 }
             });
 
+            // Track WhatsApp button clicks
+            document.addEventListener('DOMContentLoaded', () => {
+                const whatsappButtons = document.querySelectorAll('.whatsapp-btn, a[href*="wa.me"]');
+                whatsappButtons.forEach(btn => {
+                    btn.addEventListener('click', trackWhatsAppClick);
+                });
+            });
+
             window.redirectToWhatsApp = redirectToWhatsApp;
-            window.initMooveCityAutocomplete = function () {
+            window.setupPlacesAutocomplete = setupPlacesAutocomplete;
+            
+            // La fonction initMooveCityAutocomplete est déjà définie avant le script Google Maps
+            // On peut aussi appeler setupPlacesAutocomplete si l'API est déjà chargée
+            if (window.google && window.google.maps && window.google.maps.places) {
                 setupPlacesAutocomplete();
-            };
+            }
 
         })();
     </script>

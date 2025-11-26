@@ -60,6 +60,15 @@
     }
     </script>
 
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WC9EEBKP2E"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-WC9EEBKP2E');
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -429,7 +438,7 @@
         }
 
         .bullet-list li::before {
-            content: "✓";
+            content: "";
             color: var(--brand-primary);
             font-weight: 700;
         }
@@ -521,9 +530,10 @@
             </a>
             <nav aria-label="Navigation principale">
                 <ul>
-                    <li><a href="index.html#services">Services</a></li>
+                    <li><a href="index.html#features">À propos</a></li>
                     <li><a href="index.html#galerie">Galerie</a></li>
                     <li><a href="index.html#faq">FAQ</a></li>
+                    <li><a href="transport-entreprises.html">B2B</a></li>
                     <li><a href="index.html#contact">Contact</a></li>
                 </ul>
             </nav>
@@ -539,7 +549,7 @@
                     <div class="hero-badges">
                         <span class="badge">🚀 Devis immédiat</span>
                         <span class="badge">🧾 Tarif transparent</span>
-                        <span class="badge">📦 Chauffeurs professionnels</span>
+                        <span class="badge">Chauffeurs professionnels</span>
                     </div>
                 </div>
                 <div>
@@ -579,15 +589,21 @@
                                 <input type="time" id="time" name="time" required>
                             </div>
                         </div>
-                        <div>
-                            <label for="vehicle">🚛 Type de véhicule souhaité</label>
-                            <select id="vehicle" name="vehicle">
-                                <option value="">Sélectionnez un véhicule</option>
-                                <option value="URBAN">URBAN — 6 m³ (800 kg)</option>
-                                <option value="EXPRESS">EXPRESS — 9 m³ (1200 kg)</option>
-                                <option value="PREMIUM">PREMIUM — 12 m³ (1400 kg)</option>
-                                <option value="TITAN">TITAN — 20 m³ (1500 kg) avec hayon</option>
-                            </select>
+                        <div class="form-row">
+                            <div>
+                                <label for="vehicle">🚛 Type de véhicule souhaité</label>
+                                <select id="vehicle" name="vehicle">
+                                    <option value="">Sélectionnez un véhicule</option>
+                                    <option value="URBAN">URBAN — 6 m³ (800 kg)</option>
+                                    <option value="EXPRESS">EXPRESS — 9 m³ (1200 kg)</option>
+                                    <option value="PREMIUM">PREMIUM — 12 m³ (1400 kg)</option>
+                                    <option value="TITAN">TITAN — 20 m³ (1500 kg) avec hayon</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="duration">⏱️ Durée estimée (heures) *</label>
+                                <input type="number" id="duration" name="duration" min="1" max="12" step="0.5" placeholder="Ex: 2" required>
+                            </div>
                         </div>
                         <div>
                             <label for="description">📝 Description du transport</label>
@@ -599,7 +615,7 @@
                                 <input type="text" id="name" name="name" placeholder="Votre nom complet" autocomplete="name" required>
                             </div>
                             <div>
-                                <label for="phone">📞 Votre téléphone *</label>
+                                <label for="phone">Votre téléphone *</label>
                                 <input type="tel" id="phone" name="phone" placeholder="06 12 34 56 78" autocomplete="tel" required>
                             </div>
                         </div>
@@ -619,11 +635,11 @@
                 </div>
                 <div class="contact-list">
                     <div class="contact-item">
-                        <span>📞 Téléphone</span>
+                        <span>Téléphone</span>
                         <a href="tel:+33751213255">+33 7 51 21 32 55</a>
                     </div>
                     <div class="contact-item">
-                        <span>💬 WhatsApp</span>
+                        <span>WhatsApp</span>
                         <a href="https://wa.me/33751213255" target="_blank" rel="noopener noreferrer">Discuter en direct</a>
                     </div>
                     <div class="contact-item">
@@ -632,7 +648,7 @@
                     </div>
                 </div>
                 <div class="contact-actions">
-                    <a class="btn-outline" href="mailto:contact@moovecityparis.fr">Envoyer un email</a>
+                    <a class="btn-outline" href="mailto:contact@moovecity.fr">Envoyer un email</a>
                     <a class="btn-outline" href="index.html#faq">Consulter la FAQ</a>
                 </div>
             </aside>
@@ -700,66 +716,49 @@
         now.setHours(now.getHours() + 1);
         document.getElementById('time').value = now.toTimeString().slice(0, 5);
 
+        // Prix de base par véhicule
+        const VEHICLE_PRICES = {
+            'URBAN': 40,
+            'EXPRESS': 50,
+            'PREMIUM': 60,
+            'TITAN': 100
+        };
+
+        // Fonction de calcul du prix
+        function calculatePrice(vehicle, duration) {
+            if (!vehicle || !duration) return null;
+            const basePrice = VEHICLE_PRICES[vehicle] || 0;
+            const hourlyRate = 10; // 10€ par heure
+            const totalPrice = basePrice + (duration * hourlyRate);
+            return Math.round(totalPrice);
+        }
+
         function sendQuoteRequest() {
-            // Vérification honeypot (anti-spam)
             const honey = document.getElementById('honey').value;
             if (honey) {
-                console.warn('Spam détecté via honeypot');
                 return;
             }
 
-            const departure = document.getElementById('departure').value.trim();
-            const arrival = document.getElementById('arrival').value.trim();
+            const departure = document.getElementById('departure').value;
+            const arrival = document.getElementById('arrival').value;
             const date = document.getElementById('date').value;
             const time = document.getElementById('time').value;
             const vehicle = document.getElementById('vehicle').value;
-            const description = document.getElementById('description').value.trim();
-            const name = document.getElementById('name').value.trim();
-            const phone = document.getElementById('phone').value.trim();
+            const duration = parseFloat(document.getElementById('duration').value);
+            const description = document.getElementById('description').value;
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
 
-            // Validation des champs obligatoires
-            if (!departure || !arrival || !date || !time || !name || !phone) {
-                showErrorMessage('⚠️ Veuillez remplir tous les champs obligatoires marqués d'un *');
+            // Validation
+            if (!departure || !arrival || !date || !time || !name || !phone || !duration) {
+                showErrorMessage('Veuillez remplir tous les champs obligatoires marqués d'un *');
                 return;
             }
 
-            // Validation du nom (minimum 2 caractères)
-            if (name.length < 2) {
-                showErrorMessage('⚠️ Le nom doit contenir au moins 2 caractères.');
-                document.getElementById('name').focus();
-                return;
-            }
-
-            // Validation du téléphone (format français)
-            const phoneRegex = /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/;
-            const phoneClean = phone.replace(/[\s.-]/g, '');
-            if (!phoneRegex.test(phone) && phoneClean.length < 10) {
-                showErrorMessage('⚠️ Veuillez entrer un numéro de téléphone valide (ex: 06 12 34 56 78).');
-                document.getElementById('phone').focus();
-                return;
-            }
-
-            // Validation de la date (ne doit pas être dans le passé)
-            const selectedDate = new Date(date);
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            if (selectedDate < today) {
-                showErrorMessage('⚠️ La date ne peut pas être dans le passé.');
-                document.getElementById('date').focus();
-                return;
-            }
-
-            // Validation des adresses (minimum 5 caractères)
-            if (departure.length < 5) {
-                showErrorMessage('⚠️ L\'adresse de départ doit être plus précise.');
-                document.getElementById('departure').focus();
-                return;
-            }
-
-            if (arrival.length < 5) {
-                showErrorMessage('⚠️ L\'adresse d\'arrivée doit être plus précise.');
-                document.getElementById('arrival').focus();
-                return;
+            // Calcul du prix estimé
+            let estimatedPrice = null;
+            if (vehicle && duration) {
+                estimatedPrice = calculatePrice(vehicle, duration);
             }
 
             // Create WhatsApp message
@@ -774,6 +773,14 @@
                 message += `🚛 Véhicule souhaité : ${vehicle}\n`;
             }
             
+            if (duration) {
+                message += `⏱️ Durée estimée : ${duration} heure(s)\n`;
+            }
+            
+            if (estimatedPrice) {
+                message += `💰 Estimation : ${estimatedPrice}€ (prix de base + ${duration} × 10€/h)\n`;
+            }
+            
             if (description) {
                 message += `📝 Description : ${description}\n`;
             }
@@ -783,13 +790,28 @@
             message += `Téléphone : ${phone}\n\n`;
             message += `Pouvez-vous me faire un devis personnalisé ? Merci !`;
 
+            // Track the event
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'quote_request', {
+                    'event_category': 'booking',
+                    'event_label': 'Demande de devis depuis booking.html',
+                    'value': 1
+                });
+            }
+
             // Redirect to WhatsApp
             const whatsappUrl = `https://wa.me/33751213255?text=${encodeURIComponent(message)}`;
             window.open(whatsappUrl, '_blank');
-            showErrorMessage('✅ Une conversation WhatsApp vient de s’ouvrir dans un nouvel onglet.', true);
+            showErrorMessage('✅ Une conversation WhatsApp vient de s'ouvrir dans un nouvel onglet.', true);
         }
 
-        function initBookingAutocomplete() {
+        // Définir la fonction callback globalement AVANT le script Google Maps
+        window.initBookingAutocomplete = function () {
+            if (!window.google || !window.google.maps || !window.google.maps.places) {
+                console.warn('Google Maps Places API non disponible.');
+                return;
+            }
+
             const options = {
                 types: ['address'],
                 componentRestrictions: { country: ['fr'] }
@@ -807,7 +829,7 @@
                 const arrivalAutocomplete = new google.maps.places.Autocomplete(arrivalInput, options);
                 arrivalAutocomplete.setFields(['formatted_address']);
             }
-        }
+        };
 
         function showErrorMessage(message, success = false) {
             const errorBox = document.getElementById('formError');
@@ -824,12 +846,6 @@
             }
         }
     </script>
-    <!-- Google Maps Places API -->
-    <!-- ⚠️ SÉCURITÉ : Cette clé API DOIT être restreinte dans Google Cloud Console -->
-    <!-- Restrictions requises :
-         - HTTP referrers : https://www.moovecity.fr/* et https://moovecity.fr/*
-         - API restrictions : Places API uniquement
-         - Voir API-SETUP.md pour les instructions complètes -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBj-30c7SBJUcHHdw_hBT17jtH__NRz0L8&libraries=places&callback=initBookingAutocomplete" async defer></script>
 </body>
 </html>

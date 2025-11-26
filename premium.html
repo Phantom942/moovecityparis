@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camion PREMIUM 12-14m³ – Moove City</title>
+    <meta name="description" content="Camion PREMIUM 12-14m³ : confort et espace pour vos transports importants. Parfait pour appartements 2-3 pièces et déménagements complets.">
+    <link rel="canonical" href="https://www.moovecity.fr/premium.html">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WC9EEBKP2E"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-WC9EEBKP2E');
+    </script>
+    
+    <style>
+        /* Reset & Base Styles - Même charte graphique */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #1a1a1a;
+            --secondary-color: #ffffff;
+            --accent-color: #f8f9fa;
+            --text-primary: #2c3e50;
+            --text-secondary: #6c757d;
+            --text-light: #adb5bd;
+            --border-color: #e9ecef;
+            --shadow-light: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-medium: 0 4px 16px rgba(0,0,0,0.12);
+            --shadow-heavy: 0 8px 32px rgba(0,0,0,0.16);
+            --border-radius: 8px;
+            --transition: all 0.3s ease;
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            
+            --blue-primary: #4a5568;
+            --blue-secondary: #718096;
+            --green-primary: #059669;
+            --green-secondary: #10b981;
+            --gradient-primary: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+            --gradient-secondary: linear-gradient(135deg, #059669 0%, #047857 100%);
+        }
+
+        body {
+            font-family: var(--font-family);
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--secondary-color);
+            overflow-x: hidden;
+            position: relative;
+            padding-top: 118px;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(135deg, rgba(74, 85, 104, 0.05) 0%, rgba(5, 150, 105, 0.05) 100%),
+                radial-gradient(circle at 20% 80%, rgba(74, 85, 104, 0.08) 0%, transparent 60%),
+                radial-gradient(circle at 80% 20%, rgba(5, 150, 105, 0.08) 0%, transparent 60%);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-light);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            min-height: 70px;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.9rem;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+
+        .logo img {
+            width: 96px;
+            height: 96px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        .nav-menu a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: var(--secondary-color);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1rem;
+            background: #25D366;
+            color: white;
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .whatsapp-btn:hover {
+            background: #128C7E;
+            transform: translateY(-2px);
+        }
+
+        /* Hero */
+        .page-hero {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.7) 0%, rgba(15, 118, 110, 0.55) 100%), url('images/hero-moove-city.jpg');
+            background-size: cover;
+            background-position: center;
+            padding: 120px 0 80px;
+            text-align: center;
+            color: var(--secondary-color);
+        }
+
+        .page-hero h1 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .page-hero .volume-badge {
+            display: inline-block;
+            background: var(--gradient-secondary);
+            color: var(--secondary-color);
+            padding: 0.75rem 2rem;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .page-hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 100px 0;
+        }
+
+        .content-section h2 {
+            text-align: center;
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 3rem;
+        }
+
+        .advantages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .advantage-card {
+            background: var(--secondary-color);
+            padding: 2.5rem 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-medium);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .advantage-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-heavy);
+            border-color: var(--green-primary);
+        }
+
+
+        .advantage-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .advantage-card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Specs Section */
+        .specs-section {
+            background: var(--accent-color);
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .spec-card {
+            background: var(--secondary-color);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-light);
+            text-align: center;
+        }
+
+        .spec-card strong {
+            display: block;
+            font-size: 2rem;
+            color: var(--green-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .spec-card span {
+            color: var(--text-secondary);
+        }
+
+        /* Use Cases */
+        .use-cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .use-case-card {
+            background: var(--accent-color);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--green-primary);
+        }
+
+        .use-case-card h4 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .use-case-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .use-case-card ul li {
+            padding: 0.5rem 0;
+            color: var(--text-secondary);
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .use-case-card ul li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            color: var(--green-primary);
+            font-weight: 700;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.7) 0%, rgba(15, 118, 110, 0.6) 100%), url('images/hero-moove-city.jpg');
+            background-size: cover;
+            background-position: center;
+            color: var(--secondary-color);
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-color);
+            color: var(--secondary-color);
+            padding: 60px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3,
+        .footer-section h4 {
+            margin-bottom: 1rem;
+        }
+
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+        }
+
+        .footer-section a:hover {
+            color: var(--secondary-color);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            text-align: center;
+        }
+
+        .footer-bottom p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-top: 96px;
+            }
+
+            nav {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .content-section {
+                padding: 60px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="index.html" class="logo">
+                <img src="brand/moove-city-logo.svg" alt="Moove City Logo" width="96" height="96">
+                Moove City
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html#features">À propos</a></li>
+                <li><a href="index.html#galerie">Galerie</a></li>
+                <li><a href="index.html#faq">FAQ</a></li>
+                <li><a href="transport-entreprises.html">B2B</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+            <div class="nav-buttons">
+                <a href="https://wa.me/33751213255" class="whatsapp-btn" target="_blank" rel="noopener noreferrer">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+                    </svg>
+                    WhatsApp
+                </a>
+                <a href="booking.html" class="btn btn-primary">RÉSERVER - DEVIS GRATUIT !</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="page-hero">
+            <div class="container">
+                <h1>Camion PREMIUM</h1>
+                <div class="volume-badge">12 à 14m³</div>
+                <p>Confort et espace pour vos transports importants. Le véhicule idéal pour vos appartements 2-3 pièces et déménagements complets.</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <div class="container">
+                <h2>Les avantages du camion PREMIUM</h2>
+                <div class="advantages-grid">
+                    <div class="advantage-card">
+                        <h3>Volume généreux</h3>
+                        <p>12 à 14m³, l'espace idéal pour un déménagement complet d'appartement 2-3 pièces sans contraintes.</p>
+                    </div>
+                    <div class="advantage-card">
+                        <h3>Confort optimal</h3>
+                        <p>Espace de chargement spacieux permettant un rangement organisé et sécurisé de tous vos biens.</p>
+                    </div>
+                    <div class="advantage-card">
+                        <h3>Déménagement complet</h3>
+                        <p>Capacité suffisante pour transporter tout le mobilier d'un appartement en un seul voyage.</p>
+                    </div>
+                    <div class="advantage-card">
+                        <h3>Protection renforcée</h3>
+                        <p>Couvertures, sangles et matériel de protection inclus pour préserver vos meubles fragiles.</p>
+                    </div>
+                    <div class="advantage-card">
+                        <h3>Service professionnel</h3>
+                        <p>Chauffeur expérimenté avec manutention soignée. Organisation et efficacité garanties.</p>
+                    </div>
+                    <div class="advantage-card">
+                        <h3>Excellent rapport qualité-prix</h3>
+                        <p>À partir de 60€, la solution premium pour vos déménagements importants sans surcoût excessif.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section specs-section">
+            <div class="container">
+                <h2>Caractéristiques techniques</h2>
+                <div class="specs-grid">
+                    <div class="spec-card">
+                        <strong>12-14m³</strong>
+                        <span>Volume de chargement</span>
+                    </div>
+                    <div class="spec-card">
+                        <strong>1500 kg</strong>
+                        <span>Charge utile maximale</span>
+                    </div>
+                    <div class="spec-card">
+                        <strong>Spacieux</strong>
+                        <span>Idéal pour déménagements complets</span>
+                    </div>
+                    <div class="spec-card">
+                        <strong>Équipé</strong>
+                        <span>Matériel de protection inclus</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <div class="container">
+                <h2>Cas d'usage idéaux</h2>
+                <div class="use-cases-grid">
+                    <div class="use-case-card">
+                        <h4> Déménagement appartement</h4>
+                        <ul>
+                            <li>Appartement 2-3 pièces complet</li>
+                            <li>Tous les meubles et électroménager</li>
+                            <li>Cartons et effets personnels</li>
+                            <li>Décoration et objets de valeur</li>
+                        </ul>
+                    </div>
+                    <div class="use-case-card">
+                        <h4>Transport professionnel</h4>
+                        <ul>
+                            <li>Mobilier de bureau complet</li>
+                            <li>Équipements professionnels</li>
+                            <li>Archives et matériel</li>
+                            <li>Transfert de bureaux</li>
+                        </ul>
+                    </div>
+                    <div class="use-case-card">
+                        <h4>Livraisons importantes</h4>
+                        <ul>
+                            <li>Palettes et colis volumineux</li>
+                            <li>Marchandises diverses</li>
+                            <li>Matériel événementiel</li>
+                            <li>Équipements lourds</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="container">
+                <h2>Besoin d'un camion PREMIUM ?</h2>
+                <p>Réservez votre camion 12-14m³ dès maintenant. Disponible rapidement sur Paris, tarif à partir de 60€.</p>
+                <div style="margin-top: 2rem;">
+                    <a href="booking.html" class="btn btn-primary" style="background: white; color: var(--text-primary); margin-right: 1rem;">Demander un devis</a>
+                    <a href="https://wa.me/33751213255" class="whatsapp-btn" target="_blank" rel="noopener noreferrer">Réserver via WhatsApp</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Moove City</h3>
+                    <p>Votre partenaire de confiance pour tous vos besoins de transport avec chauffeur.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <ul style="list-style: none;">
+                        <li><a href="index.html#services">Transport de marchandises</a></li>
+                        <li><a href="demenagement-paris.html">Déménagements</a></li>
+                        <li><a href="livraison-express.html">Livraisons express</a></li>
+                        <li><a href="transport-entreprises.html">Transport entreprises</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p><a href="tel:+33751213255">+33 7 51 21 32 55</a></p>
+                    <p><a href="https://wa.me/33751213255">WhatsApp</a></p>
+                    <p><a href="mailto:contact@moovecity.fr">contact@moovecity.fr</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Moove City. Tous droits réservés.</p>
+                <p>
+                    <a href="mentions-legales.html">Mentions légales</a> | 
+                    <a href="politique-de-confidentialite.html">Confidentialité</a> | 
+                    <a href="conditions-generales.html">CGU</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
+
