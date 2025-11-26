@@ -88,4 +88,50 @@
         <changefreq>yearly</changefreq>
         <priority>0.6</priority>
     </url>
+    
+    <!-- Pages SEO Départements IDF -->
+    <url>
+        <loc>https://www.moovecity.fr/seo/idf/departement-75-paris.html</loc>
+        <lastmod>2025-01-28</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.moovecity.fr/seo/idf/departement-91-essonne.html</loc>
+        <lastmod>2025-01-28</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.moovecity.fr/seo/idf/departement-92-hauts-de-seine.html</loc>
+        <lastmod>2025-01-28</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.moovecity.fr/seo/idf/departement-93-seine-saint-denis.html</loc>
+        <lastmod>2025-01-28</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.moovecity.fr/seo/idf/departement-94-val-de-marne.html</loc>
+        <lastmod>2025-01-28</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.moovecity.fr/seo/idf/departement-95-val-d-oise.html</loc>
+        <lastmod>2025-01-28</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <!-- Page SEO Villes IDF -->
+    <url>
+        <loc>https://www.moovecity.fr/seo/villes-idf.html</loc>
+        <lastmod>2025-01-28</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
 </urlset>
