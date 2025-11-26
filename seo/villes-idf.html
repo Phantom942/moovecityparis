@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transport avec Chauffeur dans toutes les villes d'Île-de-France | Moove City</title>
+    <meta name="description" content="Transport avec chauffeur, déménagement, livraison express et courses dans toutes les villes d'Île-de-France (75, 91, 92, 93, 94, 95). Intervention dans l'heure. Paiement espèces, CB, crypto. Devis gratuit.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.moovecity.fr/seo/villes-idf.html">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WC9EEBKP2E"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-WC9EEBKP2E');
+    </script>
+    
+    <style>
+        /* Reset & Base Styles - Même charte graphique que index.html */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #1a1a1a;
+            --secondary-color: #ffffff;
+            --accent-color: #f8f9fa;
+            --text-primary: #2c3e50;
+            --text-secondary: #6c757d;
+            --text-light: #adb5bd;
+            --border-color: #e9ecef;
+            --shadow-light: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-medium: 0 4px 16px rgba(0,0,0,0.12);
+            --shadow-heavy: 0 8px 32px rgba(0,0,0,0.16);
+            --border-radius: 8px;
+            --transition: all 0.3s ease;
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            
+            /* Professional Colors */
+            --blue-primary: #4a5568;
+            --blue-secondary: #718096;
+            --green-primary: #059669;
+            --green-secondary: #10b981;
+            --gray-primary: #6b7280;
+            --gray-secondary: #9ca3af;
+            --gradient-primary: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+            --gradient-secondary: linear-gradient(135deg, #059669 0%, #047857 100%);
+            --gradient-accent: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        body {
+            font-family: var(--font-family);
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--secondary-color);
+            overflow-x: hidden;
+            position: relative;
+            padding-top: 118px;
+        }
+
+        /* Styled Professional Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(135deg, rgba(74, 85, 104, 0.05) 0%, rgba(5, 150, 105, 0.05) 100%),
+                radial-gradient(circle at 20% 80%, rgba(74, 85, 104, 0.08) 0%, transparent 60%),
+                radial-gradient(circle at 80% 20%, rgba(5, 150, 105, 0.08) 0%, transparent 60%),
+                radial-gradient(circle at 40% 40%, rgba(107, 114, 128, 0.04) 0%, transparent 70%);
+            z-index: -1;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(45deg, rgba(74, 85, 104, 0.02) 25%, transparent 25%),
+                linear-gradient(-45deg, rgba(5, 150, 105, 0.02) 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, rgba(107, 114, 128, 0.02) 75%),
+                linear-gradient(-45deg, transparent 75%, rgba(74, 85, 104, 0.02) 75%);
+            background-size: 60px 60px;
+            background-position: 0 0, 0 30px, 30px -30px, -30px 0px;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Professional Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            box-shadow: var(--shadow-light);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            min-height: 70px;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.9rem;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+            transition: var(--transition);
+        }
+
+        .logo img {
+            display: block;
+            width: 96px;
+            height: 96px;
+        }
+
+        .logo:hover {
+            color: var(--blue-primary);
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-menu a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--blue-primary);
+            transition: var(--transition);
+        }
+
+        .nav-menu a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            border: 2px solid transparent;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: var(--secondary-color);
+            border: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1rem;
+            background: #25D366;
+            color: white;
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: var(--transition);
+            border: 2px solid #25D366;
+        }
+
+        .whatsapp-btn:hover {
+            background: #128C7E;
+            border-color: #128C7E;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+        }
+
+        .whatsapp-btn svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 100px 0;
+        }
+
+        .content-section h1 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: var(--text-primary);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .content-section h2 {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            color: var(--green-primary);
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--green-primary);
+            padding-bottom: 0.5rem;
+        }
+
+        .villes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .ville-item {
+            padding: 1rem;
+            background: var(--accent-color);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .ville-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+            border-color: var(--green-primary);
+        }
+
+        .ville-name {
+            color: var(--green-primary);
+            font-weight: 600;
+            font-size: 1.05em;
+        }
+
+        .departement-section {
+            margin: 3rem 0;
+        }
+
+        .content-section p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .content-section a {
+            color: var(--green-primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .content-section a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-color);
+            color: var(--secondary-color);
+            padding: 60px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3,
+        .footer-section h4 {
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+
+        .footer-section p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul li a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-section ul li a:hover {
+            color: var(--secondary-color);
+        }
+
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-section a:hover {
+            color: var(--secondary-color);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            text-align: center;
+        }
+
+        .footer-bottom p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 96px;
+            }
+
+            nav {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.75rem;
+                padding: 0.75rem 0;
+                min-height: auto;
+            }
+
+            .logo {
+                font-size: 1.35rem;
+                gap: 0.65rem;
+            }
+
+            .logo img {
+                width: 64px;
+                height: 64px;
+            }
+
+            .nav-menu {
+                display: none;
+            }
+
+            .nav-buttons {
+                gap: 0.5rem;
+                flex-wrap: wrap;
+                justify-content: flex-start;
+                width: 100%;
+            }
+
+            .content-section {
+                padding: 60px 0;
+            }
+
+            .villes-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="../index.html" class="logo">
+                <img src="../brand/moove-city-logo.svg" alt="Moove City Logo" width="96" height="96">
+                Moove City
+            </a>
+            <ul class="nav-menu">
+                <li><a href="../index.html#features">À propos</a></li>
+                <li><a href="../index.html#galerie">Galerie</a></li>
+                <li><a href="../index.html#faq">FAQ</a></li>
+                <li><a href="../transport-entreprises.html">B2B</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+            </ul>
+            <div class="nav-buttons">
+                <a href="https://wa.me/33751213255" class="whatsapp-btn" target="_blank" rel="noopener noreferrer">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+                    </svg>
+                    WhatsApp
+                </a>
+                <a href="../booking.html" class="btn btn-primary">RÉSERVER - DEVIS GRATUIT !</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="content-section">
+            <div class="container">
+                <h1>Transport avec Chauffeur dans toutes les villes d'Île-de-France</h1>
+                
+                <div class="content">
+        <p><strong>Moove City</strong> propose des services de <strong>transport avec chauffeur</strong>, <strong>déménagement</strong>, <strong>livraison express</strong> et <strong>courses</strong> dans toutes les villes d'Île-de-France. Nos <strong>transports</strong> et <strong>livraisons</strong> couvrent Paris (75), l'Essonne (91), les Hauts-de-Seine (92), la Seine-Saint-Denis (93), le Val-de-Marne (94) et le Val-d'Oise (95).</p>
+        
+        <h2>Services disponibles dans toutes les villes</h2>
+        <p>Que vous ayez besoin d'un <strong>déménagement</strong> complet, d'une <strong>livraison urgente</strong> ou d'une <strong>course</strong> rapide, nos chauffeurs interviennent <strong>dans l'heure</strong> dans toute l'Île-de-France. Nos <strong>livraisons express</strong> et <strong>transports</strong> sont disponibles <strong>24h/24 et 7j/7</strong>.</p>
+        
+        <h2>Moyens de Paiement</h2>
+        <p>Nous acceptons les <strong>paiements</strong> en <strong>espèces</strong>, <strong>carte bancaire</strong> et <strong>cryptomonnaie</strong> pour tous nos services de <strong>transport</strong>, <strong>déménagement</strong> et <strong>livraison</strong>.</p>
+        
+        <div class="departement-section">
+            <h2>Paris (75)</h2>
+            <div class="villes-grid">
+                <div class="ville-item"><span class="ville-name">Paris 1er arrondissement</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Paris 2e arrondissement</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Paris 3e arrondissement</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Paris 4e arrondissement</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Paris 5e arrondissement</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Paris 6e arrondissement</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Paris 7e arrondissement</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Paris 8e arrondissement</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Paris 9e arrondissement</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Paris 10e arrondissement</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Paris 11e arrondissement</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Paris 12e arrondissement</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Paris 13e arrondissement</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Paris 14e arrondissement</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Paris 15e arrondissement</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Paris 16e arrondissement</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Paris 17e arrondissement</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Paris 18e arrondissement</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Paris 19e arrondissement</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Paris 20e arrondissement</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+            </div>
+        </div>
+        
+        <div class="departement-section">
+            <h2>Essonne (91)</h2>
+            <div class="villes-grid">
+                <div class="ville-item"><span class="ville-name">Évry</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Corbeil-Essonnes</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Massy</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Palaiseau</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Savigny-sur-Orge</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Viry-Châtillon</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Athis-Mons</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Draveil</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Grigny</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Les Ulis</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Montgeron</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Ris-Orangis</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Sainte-Geneviève-des-Bois</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Vigneux-sur-Seine</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Yerres</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Brunoy</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Courcouronnes</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Étampes</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Juvisy-sur-Orge</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Longjumeau</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Mennecy</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Morsang-sur-Orge</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Orsay</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Saint-Michel-sur-Orge</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Soisy-sur-Seine</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Villebon-sur-Yvette</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Wissous</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+            </div>
+        </div>
+        
+        <div class="departement-section">
+            <h2>Hauts-de-Seine (92)</h2>
+            <div class="villes-grid">
+                <div class="ville-item"><span class="ville-name">Nanterre</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Boulogne-Billancourt</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Asnières-sur-Seine</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Colombes</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Courbevoie</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Levallois-Perret</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Neuilly-sur-Seine</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Clichy</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Montrouge</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Puteaux</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Rueil-Malmaison</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Suresnes</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Antony</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Bagneux</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Châtenay-Malabry</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Châtillon</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Clamart</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Fontenay-aux-Roses</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Issy-les-Moulineaux</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Malakoff</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Meudon</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Vanves</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Bourg-la-Reine</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Chaville</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Garches</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Sceaux</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Vaucresson</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Ville-d'Avray</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Villeneuve-la-Garenne</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Gennevilliers</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+            </div>
+        </div>
+        
+        <div class="departement-section">
+            <h2>Seine-Saint-Denis (93)</h2>
+            <div class="villes-grid">
+                <div class="ville-item"><span class="ville-name">Saint-Denis</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Aubervilliers</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Aulnay-sous-Bois</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Drancy</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Montreuil</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Pantin</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Saint-Ouen</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Noisy-le-Grand</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Bobigny</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Bondy</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">La Courneuve</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Épinay-sur-Seine</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Livry-Gargan</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Neuilly-sur-Marne</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Noisy-le-Sec</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Pierrefitte-sur-Seine</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Romainville</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Rosny-sous-Bois</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Sevran</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Stains</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Tremblay-en-France</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Villepinte</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Villetaneuse</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Le Blanc-Mesnil</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Le Bourget</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Clichy-sous-Bois</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Coubron</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Gagny</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Gournay-sur-Marne</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Les Lilas</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Les Pavillons-sous-Bois</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Montfermeil</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Neuilly-Plaisance</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Le Pré-Saint-Gervais</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Le Raincy</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Vaujours</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Villemomble</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+            </div>
+        </div>
+        
+        <div class="departement-section">
+            <h2>Val-de-Marne (94)</h2>
+            <div class="villes-grid">
+                <div class="ville-item"><span class="ville-name">Créteil</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Vitry-sur-Seine</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Ivry-sur-Seine</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Champigny-sur-Marne</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Saint-Maur-des-Fossés</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Nogent-sur-Marne</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Fontenay-sous-Bois</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Joinville-le-Pont</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Maisons-Alfort</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Alfortville</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Choisy-le-Roi</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Orly</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Rungis</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Thiais</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Villejuif</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Boissy-Saint-Léger</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Bry-sur-Marne</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Cachan</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Charenton-le-Pont</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Chennevières-sur-Marne</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Chevilly-Larue</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Fresnes</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Gentilly</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">L'Haÿ-les-Roses</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Limeil-Brévannes</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Mandres-les-Roses</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Marolles-en-Brie</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Ormesson-sur-Marne</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Périgny</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Plessis-Trévise</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">La Queue-en-Brie</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Saint-Mandé</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Saint-Maurice</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Sucy-en-Brie</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Valenton</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Villeneuve-le-Roi</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Villeneuve-Saint-Georges</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Vincennes</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+            </div>
+        </div>
+        
+        <div class="departement-section">
+            <h2>Val-d'Oise (95)</h2>
+            <div class="villes-grid">
+                <div class="ville-item"><span class="ville-name">Cergy</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Pontoise</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Argenteuil</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Sarcelles</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Garges-lès-Gonesse</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Bezons</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Ermont</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Franconville</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Goussainville</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Herblay</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Montmorency</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Osny</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Pierrelaye</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Saint-Ouen-l'Aumône</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Taverny</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Villiers-le-Bel</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Achères</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Andilly</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Arnouville</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Baillet-en-France</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Boisemont</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Bouffémont</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Butry-sur-Oise</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Champagne-sur-Oise</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Cormeilles-en-Parisis</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Deuil-la-Barre</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Domont</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Écouen</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Enghien-les-Bains</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Éragny</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Fosses</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Gonesse</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Groslay</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Jouy-le-Moutier</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">L'Isle-Adam</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Luzarches</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Marly-la-Ville</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Mériel</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Méry-sur-Oise</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Montigny-lès-Cormeilles</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Montlignon</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Neuville-sur-Oise</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Noisy-sur-Oise</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Parmain</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Persan</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Piscop</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Presles</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Puiseux-Pontoise</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Rocquencourt</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Sagy</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Saint-Brice-sous-Forêt</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Saint-Gratien</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Saint-Leu-la-Forêt</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Saint-Prix</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Sannois</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Seraincourt</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Seugy</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Soisy-sous-Montmorency</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Survilliers</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Théméricourt</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Us</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Vallangoujard</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Valmondois</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Vaudherland</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Vauréal</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Vémars</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Vétheuil</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Viarmes</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Vienne-en-Arthies</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Vigny</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Villaines-sous-Bois</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Villeron</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Villers-en-Arthies</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Villiers-Adam</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Villiers-le-Sec</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+                <div class="ville-item"><span class="ville-name">Wy-dit-Joli-Village</span> - <strong>Transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong>, <strong>courses</strong>. Intervention dans l'heure.</div>
+            </div>
+        </div>
+        
+        <h2>Intervention dans l'Heure</h2>
+        <p>Besoin d'un <strong>transport</strong> ou d'une <strong>livraison</strong> urgente dans n'importe quelle ville d'Île-de-France ? Nos chauffeurs peuvent intervenir <strong>dans l'heure</strong>. Service de <strong>course</strong> express disponible pour vos besoins immédiats.</p>
+        
+                    <p><a href="../booking.html">Demandez votre devis gratuit</a> ou contactez-nous au <strong>+33 7 51 21 32 55</strong>.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer role="contentinfo">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Moove City</h3>
+                    <p>Votre partenaire de confiance pour tous vos besoins de transport avec chauffeur.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="../index.html#services">Transport de marchandises</a></li>
+                        <li><a href="../demenagement-paris.html">Déménagements</a></li>
+                        <li><a href="../livraison-express.html">Livraisons express</a></li>
+                        <li><a href="../transport-entreprises.html">Transport entreprises</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p><a href="tel:+33751213255">+33 7 51 21 32 55</a></p>
+                    <a href="https://wa.me/33751213255" target="_blank" rel="noopener noreferrer" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">
+                        WhatsApp
+                    </a>
+                    <p><a href="mailto:contact@moovecity.fr">contact@moovecity.fr</a></p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 Moove City. Tous droits réservés.</p>
+                <p>
+                    <a href="../mentions-legales.html" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">Mentions légales</a> | 
+                    <a href="../politique-de-confidentialite.html" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">Confidentialité</a> | 
+                    <a href="../politique-cookies.html" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">Cookies</a> | 
+                    <a href="../conditions-generales.html" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">CGU</a>
+                </p>
+                <p>Designed by <strong style="color: white; font-weight: 700;">👻 PhantomDev</strong></p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
+
