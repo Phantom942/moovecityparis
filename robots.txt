@@ -1,5 +1,22 @@
+# robots.txt pour Moove City
+# https://www.moovecity.fr/robots.txt
+
 User-agent: *
 Allow: /
 
+# Pages à ne pas indexer
+Disallow: /admin.html
+Disallow: /admin-clients.html
+Disallow: /merci.html
+
+# Autoriser les fichiers importants
+Allow: /sitemap.xml
+Allow: /images/
+Allow: /videos/
+Allow: /brand/
+
 # Sitemap
 Sitemap: https://www.moovecity.fr/sitemap.xml
+
+# Crawl-delay (optionnel, pour éviter de surcharger le serveur)
+Crawl-delay: 1

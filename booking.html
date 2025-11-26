@@ -519,6 +519,24 @@
                 padding: 28px 24px;
             }
         }
+        /* Masquer le logo "Powered by Google" dans l'autocomplétion */
+        .pac-container::after {
+            display: none !important;
+            content: none !important;
+        }
+        
+        .pac-logo,
+        .pac-logo:after,
+        .pac-container .pac-logo,
+        .pac-container::after {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+            height: 0 !important;
+            width: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
     </style>
 </head>
 <body>

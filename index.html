@@ -27,6 +27,10 @@
     <meta property="og:description" content="Transport professionnel avec chauffeur dans toute la région parisienne. Disponible 24h/24 et 7j/7, tarifs transparents, service de qualité.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.moovecity.fr/">
+    <meta property="og:image" content="https://www.moovecity.fr/images/hero-moove-city.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Moove City - Transport avec chauffeur professionnel à Paris">
     <meta property="og:site_name" content="Moove City">
     <meta property="og:locale" content="fr_FR">
     
@@ -34,6 +38,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Moove City - Transport avec chauffeur professionnel">
     <meta name="twitter:description" content="Transport professionnel avec chauffeur dans toute la région parisienne. Disponible 24h/24 et 7j/7, tarifs transparents, service de qualité.">
+    <meta name="twitter:image" content="https://www.moovecity.fr/images/hero-moove-city.jpg">
     
     <!-- Schema.org Structured Data -->
     <script type="application/ld+json">
@@ -1780,6 +1785,50 @@
             templateId: 'template_15i79ps'
         };
         
+        // Fonction pour sauvegarder un client dans la base de données locale
+        function saveClientToDatabase(clientData) {
+            try {
+                // Récupérer les clients existants
+                const existingClients = JSON.parse(localStorage.getItem('moovecity_clients') || '[]');
+                
+                // Vérifier si le client existe déjà (par email)
+                const existingClientIndex = existingClients.findIndex(c => c.email === clientData.email);
+                
+                if (existingClientIndex !== -1) {
+                    // Mettre à jour le client existant
+                    const existingClient = existingClients[existingClientIndex];
+                    existingClient.lastContact = clientData.date;
+                    existingClient.contactCount = (existingClient.contactCount || 1) + 1;
+                    existingClient.lastMessage = clientData.message;
+                    if (clientData.phone && clientData.phone !== 'Non renseigné') {
+                        existingClient.phone = clientData.phone;
+                    }
+                    existingClients[existingClientIndex] = existingClient;
+                } else {
+                    // Ajouter un nouveau client
+                    const newClient = {
+                        id: 'CLI-' + Date.now(),
+                        name: clientData.name,
+                        email: clientData.email,
+                        phone: clientData.phone,
+                        firstContact: clientData.date,
+                        lastContact: clientData.date,
+                        contactCount: 1,
+                        lastMessage: clientData.message,
+                        source: clientData.source,
+                        status: 'nouveau'
+                    };
+                    existingClients.push(newClient);
+                }
+                
+                // Sauvegarder dans localStorage
+                localStorage.setItem('moovecity_clients', JSON.stringify(existingClients));
+                console.log('✅ Client sauvegardé dans la base de données locale');
+            } catch (error) {
+                console.error('❌ Erreur lors de la sauvegarde du client:', error);
+            }
+        }
+        
         // Fonction pour envoyer l'email de contact
         function sendContactEmail() {
             console.log('🔄 Début de l\'envoi de l\'email...');
@@ -1840,6 +1889,17 @@
             emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.templateId, templateParams)
                 .then(function(response) {
                     console.log('Email envoyé avec succès:', response);
+                    
+                    // Sauvegarder le client dans la base de données locale
+                    saveClientToDatabase({
+                        name: name,
+                        email: email,
+                        phone: phone || 'Non renseigné',
+                        message: message,
+                        date: new Date().toISOString(),
+                        source: 'Formulaire contact page principale'
+                    });
+                    
                     // Succès
                     messageDiv.style.display = 'block';
                     messageDiv.style.background = '#d1fae5';
