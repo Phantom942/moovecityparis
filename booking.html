@@ -566,7 +566,14 @@
         <section class="container form-wrapper" id="devis">
             <div class="card">
                 <h2>📋 Formulaire de devis</h2>
-                <form id="quoteForm" autocomplete="on">
+                <form id="quoteForm" action="https://formsubmit.co/contact@moovecity.fr" method="POST" autocomplete="on">
+                    <input type="hidden" name="_subject" value="📋 Nouvelle demande de devis depuis moovecity.fr">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_template" value="table">
+                    <input type="hidden" name="_next" value="https://www.moovecity.fr/merci.html">
+                    <input type="hidden" name="_autoresponse" value="Merci pour votre demande de devis ! Nous vous recontactons dans les plus brefs délais. L'équipe Moove City">
+                    <input type="hidden" name="_format" value="plain">
+                    <input type="hidden" name="_cc" value="contact@moovecity.fr">
                     <input type="text" name="_honey" id="honey" tabindex="-1" autocomplete="off" style="display:none;">
                     <div class="form-grid">
                         <div class="form-row">
@@ -621,8 +628,8 @@
                         </div>
                     </div>
                     <div class="form-footer">
-                        <p class="privacy-note">En cliquant sur “Demander mon devis”, un message WhatsApp pré-rempli s’ouvrira pour finaliser votre demande.</p>
-                        <button type="button" class="btn-primary" onclick="sendQuoteRequest()">🚀 Demander mon devis gratuit</button>
+                        <p class="privacy-note">En cliquant sur "Demander mon devis", votre demande sera envoyée par email et un message WhatsApp s'ouvrira pour finaliser votre demande.</p>
+                        <button type="submit" class="btn-primary" onclick="event.preventDefault(); sendQuoteRequest();">🚀 Demander mon devis gratuit</button>
                     </div>
                     <div id="formError" class="error-message" style="display:none;" role="alert" aria-live="polite"></div>
                 </form>
@@ -739,19 +746,19 @@
                 return;
             }
 
-            const departure = document.getElementById('departure').value;
-            const arrival = document.getElementById('arrival').value;
+            const departure = document.getElementById('departure').value.trim();
+            const arrival = document.getElementById('arrival').value.trim();
             const date = document.getElementById('date').value;
             const time = document.getElementById('time').value;
             const vehicle = document.getElementById('vehicle').value;
             const duration = parseFloat(document.getElementById('duration').value);
-            const description = document.getElementById('description').value;
-            const name = document.getElementById('name').value;
-            const phone = document.getElementById('phone').value;
+            const description = document.getElementById('description').value.trim();
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
 
             // Validation
             if (!departure || !arrival || !date || !time || !name || !phone || !duration) {
-                showErrorMessage('Veuillez remplir tous les champs obligatoires marqués d'un *');
+                showErrorMessage('Veuillez remplir tous les champs obligatoires marqués d\'un *');
                 return;
             }
 
@@ -760,6 +767,32 @@
             if (vehicle && duration) {
                 estimatedPrice = calculatePrice(vehicle, duration);
             }
+
+            // Préparer les données pour l'email
+            const emailBody = `Nouvelle demande de devis\n\n` +
+                `Détails de la demande :\n` +
+                `Départ : ${departure}\n` +
+                `Arrivée : ${arrival}\n` +
+                `Date : ${date}\n` +
+                `Heure : ${time}\n` +
+                (vehicle ? `Véhicule souhaité : ${vehicle}\n` : '') +
+                `Durée estimée : ${duration} heure(s)\n` +
+                (estimatedPrice ? `Estimation : ${estimatedPrice}€ (prix de base + ${duration} × 10€/h)\n` : '') +
+                (description ? `Description : ${description}\n` : '') +
+                `\nCoordonnées :\n` +
+                `Nom : ${name}\n` +
+                `Téléphone : ${phone}`;
+
+            // Ajouter un champ caché pour le message complet
+            let messageField = document.getElementById('quote-message-field');
+            if (!messageField) {
+                messageField = document.createElement('input');
+                messageField.type = 'hidden';
+                messageField.id = 'quote-message-field';
+                messageField.name = 'Message';
+                document.getElementById('quoteForm').appendChild(messageField);
+            }
+            messageField.value = emailBody;
 
             // Create WhatsApp message
             let message = `Bonjour ! Je souhaite obtenir un devis pour un transport.\n\n`;
@@ -799,10 +832,12 @@
                 });
             }
 
-            // Redirect to WhatsApp
+            // Soumettre le formulaire (envoie l'email via FormSubmit)
+            document.getElementById('quoteForm').submit();
+
+            // Ouvrir WhatsApp en parallèle
             const whatsappUrl = `https://wa.me/33751213255?text=${encodeURIComponent(message)}`;
             window.open(whatsappUrl, '_blank');
-            showErrorMessage('✅ Une conversation WhatsApp vient de s'ouvrir dans un nouvel onglet.', true);
         }
 
         // Définir la fonction callback globalement AVANT le script Google Maps

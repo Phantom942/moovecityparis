@@ -186,6 +186,9 @@
         }
     </script>
     
+    <!-- EmailJS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    
     <!-- Google Maps Places API -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBj-30c7SBJUcHHdw_hBT17jtH__NRz0L8&libraries=places" async defer></script>
     <script>
@@ -592,6 +595,7 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
+            margin-bottom: 8px;
         }
 
         .hero-video {
@@ -758,6 +762,7 @@
 
         /* Services Section */
         .services {
+            margin-top: 8px;
             padding: 100px 0;
             background: linear-gradient(135deg, rgba(15, 23, 42, 0.7) 0%, rgba(15, 118, 110, 0.6) 100%), url('images/hero-moove-city.jpg');
             background-size: cover;
@@ -1526,13 +1531,9 @@
                 </div>
                 <div class="contact-card fade-in stagger-delay-3">
                     <h3>Envoyer une demande par email</h3>
-                    <form class="contact-form" action="https://formsubmit.co/contact@moovecity.fr" method="POST" autocomplete="off">
-                        <input type="hidden" name="_subject" value="🚛 Nouvelle demande depuis moovecity.fr">
-                        <input type="hidden" name="_captcha" value="false">
-                        <input type="hidden" name="_template" value="table">
-                        <input type="hidden" name="_next" value="merci.html">
-                        <input type="hidden" name="_autoresponse" value="Merci pour votre demande ! Nous vous recontactons dans les plus brefs délais. L'équipe Moove City">
+                    <form class="contact-form" id="contactForm" autocomplete="off">
                         <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+                        <div id="contact-form-message" style="display:none; padding: 15px; margin-bottom: 20px; border-radius: 8px; text-align: center;"></div>
 
                         <div class="contact-inline">
                             <div class="form-group">
@@ -1555,7 +1556,7 @@
                         </div>
 
                         <div class="contact-actions">
-                            <button type="submit" class="btn btn-primary" onclick="trackFormSubmission()">Envoyer ma demande</button>
+                            <button type="button" class="btn btn-primary" onclick="sendContactEmail()">Envoyer ma demande</button>
                             <a class="btn btn-outline" href="mailto:contact@moovecity.fr">Email direct</a>
                         </div>
                     </form>
@@ -1736,6 +1737,87 @@
     </footer>
 
     <script>
+        // Initialiser EmailJS avec la clé publique
+        (function(){
+            emailjs.init("LqAVuKZG1tewBBHN-");
+        })();
+        
+        // Configuration EmailJS
+        const EMAILJS_CONFIG = {
+            serviceId: 'service_oohb07h',
+            templateId: 'template_15i79ps'
+        };
+        
+        // Fonction pour envoyer l'email de contact
+        function sendContactEmail() {
+            const name = document.getElementById('contact-name').value.trim();
+            const email = document.getElementById('contact-email').value.trim();
+            const phone = document.getElementById('contact-phone').value.trim();
+            const message = document.getElementById('contact-message').value.trim();
+            const messageDiv = document.getElementById('contact-form-message');
+            
+            // Validation
+            if (!name || !email || !message) {
+                messageDiv.style.display = 'block';
+                messageDiv.style.background = '#fee2e2';
+                messageDiv.style.color = '#991b1b';
+                messageDiv.textContent = '⚠️ Veuillez remplir tous les champs obligatoires.';
+                return;
+            }
+            
+            // Désactiver le bouton pendant l'envoi
+            const submitBtn = document.querySelector('#contactForm button[type="button"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Envoi en cours...';
+            
+            // Préparer les paramètres EmailJS (variables doivent correspondre au template)
+            const templateParams = {
+                name: name,
+                email: email,
+                phone: phone || 'Non renseigné',
+                message: message
+            };
+            
+            // Envoyer l'email via EmailJS
+            emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.templateId, templateParams)
+                .then(function(response) {
+                    // Succès
+                    messageDiv.style.display = 'block';
+                    messageDiv.style.background = '#d1fae5';
+                    messageDiv.style.color = '#065f46';
+                    messageDiv.innerHTML = '✅ <strong>Message envoyé avec succès !</strong><br>Nous vous recontactons dans les plus brefs délais.';
+                    
+                    // Réinitialiser le formulaire
+                    document.getElementById('contactForm').reset();
+                    
+                    // Tracking Google Analytics
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'form_submission', {
+                            'event_category': 'contact',
+                            'event_label': 'Formulaire contact page principale',
+                            'value': 1
+                        });
+                    }
+                    
+                    // Scroll vers le message
+                    messageDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                })
+                .catch(function(error) {
+                    // Erreur
+                    console.error('Erreur EmailJS:', error);
+                    messageDiv.style.display = 'block';
+                    messageDiv.style.background = '#fee2e2';
+                    messageDiv.style.color = '#991b1b';
+                    messageDiv.innerHTML = '❌ <strong>Erreur lors de l\'envoi.</strong><br>Veuillez réessayer ou nous contacter directement par email.';
+                })
+                .finally(function() {
+                    // Réactiver le bouton
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalText;
+                });
+        }
+        
         // Fonctions globales pour tracking (doivent être disponibles immédiatement)
         function trackFormSubmission() {
             if (typeof gtag !== 'undefined') {
