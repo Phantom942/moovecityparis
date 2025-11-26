@@ -187,82 +187,116 @@
     </script>
     
     <!-- Google Maps Places API -->
-    <script>
-        // Variable globale pour stocker l'état de chargement de l'API
-        window.googleMapsLoaded = false;
-        
-        // Fonction callback appelée par Google Maps API
-        window.initMooveCityAutocomplete = function () {
-            window.googleMapsLoaded = true;
-            console.log('Google Maps API chargée');
-            
-            // Initialiser l'autocomplétion une fois que le DOM est prêt
-            function tryInitAutocomplete() {
-                const departInput = document.getElementById('depart');
-                const arriveeInput = document.getElementById('arrivee');
-                
-                if (!departInput || !arriveeInput) {
-                    // Réessayer après 100ms si les éléments ne sont pas encore dans le DOM
-                    setTimeout(tryInitAutocomplete, 100);
-                    return;
-                }
-                
-                if (window.google && window.google.maps && window.google.maps.places) {
-                    try {
-                        const options = {
-                            componentRestrictions: { country: 'fr' },
-                            fields: ['formatted_address', 'geometry', 'name'],
-                            types: ['address']
-                        };
-                        
-                        // Vérifier si l'autocomplétion n'est pas déjà initialisée
-                        if (!departInput.getAttribute('data-autocomplete-initialized')) {
-                            new google.maps.places.Autocomplete(departInput, options);
-                            departInput.setAttribute('data-autocomplete-initialized', 'true');
-                        }
-                        
-                        if (!arriveeInput.getAttribute('data-autocomplete-initialized')) {
-                            new google.maps.places.Autocomplete(arriveeInput, options);
-                            arriveeInput.setAttribute('data-autocomplete-initialized', 'true');
-                        }
-                        
-                        console.log('Autocomplétion Google Maps initialisée avec succès');
-                    } catch (error) {
-                        console.error('Erreur lors de l\'initialisation de l\'autocomplétion:', error);
-                    }
-                }
-            }
-            
-            // Attendre que le DOM soit chargé
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', tryInitAutocomplete);
-            } else {
-                tryInitAutocomplete();
-            }
-        };
-    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBj-30c7SBJUcHHdw_hBT17jtH__NRz0L8&libraries=places" async defer></script>
     <script>
         // Gestion des erreurs de chargement de l'API
         window.gm_authFailure = function() {
-            console.error('❌ Erreur d\'authentification Google Maps API. La clé API est invalide ou a expiré.');
-            alert('Erreur: La clé API Google Maps n\'est pas valide. Veuillez vérifier votre configuration.');
+            console.error('❌ Erreur d\'authentification Google Maps API.');
+            console.error('Causes possibles:');
+            console.error('1. La clé API est invalide ou a expiré');
+            console.error('2. La clé API est restreinte et votre domaine n\'est pas autorisé');
+            console.error('3. L\'API "Places API" n\'est pas activée dans Google Cloud Console');
+            console.error('');
+            console.error('Solution:');
+            console.error('1. Allez sur https://console.cloud.google.com/');
+            console.error('2. APIs & Services > Credentials');
+            console.error('3. Cliquez sur votre clé API');
+            console.error('4. Dans "Application restrictions", ajoutez:');
+            console.error('   - https://www.moovecity.fr/*');
+            console.error('   - https://moovecity.fr/*');
+            console.error('   - http://localhost:* (pour tester en local)');
         };
         
-        // Diagnostic : vérifier si l'API se charge
-        setTimeout(function() {
+        // Fonction pour initialiser l'autocomplétion - approche simplifiée
+        function initGoogleMapsAutocomplete() {
+            // Vérifier que l'API est chargée
             if (!window.google || !window.google.maps || !window.google.maps.places) {
-                console.error('⚠️ Google Maps Places API n\'a pas pu se charger après 3 secondes.');
-                console.error('Vérifiez:');
-                console.error('1. Que la clé API AIzaSyBj-30c7SBJUcHHdw_hBT17jtH__NRz0L8 est valide');
-                console.error('2. Que l\'API "Places API" est activée dans Google Cloud Console');
-                console.error('3. Que les restrictions de la clé API autorisent votre domaine');
-                console.error('4. Ouvrez la console réseau (F12 > Network) et cherchez les erreurs liées à maps.googleapis.com');
-            } else {
-                console.log('✅ Google Maps Places API chargée correctement');
+                setTimeout(initGoogleMapsAutocomplete, 200);
+                return;
             }
-        }, 3000);
+            
+            const departInput = document.getElementById('depart');
+            const arriveeInput = document.getElementById('arrivee');
+            
+            if (!departInput || !arriveeInput) {
+                setTimeout(initGoogleMapsAutocomplete, 200);
+                return;
+            }
+            
+            // Vérifier si déjà initialisé
+            if (departInput.getAttribute('data-gmaps-init') === 'true') {
+                return;
+            }
+            
+            try {
+                const options = {
+                    componentRestrictions: { country: 'fr' },
+                    fields: ['formatted_address', 'geometry', 'name'],
+                    types: ['address']
+                };
+                
+                new google.maps.places.Autocomplete(departInput, options);
+                new google.maps.places.Autocomplete(arriveeInput, options);
+                
+                departInput.setAttribute('data-gmaps-init', 'true');
+                arriveeInput.setAttribute('data-gmaps-init', 'true');
+                
+                console.log('✅ Autocomplétion Google Maps initialisée');
+                
+                // Test pour vérifier que l'autocomplétion fonctionne
+                setTimeout(function() {
+                    const pacContainers = document.querySelectorAll('.pac-container');
+                    if (pacContainers.length > 0) {
+                        console.log('✅ Conteneur d\'autocomplétion détecté:', pacContainers.length);
+                    } else {
+                        console.warn('⚠️ Conteneur d\'autocomplétion non trouvé. L\'autocomplétion peut ne pas s\'afficher.');
+                    }
+                }, 1000);
+            } catch (error) {
+                console.error('❌ Erreur autocomplétion:', error);
+                if (error.message && error.message.includes('referer')) {
+                    console.error('⚠️ PROBLÈME DE RESTRICTION DE CLÉ API DÉTECTÉ !');
+                    console.error('Votre clé API est probablement restreinte par domaine.');
+                    console.error('Vérifiez les restrictions dans Google Cloud Console.');
+                }
+            }
+        }
+        
+        // Initialiser après chargement du DOM
+        function startInit() {
+            // Essayer plusieurs fois pour être sûr
+            setTimeout(initGoogleMapsAutocomplete, 300);
+            setTimeout(initGoogleMapsAutocomplete, 800);
+            setTimeout(initGoogleMapsAutocomplete, 1500);
+            setTimeout(initGoogleMapsAutocomplete, 2500);
+        }
+        
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', startInit);
+        } else {
+            startInit();
+        }
+        
+        // Aussi essayer après chargement complet
+        window.addEventListener('load', function() {
+            setTimeout(initGoogleMapsAutocomplete, 500);
+        });
+        
+        // Exposer la fonction globalement pour test manuel
+        window.testGoogleMaps = function() {
+            console.log('Test Google Maps:');
+            console.log('API chargée:', !!window.google);
+            console.log('Places disponible:', !!(window.google && window.google.maps && window.google.maps.places));
+            const depart = document.getElementById('depart');
+            const arrivee = document.getElementById('arrivee');
+            console.log('Champ départ trouvé:', !!depart);
+            console.log('Champ arrivée trouvé:', !!arrivee);
+            if (depart && arrivee && window.google && window.google.maps && window.google.maps.places) {
+                initGoogleMapsAutocomplete();
+                console.log('Initialisation forcée effectuée');
+            }
+        };
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBj-30c7SBJUcHHdw_hBT17jtH__NRz0L8&libraries=places&callback=initMooveCityAutocomplete" async defer onerror="console.error('Erreur de chargement du script Google Maps')"></script>
     
     <style>
         /* Reset & Base Styles */
@@ -299,6 +333,12 @@
             --gradient-accent: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
         }
 
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        
         body {
             font-family: var(--font-family);
             line-height: 1.6;
@@ -307,6 +347,11 @@
             overflow-x: hidden;
             position: relative;
             padding-top: 118px;
+            margin: 0;
+            padding-bottom: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         /* Styled Professional Background */
@@ -332,7 +377,8 @@
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
+            height: 100vh;
+            max-height: 100vh;
             background-image: 
                 linear-gradient(45deg, rgba(74, 85, 104, 0.02) 25%, transparent 25%),
                 linear-gradient(-45deg, rgba(5, 150, 105, 0.02) 25%, transparent 25%),
@@ -342,6 +388,7 @@
             background-position: 0 0, 0 30px, 30px -30px, -30px 0px;
             z-index: -1;
             opacity: 0.3;
+            overflow: hidden;
         }
 
         .container {
@@ -541,6 +588,10 @@
             min-height: 100vh;
             display: flex;
             align-items: center;
+            background-image: url('images/hero-moove-city.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
         .hero-video {
@@ -551,6 +602,13 @@
             height: 100%;
             object-fit: cover;
             z-index: 0;
+        }
+        
+        /* Si la vidéo ne charge pas, afficher l'image de fond */
+        .hero-video[poster] {
+            background-image: url('images/hero-moove-city.jpg');
+            background-size: cover;
+            background-position: center;
         }
 
         .hero-overlay {
@@ -623,6 +681,10 @@
             font-size: 0.9rem;
         }
 
+        .form-group {
+            position: relative;
+        }
+        
         .form-group input,
         .form-group select {
             padding: 1rem;
@@ -1080,6 +1142,26 @@
             background: var(--primary-color);
             color: var(--secondary-color);
             padding: 60px 0 20px;
+            margin: 0;
+            margin-bottom: 0;
+        }
+        
+        /* Éviter l'espace blanc après le footer */
+        footer:last-child {
+            margin-bottom: 0;
+        }
+        
+        body > footer {
+            margin-bottom: 0;
+        }
+        
+        /* S'assurer que le body ne dépasse pas et que le footer reste en bas */
+        main {
+            flex: 1;
+        }
+        
+        footer {
+            margin-top: auto;
         }
 
         .footer-content {
@@ -1195,15 +1277,17 @@
 
         /* Google Maps Autocomplete Styles */
         .pac-container {
-            z-index: 10000 !important;
+            z-index: 99999 !important;
             position: absolute !important;
             display: block !important;
-            background: var(--secondary-color);
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-heavy);
-            margin-top: 5px;
-            z-index: 1000;
+            visibility: visible !important;
+            opacity: 1 !important;
+            background: white !important;
+            border: 1px solid var(--border-color) !important;
+            border-radius: var(--border-radius) !important;
+            box-shadow: var(--shadow-heavy) !important;
+            margin-top: 5px !important;
+            font-family: var(--font-family) !important;
         }
 
         .pac-item {
@@ -1388,8 +1472,10 @@
     <!-- Hero Section -->
     <main>
     <section class="hero" id="hero" role="banner">
-        <video class="hero-video" autoplay muted loop playsinline>
+        <video class="hero-video" autoplay muted loop playsinline preload="auto" 
+               poster="images/hero-moove-city.jpg">
             <source src="videos/Work.mp4" type="video/mp4">
+            <!-- Fallback si aucun format n'est supporté -->
             Votre navigateur ne supporte pas la vidéo HTML5.
         </video>
         <div class="hero-overlay"></div>
@@ -1726,7 +1812,7 @@
                 const heure = document.getElementById('heure')?.value;
 
                 if (!startAddress || !endAddress || !date || !heure) {
-                    showErrorMessage('⚠️ Merci de remplir le départ, l'arrivée, la date et l'heure avant de réserver.');
+                    showErrorMessage('⚠️ Merci de remplir le départ, l\'arrivée, la date et l\'heure avant de réserver.');
                     return;
                 }
 
@@ -1894,6 +1980,29 @@
             if (window.google && window.google.maps && window.google.maps.places) {
                 setupPlacesAutocomplete();
             }
+            
+            // Vérifier si la vidéo se charge correctement
+            document.addEventListener('DOMContentLoaded', function() {
+                const video = document.querySelector('.hero-video');
+                if (video) {
+                    // Forcer la lecture de la vidéo
+                    video.play().catch(function(error) {
+                        console.log('Autoplay bloqué par le navigateur, mais vidéo chargée');
+                    });
+                    
+                    // Log de succès
+                    video.addEventListener('loadeddata', function() {
+                        console.log('✅ Vidéo chargée et prête');
+                    });
+                    
+                    // Gestion des erreurs
+                    video.addEventListener('error', function(e) {
+                        console.error('❌ Erreur de chargement de la vidéo:', video.error);
+                        // Afficher l'image de fond en fallback
+                        video.style.display = 'none';
+                    });
+                }
+            });
 
         })();
     </script>
