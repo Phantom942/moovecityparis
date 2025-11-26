@@ -188,6 +188,17 @@
     
     <!-- EmailJS -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        // Initialiser EmailJS après le chargement
+        window.addEventListener('load', function() {
+            if (typeof emailjs !== 'undefined') {
+                emailjs.init("LqAVuKZG1tewBBHN-");
+                console.log('✅ EmailJS initialisé avec succès');
+            } else {
+                console.error('❌ EmailJS n\'est pas chargé');
+            }
+        });
+    </script>
     
     <!-- Google Maps Places API -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBj-30c7SBJUcHHdw_hBT17jtH__NRz0L8&libraries=places" async defer></script>
@@ -750,6 +761,9 @@
         }
 
         .contact-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
             display: flex;
             gap: 1rem;
             flex-wrap: wrap;
@@ -1555,9 +1569,8 @@
                             <textarea id="contact-message" name="Message" placeholder="Décrivez votre besoin (volume, date, lieu...)" autocomplete="off" required></textarea>
                         </div>
 
-                        <div class="contact-actions">
+                        <div class="contact-actions" style="display: flex; justify-content: center;">
                             <button type="button" class="btn btn-primary" onclick="sendContactEmail()">Envoyer ma demande</button>
-                            <a class="btn btn-outline" href="mailto:contact@moovecity.fr">Email direct</a>
                         </div>
                     </form>
                 </div>
@@ -1750,6 +1763,8 @@
         
         // Fonction pour envoyer l'email de contact
         function sendContactEmail() {
+            console.log('🔄 Début de l\'envoi de l\'email...');
+            
             const name = document.getElementById('contact-name').value.trim();
             const email = document.getElementById('contact-email').value.trim();
             const phone = document.getElementById('contact-phone').value.trim();
@@ -1765,8 +1780,14 @@
                 return;
             }
             
+            console.log('✅ Validation OK, données:', { name, email, phone, message });
+            
             // Désactiver le bouton pendant l'envoi
             const submitBtn = document.querySelector('#contactForm button[type="button"]');
+            if (!submitBtn) {
+                console.error('Bouton non trouvé');
+                return;
+            }
             const originalText = submitBtn.textContent;
             submitBtn.disabled = true;
             submitBtn.textContent = 'Envoi en cours...';
@@ -1779,9 +1800,27 @@
                 message: message
             };
             
+            // Vérifier que EmailJS est chargé et initialisé
+            if (typeof emailjs === 'undefined') {
+                console.error('❌ EmailJS n\'est pas chargé');
+                messageDiv.style.display = 'block';
+                messageDiv.style.background = '#fee2e2';
+                messageDiv.style.color = '#991b1b';
+                messageDiv.innerHTML = '❌ <strong>Erreur de configuration.</strong><br>Veuillez réessayer plus tard.';
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+                return;
+            }
+            
+            console.log('📧 Envoi de l\'email avec EmailJS...');
+            console.log('Service ID:', EMAILJS_CONFIG.serviceId);
+            console.log('Template ID:', EMAILJS_CONFIG.templateId);
+            console.log('Paramètres:', templateParams);
+            
             // Envoyer l'email via EmailJS
             emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.templateId, templateParams)
                 .then(function(response) {
+                    console.log('Email envoyé avec succès:', response);
                     // Succès
                     messageDiv.style.display = 'block';
                     messageDiv.style.background = '#d1fae5';
@@ -1806,15 +1845,18 @@
                 .catch(function(error) {
                     // Erreur
                     console.error('Erreur EmailJS:', error);
+                    console.error('Détails:', error.text || error.message);
                     messageDiv.style.display = 'block';
                     messageDiv.style.background = '#fee2e2';
                     messageDiv.style.color = '#991b1b';
-                    messageDiv.innerHTML = '❌ <strong>Erreur lors de l\'envoi.</strong><br>Veuillez réessayer ou nous contacter directement par email.';
+                    messageDiv.innerHTML = '❌ <strong>Erreur lors de l\'envoi.</strong><br>Veuillez réessayer ou nous contacter directement par email.<br><small>Erreur: ' + (error.text || error.message || 'Erreur inconnue') + '</small>';
                 })
                 .finally(function() {
                     // Réactiver le bouton
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = originalText;
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = originalText;
+                    }
                 });
         }
         
