@@ -4,10 +4,10 @@ Site web professionnel pour Moove City, spécialisé dans le transport avec chau
 
 ## 🚛 Services
 
-- **Transport URBAN** : 6 m³ - 800 kg
-- **Transport EXPRESS** : 9 m³ - 1200 kg  
-- **Transport PREMIUM** : 12 m³ - 1400 kg
-- **Transport TITAN** : 20 m³ - 1500 kg avec hayon
+- **Transport URBAN** : 6 m³
+- **Transport EXPRESS** : 9 m³
+- **Transport PREMIUM** : 12 m³
+- **Transport TITAN** : 20 m³ avec hayon
 
 ## 📞 Contact
 

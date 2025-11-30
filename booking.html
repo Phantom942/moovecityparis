@@ -858,31 +858,118 @@
             window.open(whatsappUrl, '_blank');
         }
 
-        // Définir la fonction callback globalement AVANT le script Google Maps
-        window.initBookingAutocomplete = function () {
+        // Fonction d'initialisation de l'autocomplétion pour booking.html
+        function initBookingPlacesAutocomplete() {
+            // Vérifier que l'API est chargée
             if (!window.google || !window.google.maps || !window.google.maps.places) {
-                console.warn('Google Maps Places API non disponible.');
-                return;
+                return false;
             }
 
-            const options = {
-                types: ['address'],
-                componentRestrictions: { country: ['fr'] }
-            };
-
+            // Vérifier que les champs existent
             const departureInput = document.getElementById('departure');
             const arrivalInput = document.getElementById('arrival');
 
-            if (departureInput) {
-                const departureAutocomplete = new google.maps.places.Autocomplete(departureInput, options);
-                departureAutocomplete.setFields(['formatted_address']);
+            if (!departureInput || !arrivalInput) {
+                return false;
             }
 
-            if (arrivalInput) {
+            // Vérifier si déjà initialisé
+            if (departureInput.getAttribute('data-autocomplete-initialized') === 'true') {
+                return true;
+            }
+
+            try {
+                const options = {
+                    types: ['address'],
+                    componentRestrictions: { country: ['fr'] },
+                    fields: ['formatted_address', 'geometry', 'name', 'address_components']
+                };
+
+                const departureAutocomplete = new google.maps.places.Autocomplete(departureInput, options);
                 const arrivalAutocomplete = new google.maps.places.Autocomplete(arrivalInput, options);
-                arrivalAutocomplete.setFields(['formatted_address']);
+                
+                // Mettre à jour le champ avec l'adresse complète formatée
+                departureAutocomplete.addListener('place_changed', function() {
+                    const place = departureAutocomplete.getPlace();
+                    if (place.formatted_address) {
+                        departureInput.value = place.formatted_address;
+                        departureInput.setAttribute('data-full-address', place.formatted_address);
+                    }
+                });
+                
+                arrivalAutocomplete.addListener('place_changed', function() {
+                    const place = arrivalAutocomplete.getPlace();
+                    if (place.formatted_address) {
+                        arrivalInput.value = place.formatted_address;
+                        arrivalInput.setAttribute('data-full-address', place.formatted_address);
+                    }
+                });
+
+                // Marquer comme initialisé
+                departureInput.setAttribute('data-autocomplete-initialized', 'true');
+                arrivalInput.setAttribute('data-autocomplete-initialized', 'true');
+                
+                console.log('✅ Autocomplétion Google Maps initialisée avec succès sur booking.html');
+                return true;
+            } catch (error) {
+                console.error('❌ Erreur lors de l\'initialisation de l\'autocomplétion:', error);
+                return false;
+            }
+        }
+
+        // Callback pour initialiser l'autocomplétion quand Google Maps est chargé
+        window.initBookingAutocomplete = function () {
+            // Essayer d'initialiser immédiatement
+            if (initBookingPlacesAutocomplete()) {
+                return;
+            }
+
+            // Si le DOM n'est pas prêt, attendre
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', function() {
+                    let attempts = 0;
+                    const maxAttempts = 50; // 5 secondes max
+                    const interval = setInterval(function() {
+                        attempts++;
+                        if (initBookingPlacesAutocomplete() || attempts >= maxAttempts) {
+                            clearInterval(interval);
+                        }
+                    }, 100);
+                });
+            } else {
+                // DOM déjà chargé, réessayer plusieurs fois
+                let attempts = 0;
+                const maxAttempts = 50;
+                const interval = setInterval(function() {
+                    attempts++;
+                    if (initBookingPlacesAutocomplete() || attempts >= maxAttempts) {
+                        clearInterval(interval);
+                    }
+                }, 100);
             }
         };
+        
+        // Exposer la fonction globalement
+        window.initBookingPlacesAutocomplete = initBookingPlacesAutocomplete;
+        
+        // Essayer d'initialiser dès que le DOM est prêt (au cas où le callback ne fonctionne pas)
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+                // Attendre un peu pour que Google Maps se charge
+                setTimeout(function() {
+                    if (window.google && window.google.maps && window.google.maps.places) {
+                        initBookingPlacesAutocomplete();
+                    }
+                }, 500);
+            });
+        } else {
+            // DOM déjà chargé
+            setTimeout(function() {
+                if (window.google && window.google.maps && window.google.maps.places) {
+                    initBookingPlacesAutocomplete();
+                }
+            }, 500);
+        }
 
         function showErrorMessage(message, success = false) {
             const errorBox = document.getElementById('formError');

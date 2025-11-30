@@ -604,13 +604,29 @@
         }
 
         .footer-section a {
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.8) !important;
             text-decoration: none;
             transition: var(--transition);
         }
 
         .footer-section a:hover {
-            color: var(--secondary-color);
+            color: var(--secondary-color) !important;
+        }
+        
+        /* Forcer tous les liens du footer en blanc */
+        footer a {
+            color: rgba(255, 255, 255, 0.8) !important;
+            text-decoration: none;
+        }
+        
+        footer a:hover {
+            color: var(--secondary-color) !important;
+        }
+        
+        footer a:link,
+        footer a:visited,
+        footer a:active {
+            color: rgba(255, 255, 255, 0.8) !important;
         }
 
         .footer-bottom {

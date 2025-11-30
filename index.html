@@ -359,21 +359,120 @@
             console.error('   - http://localhost:* (pour tester en local)');
         };
         
+        // Fonction d'initialisation directe de l'autocomplétion
+        function initPlacesAutocomplete() {
+            // Vérifier que l'API est chargée
+            if (!window.google || !window.google.maps || !window.google.maps.places) {
+                return false;
+            }
+            
+            // Vérifier que les champs existent
+            const departInput = document.getElementById('depart');
+            const arriveeInput = document.getElementById('arrivee');
+            
+            if (!departInput || !arriveeInput) {
+                return false;
+            }
+            
+            // Vérifier si déjà initialisé
+            if (departInput.getAttribute('data-autocomplete-initialized') === 'true') {
+                return true;
+            }
+            
+            try {
+                const options = {
+                    componentRestrictions: { country: 'fr' },
+                    fields: ['formatted_address', 'geometry', 'name', 'address_components'],
+                    types: ['address']
+                };
+                
+                const departAutocomplete = new google.maps.places.Autocomplete(departInput, options);
+                const arriveeAutocomplete = new google.maps.places.Autocomplete(arriveeInput, options);
+                
+                // Mettre à jour le champ avec l'adresse complète formatée
+                departAutocomplete.addListener('place_changed', function() {
+                    const place = departAutocomplete.getPlace();
+                    if (place.formatted_address) {
+                        departInput.value = place.formatted_address;
+                        departInput.setAttribute('data-full-address', place.formatted_address);
+                    }
+                });
+                
+                arriveeAutocomplete.addListener('place_changed', function() {
+                    const place = arriveeAutocomplete.getPlace();
+                    if (place.formatted_address) {
+                        arriveeInput.value = place.formatted_address;
+                        arriveeInput.setAttribute('data-full-address', place.formatted_address);
+                    }
+                });
+                
+                // Marquer comme initialisé
+                departInput.setAttribute('data-autocomplete-initialized', 'true');
+                arriveeInput.setAttribute('data-autocomplete-initialized', 'true');
+                
+                console.log('✅ Autocomplétion Google Maps initialisée avec succès');
+                return true;
+            } catch (error) {
+                console.error('❌ Erreur lors de l\'initialisation de l\'autocomplétion:', error);
+                return false;
+            }
+        }
+        
         // Callback pour initialiser l'autocomplétion quand Google Maps est chargé
         window.initGoogleMapsPlaces = function() {
             window.googleMapsLoaded = true;
-            // Attendre que le DOM soit prêt et que setupPlacesAutocomplete soit définie
-            function tryInit() {
-                if (window.setupPlacesAutocomplete && document.getElementById('depart') && document.getElementById('arrivee')) {
-                    window.setupPlacesAutocomplete();
-                } else if (document.readyState === 'loading') {
-                    document.addEventListener('DOMContentLoaded', tryInit);
-                } else {
-                    setTimeout(tryInit, 100);
-                }
+            
+            // Essayer d'initialiser immédiatement
+            if (initPlacesAutocomplete()) {
+                return;
             }
-            tryInit();
+            
+            // Si le DOM n'est pas prêt, attendre
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', function() {
+                    let attempts = 0;
+                    const maxAttempts = 50; // 5 secondes max
+                    const interval = setInterval(function() {
+                        attempts++;
+                        if (initPlacesAutocomplete() || attempts >= maxAttempts) {
+                            clearInterval(interval);
+                        }
+                    }, 100);
+                });
+            } else {
+                // DOM déjà chargé, réessayer plusieurs fois
+                let attempts = 0;
+                const maxAttempts = 50;
+                const interval = setInterval(function() {
+                    attempts++;
+                    if (initPlacesAutocomplete() || attempts >= maxAttempts) {
+                        clearInterval(interval);
+                    }
+                }, 100);
+            }
         };
+        
+        // Exposer la fonction globalement
+        window.initPlacesAutocomplete = initPlacesAutocomplete;
+        
+        // Essayer d'initialiser dès que le DOM est prêt (au cas où le callback ne fonctionne pas)
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+                // Attendre un peu pour que Google Maps se charge
+                setTimeout(function() {
+                    if (window.google && window.google.maps && window.google.maps.places) {
+                        initPlacesAutocomplete();
+                    }
+                }, 500);
+            });
+        } else {
+            // DOM déjà chargé
+            setTimeout(function() {
+                if (window.google && window.google.maps && window.google.maps.places) {
+                    initPlacesAutocomplete();
+                }
+            }, 500);
+        }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBj-30c7SBJUcHHdw_hBT17jtH__NRz0L8&libraries=places&callback=initGoogleMapsPlaces" async defer></script>
     
@@ -1498,13 +1597,29 @@
         }
 
         .footer-section a {
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.8) !important;
             text-decoration: none;
             transition: var(--transition);
         }
 
         .footer-section a:hover {
-            color: var(--secondary-color);
+            color: var(--secondary-color) !important;
+        }
+        
+        /* Forcer tous les liens du footer en blanc */
+        footer a {
+            color: rgba(255, 255, 255, 0.8) !important;
+            text-decoration: none;
+        }
+        
+        footer a:hover {
+            color: var(--secondary-color) !important;
+        }
+        
+        footer a:link,
+        footer a:visited,
+        footer a:active {
+            color: rgba(255, 255, 255, 0.8) !important;
         }
 
         .footer-bottom {
@@ -2068,21 +2183,21 @@
                 <div class="footer-section">
                     <h4>Services</h4>
                     <ul>
-                        <li><a href="#services">Transport de marchandises</a></li>
-                        <li><a href="#services">Déménagements</a></li>
-                        <li><a href="#services">Livraisons express</a></li>
-                        <li><a href="#galerie">Galerie terrain</a></li>
-                        <li><a href="#faq">Questions fréquentes</a></li>
-                        <li><a href="#features">Équipe professionnelle</a></li>
+                        <li><a href="#services" style="color: rgba(255, 255, 255, 0.8);">Transport de marchandises</a></li>
+                        <li><a href="#services" style="color: rgba(255, 255, 255, 0.8);">Déménagements</a></li>
+                        <li><a href="#services" style="color: rgba(255, 255, 255, 0.8);">Livraisons express</a></li>
+                        <li><a href="#galerie" style="color: rgba(255, 255, 255, 0.8);">Galerie terrain</a></li>
+                        <li><a href="#faq" style="color: rgba(255, 255, 255, 0.8);">Questions fréquentes</a></li>
+                        <li><a href="#features" style="color: rgba(255, 255, 255, 0.8);">Équipe professionnelle</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
                     <h4>Contact</h4>
-                    <p>📞 <a href="tel:+33751213255">+33 7 51 21 32 55</a></p>
+                    <p>📞 <a href="tel:+33751213255" style="color: rgba(255, 255, 255, 0.8);">+33 7 51 21 32 55</a></p>
                     <a href="https://wa.me/33751213255" target="_blank" rel="noopener noreferrer" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">
                         💬 WhatsApp
                     </a>
-                    <p>📧 <a href="mailto:contact@moovecity.fr">contact@moovecity.fr</a></p>
+                    <p>📧 <a href="mailto:contact@moovecity.fr" style="color: rgba(255, 255, 255, 0.8);">contact@moovecity.fr</a></p>
                 </div>
             </div>
             <div class="footer-bottom">
@@ -2428,16 +2543,22 @@
                 initHeaderScrollBehaviour();
                 
                 // Initialiser l'autocomplétion si l'API est déjà chargée
-                if (window.googleMapsLoaded && window.google && google.maps && google.maps.places) {
-                    setupPlacesAutocomplete();
-                } else if (window.google && google.maps && google.maps.places) {
-                    // Si l'API est chargée mais que le flag n'est pas encore défini
-                    setupPlacesAutocomplete();
+                if (window.google && google.maps && google.maps.places) {
+                    // Utiliser la fonction globale initPlacesAutocomplete
+                    if (window.initPlacesAutocomplete) {
+                        window.initPlacesAutocomplete();
+                    } else if (window.setupPlacesAutocomplete) {
+                        setupPlacesAutocomplete();
+                    }
                 } else {
                     // Sinon, attendre que l'API soit chargée
                     const checkGoogleMaps = setInterval(() => {
                         if (window.google && google.maps && google.maps.places) {
-                            setupPlacesAutocomplete();
+                            if (window.initPlacesAutocomplete) {
+                                window.initPlacesAutocomplete();
+                            } else if (window.setupPlacesAutocomplete) {
+                                setupPlacesAutocomplete();
+                            }
                             clearInterval(checkGoogleMaps);
                         }
                     }, 100);
@@ -2462,10 +2583,13 @@
             window.redirectToWhatsApp = redirectToWhatsApp;
             window.setupPlacesAutocomplete = setupPlacesAutocomplete;
             
-            // La fonction initMooveCityAutocomplete est déjà définie avant le script Google Maps
-            // On peut aussi appeler setupPlacesAutocomplete si l'API est déjà chargée
+            // Essayer d'initialiser l'autocomplétion si l'API est déjà chargée
             if (window.google && window.google.maps && window.google.maps.places) {
-                setupPlacesAutocomplete();
+                if (window.initPlacesAutocomplete) {
+                    window.initPlacesAutocomplete();
+                } else {
+                    setupPlacesAutocomplete();
+                }
             }
             
             // Vérifier si la vidéo se charge correctement
