@@ -2396,9 +2396,15 @@
                             container.style.display = 'block';
                         }
                         
+                        let isSelecting = false;
+                        
                         function selectPlace(prediction) {
+                            // Marquer qu'on est en train de sélectionner
+                            isSelecting = true;
+                            
                             // Fermer immédiatement le conteneur
                             container.style.display = 'none';
+                            container.innerHTML = '';
                             
                             // Mettre la valeur de la prédiction en attendant les détails complets
                             input.value = prediction.description || prediction.structured_formatting.main_text + ', ' + prediction.structured_formatting.secondary_text;
@@ -2412,11 +2418,20 @@
                                     input.value = place.formatted_address;
                                     input.setAttribute('data-full-address', place.formatted_address);
                                 }
+                                // Réinitialiser le flag après un court délai
+                                setTimeout(() => {
+                                    isSelecting = false;
+                                }, 100);
                             });
                         }
                         
                         let timeout;
                         input.addEventListener('input', (e) => {
+                            // Ne pas afficher les suggestions si on vient de sélectionner
+                            if (isSelecting) {
+                                return;
+                            }
+                            
                             clearTimeout(timeout);
                             const query = e.target.value.trim();
                             

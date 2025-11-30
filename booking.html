@@ -850,12 +850,12 @@
                 });
             }
 
-            // Soumettre le formulaire (envoie l'email via FormSubmit)
-            document.getElementById('quoteForm').submit();
-
-            // Ouvrir WhatsApp en parallèle
+            // Ouvrir WhatsApp
             const whatsappUrl = `https://wa.me/33751213255?text=${encodeURIComponent(message)}`;
             window.open(whatsappUrl, '_blank');
+            
+            // Rediriger vers la page de remerciement
+            window.location.href = 'merci.html';
         }
 
         // Fonction d'initialisation de l'autocomplétion pour booking.html
@@ -927,9 +927,15 @@
                         container.style.display = 'block';
                     }
                     
+                    let isSelecting = false;
+                    
                     function selectPlace(prediction) {
+                        // Marquer qu'on est en train de sélectionner
+                        isSelecting = true;
+                        
                         // Fermer immédiatement le conteneur
                         container.style.display = 'none';
+                        container.innerHTML = '';
                         
                         // Mettre la valeur de la prédiction en attendant les détails complets
                         input.value = prediction.description || prediction.structured_formatting.main_text + ', ' + prediction.structured_formatting.secondary_text;
@@ -943,11 +949,20 @@
                                 input.value = place.formatted_address;
                                 input.setAttribute('data-full-address', place.formatted_address);
                             }
+                            // Réinitialiser le flag après un court délai
+                            setTimeout(() => {
+                                isSelecting = false;
+                            }, 100);
                         });
                     }
                     
                     let timeout;
                     input.addEventListener('input', (e) => {
+                        // Ne pas afficher les suggestions si on vient de sélectionner
+                        if (isSelecting) {
+                            return;
+                        }
+                        
                         clearTimeout(timeout);
                         const query = e.target.value.trim();
                         
