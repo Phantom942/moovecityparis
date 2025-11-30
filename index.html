@@ -342,79 +342,17 @@
     <!-- Google Maps Places API -->
     <script>
         // Gestion des erreurs de chargement de l'API
-        window.gm_authFailure = function() {
-            console.error('❌ Erreur d\'authentification Google Maps API.');
-            console.error('Causes possibles:');
-            console.error('1. La clé API est invalide ou a expiré');
-            console.error('2. La clé API est restreinte et votre domaine n\'est pas autorisé');
-            console.error('3. L\'API "Places API" n\'est pas activée dans Google Cloud Console');
-            console.error('');
-            console.error('Solution:');
-            console.error('1. Allez sur https://console.cloud.google.com/');
-            console.error('2. APIs & Services > Credentials');
-            console.error('3. Cliquez sur votre clé API');
-            console.error('4. Dans "Application restrictions", ajoutez:');
-            console.error('   - https://www.moovecity.fr/*');
-            console.error('   - https://moovecity.fr/*');
-            console.error('   - http://localhost:* (pour tester en local)');
-            
-            // Afficher l'URL actuelle pour aider au débogage
-            console.error('URL actuelle:', window.location.href);
-            console.error('Domaine actuel:', window.location.hostname);
-        };
-        
-        // Vérifier si le script Google Maps se charge correctement
-        window.addEventListener('error', function(e) {
-            if (e.filename && e.filename.includes('maps.googleapis.com')) {
-                console.error('❌ Erreur de chargement du script Google Maps:', e.message);
-                console.error('URL du script:', e.filename);
-                console.error('Cela peut indiquer un problème de restrictions de clé API ou de réseau.');
-            }
-        }, true);
-        
         // Callback pour initialiser l'autocomplétion quand Google Maps est chargé
         window.initGoogleMapsPlaces = function() {
-            console.log('✅ Google Maps API chargée avec succès');
-            console.log('URL actuelle:', window.location.href);
-            console.log('Domaine:', window.location.hostname);
-            
             window.googleMapsLoaded = true;
-            
-            // Vérifier que l'API est bien disponible
-            if (window.google && window.google.maps && window.google.maps.places) {
-                console.log('✅ Google Maps Places API est disponible');
-            } else {
-                console.error('❌ Google Maps Places API n\'est pas disponible après le callback');
-                console.error('window.google:', !!window.google);
-                console.error('window.google.maps:', !!(window.google && window.google.maps));
-                console.error('window.google.maps.places:', !!(window.google && window.google.maps && window.google.maps.places));
-            }
-            
-            // La fonction setupPlacesAutocomplete sera appelée depuis le DOMContentLoaded
             if (document.readyState === 'complete' || document.readyState === 'interactive') {
                 if (window.setupPlacesAutocomplete) {
                     window.setupPlacesAutocomplete();
                 }
             }
         };
-        
-        // Vérifier après 3 secondes si l'API n'a pas été chargée
-        setTimeout(function() {
-            if (!window.google || !window.google.maps || !window.google.maps.places) {
-                console.warn('⚠️ Google Maps API n\'a pas été chargée après 3 secondes');
-                console.warn('Vérifications à faire:');
-                console.warn('1. Ouvrez la console réseau (F12 > Network) et cherchez les requêtes vers maps.googleapis.com');
-                console.warn('2. Vérifiez si la requête retourne une erreur (status 403 = restrictions, 400 = clé invalide)');
-                console.warn('3. Vérifiez dans Google Cloud Console que:');
-                console.warn('   - La clé API est active');
-                console.warn('   - L\'API "Maps JavaScript API" est activée');
-                console.warn('   - L\'API "Places API" est activée');
-                console.warn('   - Les restrictions de domaine incluent:', window.location.hostname);
-            }
-        }, 3000);
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBj-30c7SBJUcHHdw_hBT17jtH__NRz0L8&libraries=places,marker&loading=async&callback=initGoogleMapsPlaces" async defer onerror="console.error('❌ Erreur lors du chargement du script Google Maps - Vérifiez les restrictions de la clé API')"></script>
-    <script type="module" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBj-30c7SBJUcHHdw_hBT17jtH__NRz0L8&libraries=places&loading=async"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBj-30c7SBJUcHHdw_hBT17jtH__NRz0L8&libraries=places,marker&loading=async&callback=initGoogleMapsPlaces" async defer></script>
     
     <style>
         /* Reset & Base Styles */
@@ -2389,20 +2327,15 @@
                 const arriveeInput = document.getElementById('arrivee');
 
                 if (!departInput || !arriveeInput) {
-                    console.warn('Les champs d\'adresse ne sont pas trouvés dans le DOM');
                     return;
                 }
 
-                // Vérifier si l'autocomplétion n'est pas déjà initialisée
                 if (departInput.getAttribute('data-autocomplete-initialized') === 'true' || 
                     arriveeInput.getAttribute('data-autocomplete-initialized') === 'true') {
-                    console.log('Autocomplétion déjà initialisée');
                     return;
                 }
 
                 if (!(window.google && google.maps && google.maps.places)) {
-                    console.warn('Google Maps Places API non disponible. Vérifiez la clé renseignée.');
-                    // Réessayer après 500ms
                     setTimeout(setupPlacesAutocomplete, 500);
                     return;
                 }
@@ -2417,7 +2350,6 @@
                     departAutocompleteInstance = new google.maps.places.Autocomplete(departInput, options);
                     arriveeAutocompleteInstance = new google.maps.places.Autocomplete(arriveeInput, options);
                     
-                    // Mettre à jour le champ avec l'adresse complète formatée quand l'utilisateur sélectionne une suggestion
                     departAutocompleteInstance.addListener('place_changed', function() {
                         const place = departAutocompleteInstance.getPlace();
                         if (place.formatted_address) {
@@ -2434,13 +2366,10 @@
                         }
                     });
                     
-                    // Marquer comme initialisé
                     departInput.setAttribute('data-autocomplete-initialized', 'true');
                     arriveeInput.setAttribute('data-autocomplete-initialized', 'true');
-                    
-                    console.log('Autocomplétion Google Maps initialisée avec succès via setupPlacesAutocomplete');
                 } catch (error) {
-                    console.error('Erreur lors de l\'initialisation de l\'autocomplétion:', error);
+                    // Erreur silencieuse
                 }
             }
 

@@ -860,24 +860,18 @@
 
         // Fonction d'initialisation de l'autocomplétion pour booking.html
         function initBookingPlacesAutocomplete() {
-            // Vérifier que l'API est chargée
             if (!(window.google && google.maps && google.maps.places)) {
-                console.warn('[Booking] Google Maps Places API non disponible');
                 return false;
             }
 
-            // Vérifier que les champs existent
             const departureInput = document.getElementById('departure');
             const arrivalInput = document.getElementById('arrival');
 
             if (!departureInput || !arrivalInput) {
-                console.warn('[Booking] Les champs d\'adresse ne sont pas trouvés dans le DOM');
                 return false;
             }
 
-            // Vérifier si déjà initialisé
             if (departureInput.getAttribute('data-autocomplete-initialized') === 'true') {
-                console.log('[Booking] Autocomplétion déjà initialisée');
                 return true;
             }
 
@@ -910,72 +904,53 @@
                 departureInput.setAttribute('data-autocomplete-initialized', 'true');
                 arrivalInput.setAttribute('data-autocomplete-initialized', 'true');
                 
-                console.log('[Booking] Autocomplétion Google Maps initialisée avec succès');
                 return true;
             } catch (error) {
-                console.error('[Booking] Erreur lors de l\'initialisation de l\'autocomplétion:', error);
                 return false;
             }
         }
 
         // Callback pour initialiser l'autocomplétion quand Google Maps est chargé
         window.initBookingAutocomplete = function () {
-            console.log('📞 [Booking] Callback initBookingAutocomplete appelé');
-            
-            // Attendre que le DOM soit prêt
             function tryInit() {
                 if (initBookingPlacesAutocomplete()) {
-                    console.log('✅ [Booking] Initialisation réussie via callback');
                     return;
                 }
-                // Réessayer après un court délai
                 setTimeout(tryInit, 200);
             }
             
             if (document.readyState === 'loading') {
                 document.addEventListener('DOMContentLoaded', function() {
-                    console.log('📄 [Booking] DOM chargé, tentative d\'initialisation...');
                     setTimeout(tryInit, 300);
                 });
             } else {
-                console.log('📄 [Booking] DOM déjà chargé, tentative d\'initialisation...');
                 setTimeout(tryInit, 300);
             }
         };
         
-        // Exposer la fonction globalement
         window.initBookingPlacesAutocomplete = initBookingPlacesAutocomplete;
         
-        // Essayer d'initialiser dès que le DOM est prêt (au cas où le callback ne fonctionne pas)
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', function() {
-                console.log('📄 [Booking] DOMContentLoaded déclenché');
-                // Attendre que Google Maps se charge
                 let checkCount = 0;
                 const checkInterval = setInterval(function() {
                     checkCount++;
                     if (window.google && window.google.maps && window.google.maps.places) {
-                        console.log('✅ [Booking] Google Maps API détectée après', checkCount * 200, 'ms');
                         clearInterval(checkInterval);
                         initBookingPlacesAutocomplete();
                     } else if (checkCount >= 25) {
-                        console.warn('⚠️ [Booking] Google Maps API non chargée après 5 secondes');
                         clearInterval(checkInterval);
                     }
                 }, 200);
             });
         } else {
-            // DOM déjà chargé
-            console.log('📄 [Booking] DOM déjà chargé au chargement du script');
             let checkCount = 0;
             const checkInterval = setInterval(function() {
                 checkCount++;
                 if (window.google && window.google.maps && window.google.maps.places) {
-                    console.log('✅ [Booking] Google Maps API détectée après', checkCount * 200, 'ms');
                     clearInterval(checkInterval);
                     initBookingPlacesAutocomplete();
                 } else if (checkCount >= 25) {
-                    console.warn('⚠️ [Booking] Google Maps API non chargée après 5 secondes');
                     clearInterval(checkInterval);
                 }
             }, 200);
