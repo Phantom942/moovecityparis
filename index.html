@@ -357,11 +357,39 @@
             console.error('   - https://www.moovecity.fr/*');
             console.error('   - https://moovecity.fr/*');
             console.error('   - http://localhost:* (pour tester en local)');
+            
+            // Afficher l'URL actuelle pour aider au débogage
+            console.error('URL actuelle:', window.location.href);
+            console.error('Domaine actuel:', window.location.hostname);
         };
+        
+        // Vérifier si le script Google Maps se charge correctement
+        window.addEventListener('error', function(e) {
+            if (e.filename && e.filename.includes('maps.googleapis.com')) {
+                console.error('❌ Erreur de chargement du script Google Maps:', e.message);
+                console.error('URL du script:', e.filename);
+                console.error('Cela peut indiquer un problème de restrictions de clé API ou de réseau.');
+            }
+        }, true);
         
         // Callback pour initialiser l'autocomplétion quand Google Maps est chargé
         window.initGoogleMapsPlaces = function() {
+            console.log('✅ Google Maps API chargée avec succès');
+            console.log('URL actuelle:', window.location.href);
+            console.log('Domaine:', window.location.hostname);
+            
             window.googleMapsLoaded = true;
+            
+            // Vérifier que l'API est bien disponible
+            if (window.google && window.google.maps && window.google.maps.places) {
+                console.log('✅ Google Maps Places API est disponible');
+            } else {
+                console.error('❌ Google Maps Places API n\'est pas disponible après le callback');
+                console.error('window.google:', !!window.google);
+                console.error('window.google.maps:', !!(window.google && window.google.maps));
+                console.error('window.google.maps.places:', !!(window.google && window.google.maps && window.google.maps.places));
+            }
+            
             // La fonction setupPlacesAutocomplete sera appelée depuis le DOMContentLoaded
             if (document.readyState === 'complete' || document.readyState === 'interactive') {
                 if (window.setupPlacesAutocomplete) {
@@ -369,8 +397,23 @@
                 }
             }
         };
+        
+        // Vérifier après 3 secondes si l'API n'a pas été chargée
+        setTimeout(function() {
+            if (!window.google || !window.google.maps || !window.google.maps.places) {
+                console.warn('⚠️ Google Maps API n\'a pas été chargée après 3 secondes');
+                console.warn('Vérifications à faire:');
+                console.warn('1. Ouvrez la console réseau (F12 > Network) et cherchez les requêtes vers maps.googleapis.com');
+                console.warn('2. Vérifiez si la requête retourne une erreur (status 403 = restrictions, 400 = clé invalide)');
+                console.warn('3. Vérifiez dans Google Cloud Console que:');
+                console.warn('   - La clé API est active');
+                console.warn('   - L\'API "Maps JavaScript API" est activée');
+                console.warn('   - L\'API "Places API" est activée');
+                console.warn('   - Les restrictions de domaine incluent:', window.location.hostname);
+            }
+        }, 3000);
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBj-30c7SBJUcHHdw_hBT17jtH__NRz0L8&libraries=places&callback=initGoogleMapsPlaces" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBj-30c7SBJUcHHdw_hBT17jtH__NRz0L8&libraries=places&callback=initGoogleMapsPlaces" async defer onerror="console.error('❌ Erreur lors du chargement du script Google Maps - Vérifiez les restrictions de la clé API')"></script>
     
     <style>
         /* Reset & Base Styles */
@@ -1585,7 +1628,7 @@
 
         /* Google Maps Autocomplete Styles */
         .pac-container {
-            z-index: 99999 !important;
+            z-index: 999999 !important;
             position: absolute !important;
             display: block !important;
             visibility: visible !important;
@@ -1596,6 +1639,17 @@
             box-shadow: var(--shadow-heavy) !important;
             margin-top: 5px !important;
             font-family: var(--font-family) !important;
+            max-width: none !important;
+            width: auto !important;
+            min-width: 300px !important;
+            overflow: visible !important;
+        }
+        
+        /* S'assurer que le conteneur parent permet l'affichage */
+        .form-group,
+        .booking-form .form-row > div,
+        .form-row > div {
+            position: relative !important;
         }
         
         /* Masquer le logo "Powered by Google" */
@@ -2334,25 +2388,32 @@
                 const arriveeInput = document.getElementById('arrivee');
 
                 if (!departInput || !arriveeInput) {
-                    console.warn('Les champs d\'adresse ne sont pas trouvés dans le DOM');
+                    console.warn('⚠️ Les champs d\'adresse ne sont pas trouvés dans le DOM');
                     return;
                 }
 
                 // Vérifier si l'autocomplétion n'est pas déjà initialisée
                 if (departInput.getAttribute('data-autocomplete-initialized') === 'true' || 
                     arriveeInput.getAttribute('data-autocomplete-initialized') === 'true') {
-                    console.log('Autocomplétion déjà initialisée');
+                    console.log('ℹ️ Autocomplétion déjà initialisée');
                     return;
                 }
 
                 if (!(window.google && google.maps && google.maps.places)) {
-                    console.warn('Google Maps Places API non disponible. Vérifiez la clé renseignée.');
+                    console.error('❌ Google Maps Places API non disponible.');
+                    console.error('Vérifications:');
+                    console.error('- window.google:', !!window.google);
+                    console.error('- window.google.maps:', !!(window.google && window.google.maps));
+                    console.error('- window.google.maps.places:', !!(window.google && window.google.maps && window.google.maps.places));
+                    console.error('URL actuelle:', window.location.href);
+                    console.error('Cela peut indiquer un problème de restrictions de clé API.');
                     // Réessayer après 500ms
                     setTimeout(setupPlacesAutocomplete, 500);
                     return;
                 }
 
                 try {
+                    console.log('🔧 Initialisation de l\'autocomplétion Google Maps...');
                     const options = {
                         componentRestrictions: { country: 'fr' },
                         fields: ['formatted_address', 'geometry', 'name', 'address_components'],
