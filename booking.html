@@ -863,16 +863,8 @@
             console.log('🔍 [Booking] Tentative d\'initialisation de l\'autocomplétion...');
             
             // Vérifier que l'API est chargée
-            if (!window.google) {
-                console.warn('⚠️ [Booking] window.google n\'est pas disponible');
-                return false;
-            }
-            if (!window.google.maps) {
-                console.warn('⚠️ [Booking] window.google.maps n\'est pas disponible');
-                return false;
-            }
-            if (!window.google.maps.places) {
-                console.warn('⚠️ [Booking] window.google.maps.places n\'est pas disponible');
+            if (!window.google || !window.google.maps || !window.google.maps.places) {
+                console.warn('⚠️ [Booking] Google Maps Places API non disponible');
                 return false;
             }
 
@@ -880,12 +872,8 @@
             const departureInput = document.getElementById('departure');
             const arrivalInput = document.getElementById('arrival');
 
-            if (!departureInput) {
-                console.warn('⚠️ [Booking] Champ "departure" non trouvé dans le DOM');
-                return false;
-            }
-            if (!arrivalInput) {
-                console.warn('⚠️ [Booking] Champ "arrival" non trouvé dans le DOM');
+            if (!departureInput || !arrivalInput) {
+                console.warn('⚠️ [Booking] Les champs d\'adresse ne sont pas trouvés dans le DOM');
                 return false;
             }
 
@@ -896,42 +884,95 @@
             }
 
             try {
-                const options = {
-                    types: ['address'],
-                    componentRestrictions: { country: ['fr'] },
-                    fields: ['formatted_address', 'geometry', 'name', 'address_components']
-                };
-
-                console.log('🔧 [Booking] Création des instances Autocomplete...');
-                const departureAutocomplete = new google.maps.places.Autocomplete(departureInput, options);
-                const arrivalAutocomplete = new google.maps.places.Autocomplete(arrivalInput, options);
+                console.log('🔧 [Booking] Initialisation avec AutocompleteService...');
                 
-                // Mettre à jour le champ avec l'adresse complète formatée
-                departureAutocomplete.addListener('place_changed', function() {
-                    const place = departureAutocomplete.getPlace();
-                    if (place.formatted_address) {
-                        departureInput.value = place.formatted_address;
-                        departureInput.setAttribute('data-full-address', place.formatted_address);
-                    }
-                });
+                // Créer le service AutocompleteService
+                const autocompleteService = new google.maps.places.AutocompleteService();
                 
-                arrivalAutocomplete.addListener('place_changed', function() {
-                    const place = arrivalAutocomplete.getPlace();
-                    if (place.formatted_address) {
-                        arrivalInput.value = place.formatted_address;
-                        arrivalInput.setAttribute('data-full-address', place.formatted_address);
+                // Fonction pour créer l'autocomplétion personnalisée
+                function createCustomAutocomplete(input, fieldName) {
+                    const container = document.createElement('div');
+                    container.className = 'pac-container custom-autocomplete';
+                    container.style.cssText = 'position: absolute; z-index: 999999; background: white; border: 1px solid #e9ecef; border-radius: 8px; box-shadow: 0 8px 32px rgba(0,0,0,0.16); max-height: 300px; overflow-y: auto; display: none; width: ' + input.offsetWidth + 'px;';
+                    document.body.appendChild(container);
+                    
+                    function showSuggestions(predictions) {
+                        if (!predictions || predictions.length === 0) {
+                            container.style.display = 'none';
+                            return;
+                        }
+                        
+                        container.innerHTML = '';
+                        predictions.forEach((prediction) => {
+                            const item = document.createElement('div');
+                            item.className = 'pac-item custom-pac-item';
+                            item.style.cssText = 'padding: 10px 15px; cursor: pointer; border-bottom: 1px solid #e9ecef;';
+                            item.innerHTML = '<span style="font-weight: 600;">' + prediction.structured_formatting.main_text + '</span><br><span style="color: #6c757d; font-size: 0.9em;">' + prediction.structured_formatting.secondary_text + '</span>';
+                            
+                            item.addEventListener('mouseenter', () => item.style.background = '#f8f9fa');
+                            item.addEventListener('mouseleave', () => item.style.background = 'white');
+                            item.addEventListener('click', () => {
+                                const service = new google.maps.places.PlacesService(document.createElement('div'));
+                                service.getDetails({
+                                    placeId: prediction.place_id,
+                                    fields: ['formatted_address', 'geometry', 'name', 'address_components']
+                                }, (place, status) => {
+                                    if (status === google.maps.places.PlacesServiceStatus.OK && place) {
+                                        input.value = place.formatted_address;
+                                        input.setAttribute('data-full-address', place.formatted_address);
+                                        container.style.display = 'none';
+                                    }
+                                });
+                            });
+                            container.appendChild(item);
+                        });
+                        
+                        const rect = input.getBoundingClientRect();
+                        container.style.top = (rect.bottom + window.scrollY + 5) + 'px';
+                        container.style.left = (rect.left + window.scrollX) + 'px';
+                        container.style.display = 'block';
                     }
-                });
-
-                // Marquer comme initialisé
+                    
+                    let timeout;
+                    input.addEventListener('input', (e) => {
+                        clearTimeout(timeout);
+                        const query = e.target.value.trim();
+                        if (query.length < 3) {
+                            container.style.display = 'none';
+                            return;
+                        }
+                        timeout = setTimeout(() => {
+                            autocompleteService.getPlacePredictions({
+                                input: query,
+                                componentRestrictions: { country: 'fr' },
+                                types: ['address']
+                            }, (predictions, status) => {
+                                if (status === google.maps.places.PlacesServiceStatus.OK) {
+                                    showSuggestions(predictions);
+                                } else {
+                                    container.style.display = 'none';
+                                }
+                            });
+                        }, 300);
+                    });
+                    
+                    document.addEventListener('click', (e) => {
+                        if (!input.contains(e.target) && !container.contains(e.target)) {
+                            container.style.display = 'none';
+                        }
+                    });
+                }
+                
+                createCustomAutocomplete(departureInput, 'départ');
+                createCustomAutocomplete(arrivalInput, 'arrivée');
+                
                 departureInput.setAttribute('data-autocomplete-initialized', 'true');
                 arrivalInput.setAttribute('data-autocomplete-initialized', 'true');
                 
-                console.log('✅ [Booking] Autocomplétion Google Maps initialisée avec succès');
+                console.log('✅ [Booking] Autocomplétion Google Maps initialisée avec succès via AutocompleteService');
                 return true;
             } catch (error) {
                 console.error('❌ [Booking] Erreur lors de l\'initialisation de l\'autocomplétion:', error);
-                console.error('Détails de l\'erreur:', error.message, error.stack);
                 return false;
             }
         }
@@ -1014,6 +1055,6 @@
             }
         }
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBj-30c7SBJUcHHdw_hBT17jtH__NRz0L8&libraries=places&callback=initBookingAutocomplete" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBj-30c7SBJUcHHdw_hBT17jtH__NRz0L8&libraries=places&loading=async&callback=initBookingAutocomplete" async defer></script>
 </body>
 </html>
