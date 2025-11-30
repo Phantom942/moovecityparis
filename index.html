@@ -1579,9 +1579,11 @@
             margin-top: 5px !important;
             font-family: var(--font-family) !important;
             max-width: none !important;
-            width: auto !important;
+            width: 100% !important;
             min-width: 300px !important;
             overflow: visible !important;
+            top: 100% !important;
+            left: 0 !important;
         }
         
         /* S'assurer que le conteneur parent permet l'affichage */
@@ -2341,30 +2343,130 @@
                 }
 
                 try {
-                    const options = {
-                        componentRestrictions: { country: 'fr' },
-                        fields: ['formatted_address', 'geometry', 'name', 'address_components'],
-                        types: ['address']
-                    };
-
-                    departAutocompleteInstance = new google.maps.places.Autocomplete(departInput, options);
-                    arriveeAutocompleteInstance = new google.maps.places.Autocomplete(arriveeInput, options);
+                    const autocompleteService = new google.maps.places.AutocompleteService();
                     
-                    departAutocompleteInstance.addListener('place_changed', function() {
-                        const place = departAutocompleteInstance.getPlace();
-                        if (place.formatted_address) {
-                            departInput.value = place.formatted_address;
-                            departInput.setAttribute('data-full-address', place.formatted_address);
+                    function setupCustomAutocomplete(input, fieldName) {
+                        let container = null;
+                        let selectedIndex = -1;
+                        let predictions = [];
+                        
+                        // Créer le conteneur pour les suggestions
+                        container = document.createElement('div');
+                        container.className = 'pac-container custom-autocomplete';
+                        container.style.cssText = 'position: absolute; z-index: 999999; background: white; border: 1px solid #e9ecef; border-radius: 8px; box-shadow: 0 8px 32px rgba(0,0,0,0.16); max-height: 300px; overflow-y: auto; display: none; width: 100%; margin-top: 5px;';
+                        
+                        // Insérer le conteneur après le champ
+                        const formGroup = input.closest('.form-group');
+                        if (formGroup) {
+                            formGroup.style.position = 'relative';
+                            formGroup.appendChild(container);
+                        } else {
+                            input.parentNode.appendChild(container);
                         }
-                    });
+                        
+                        function showSuggestions(preds) {
+                            predictions = preds || [];
+                            if (predictions.length === 0) {
+                                container.style.display = 'none';
+                                return;
+                            }
+                            
+                            container.innerHTML = '';
+                            selectedIndex = -1;
+                            
+                            predictions.forEach((prediction, index) => {
+                                const item = document.createElement('div');
+                                item.className = 'pac-item';
+                                item.style.cssText = 'padding: 12px 15px; cursor: pointer; border-bottom: 1px solid #e9ecef; transition: background 0.2s;';
+                                item.innerHTML = '<div style="font-weight: 600; color: #2c3e50;">' + prediction.structured_formatting.main_text + '</div><div style="color: #6c757d; font-size: 0.9em; margin-top: 4px;">' + prediction.structured_formatting.secondary_text + '</div>';
+                                
+                                item.addEventListener('mouseenter', () => {
+                                    item.style.background = '#f8f9fa';
+                                });
+                                item.addEventListener('mouseleave', () => {
+                                    item.style.background = 'white';
+                                });
+                                item.addEventListener('click', () => {
+                                    selectPlace(prediction);
+                                });
+                                
+                                container.appendChild(item);
+                            });
+                            
+                            container.style.display = 'block';
+                        }
+                        
+                        function selectPlace(prediction) {
+                            const service = new google.maps.places.PlacesService(document.createElement('div'));
+                            service.getDetails({
+                                placeId: prediction.place_id,
+                                fields: ['formatted_address', 'geometry', 'name', 'address_components']
+                            }, (place, status) => {
+                                if (status === google.maps.places.PlacesServiceStatus.OK && place) {
+                                    input.value = place.formatted_address;
+                                    input.setAttribute('data-full-address', place.formatted_address);
+                                    container.style.display = 'none';
+                                }
+                            });
+                        }
+                        
+                        let timeout;
+                        input.addEventListener('input', (e) => {
+                            clearTimeout(timeout);
+                            const query = e.target.value.trim();
+                            
+                            if (query.length < 3) {
+                                container.style.display = 'none';
+                                return;
+                            }
+                            
+                            timeout = setTimeout(() => {
+                                autocompleteService.getPlacePredictions({
+                                    input: query,
+                                    componentRestrictions: { country: 'fr' },
+                                    types: ['address']
+                                }, (preds, status) => {
+                                    if (status === google.maps.places.PlacesServiceStatus.OK && preds) {
+                                        showSuggestions(preds);
+                                    } else {
+                                        container.style.display = 'none';
+                                    }
+                                });
+                            }, 300);
+                        });
+                        
+                        input.addEventListener('keydown', (e) => {
+                            const items = container.querySelectorAll('.pac-item');
+                            if (items.length === 0) return;
+                            
+                            if (e.key === 'ArrowDown') {
+                                e.preventDefault();
+                                selectedIndex = Math.min(selectedIndex + 1, items.length - 1);
+                                items[selectedIndex].scrollIntoView({ block: 'nearest' });
+                                items.forEach((item, i) => {
+                                    item.style.background = i === selectedIndex ? '#f8f9fa' : 'white';
+                                });
+                            } else if (e.key === 'ArrowUp') {
+                                e.preventDefault();
+                                selectedIndex = Math.max(selectedIndex - 1, -1);
+                                items.forEach((item, i) => {
+                                    item.style.background = i === selectedIndex ? '#f8f9fa' : 'white';
+                                });
+                            } else if (e.key === 'Enter' && selectedIndex >= 0) {
+                                e.preventDefault();
+                                selectPlace(predictions[selectedIndex]);
+                            }
+                        });
+                        
+                        document.addEventListener('click', (e) => {
+                            if (!input.contains(e.target) && !container.contains(e.target)) {
+                                container.style.display = 'none';
+                            }
+                        });
+                    }
                     
-                    arriveeAutocompleteInstance.addListener('place_changed', function() {
-                        const place = arriveeAutocompleteInstance.getPlace();
-                        if (place.formatted_address) {
-                            arriveeInput.value = place.formatted_address;
-                            arriveeInput.setAttribute('data-full-address', place.formatted_address);
-                        }
-                    });
+                    setupCustomAutocomplete(departInput, 'départ');
+                    setupCustomAutocomplete(arriveeInput, 'arrivée');
                     
                     departInput.setAttribute('data-autocomplete-initialized', 'true');
                     arriveeInput.setAttribute('data-autocomplete-initialized', 'true');
