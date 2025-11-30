@@ -340,7 +340,6 @@
     </script>
     
     <!-- Google Maps Places API -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBj-30c7SBJUcHHdw_hBT17jtH__NRz0L8&libraries=places" async defer></script>
     <script>
         // Gestion des erreurs de chargement de l'API
         window.gm_authFailure = function() {
@@ -360,85 +359,23 @@
             console.error('   - http://localhost:* (pour tester en local)');
         };
         
-        // Fonction pour initialiser l'autocomplétion - approche simplifiée
-        function initGoogleMapsAutocomplete() {
-            // Vérifier que l'API est chargée
-            if (!window.google || !window.google.maps || !window.google.maps.places) {
-                setTimeout(initGoogleMapsAutocomplete, 200);
-                return;
-            }
-            
-            const departInput = document.getElementById('depart');
-            const arriveeInput = document.getElementById('arrivee');
-            
-            if (!departInput || !arriveeInput) {
-                setTimeout(initGoogleMapsAutocomplete, 200);
-                return;
-            }
-            
-            // Vérifier si déjà initialisé
-            if (departInput.getAttribute('data-gmaps-init') === 'true') {
-                return;
-            }
-            
-            try {
-                const options = {
-                    componentRestrictions: { country: 'fr' },
-                    fields: ['formatted_address', 'geometry', 'name'],
-                    types: ['address']
-                };
-                
-                new google.maps.places.Autocomplete(departInput, options);
-                new google.maps.places.Autocomplete(arriveeInput, options);
-                
-                departInput.setAttribute('data-gmaps-init', 'true');
-                arriveeInput.setAttribute('data-gmaps-init', 'true');
-                
-            } catch (error) {
-                console.error('❌ Erreur autocomplétion:', error);
-                if (error.message && error.message.includes('referer')) {
-                    console.error('⚠️ PROBLÈME DE RESTRICTION DE CLÉ API DÉTECTÉ !');
-                    console.error('Votre clé API est probablement restreinte par domaine.');
-                    console.error('Vérifiez les restrictions dans Google Cloud Console.');
+        // Callback pour initialiser l'autocomplétion quand Google Maps est chargé
+        window.initGoogleMapsPlaces = function() {
+            window.googleMapsLoaded = true;
+            // Attendre que le DOM soit prêt et que setupPlacesAutocomplete soit définie
+            function tryInit() {
+                if (window.setupPlacesAutocomplete && document.getElementById('depart') && document.getElementById('arrivee')) {
+                    window.setupPlacesAutocomplete();
+                } else if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', tryInit);
+                } else {
+                    setTimeout(tryInit, 100);
                 }
             }
-        }
-        
-        // Initialiser après chargement du DOM
-        function startInit() {
-            // Essayer plusieurs fois pour être sûr
-            setTimeout(initGoogleMapsAutocomplete, 300);
-            setTimeout(initGoogleMapsAutocomplete, 800);
-            setTimeout(initGoogleMapsAutocomplete, 1500);
-            setTimeout(initGoogleMapsAutocomplete, 2500);
-        }
-        
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', startInit);
-        } else {
-            startInit();
-        }
-        
-        // Aussi essayer après chargement complet
-        window.addEventListener('load', function() {
-            setTimeout(initGoogleMapsAutocomplete, 500);
-        });
-        
-        // Exposer la fonction globalement pour test manuel
-        window.testGoogleMaps = function() {
-            console.log('Test Google Maps:');
-            console.log('API chargée:', !!window.google);
-            console.log('Places disponible:', !!(window.google && window.google.maps && window.google.maps.places));
-            const depart = document.getElementById('depart');
-            const arrivee = document.getElementById('arrivee');
-            console.log('Champ départ trouvé:', !!depart);
-            console.log('Champ arrivée trouvé:', !!arrivee);
-            if (depart && arrivee && window.google && window.google.maps && window.google.maps.places) {
-                initGoogleMapsAutocomplete();
-                console.log('Initialisation forcée effectuée');
-            }
+            tryInit();
         };
     </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBj-30c7SBJUcHHdw_hBT17jtH__NRz0L8&libraries=places&callback=initGoogleMapsPlaces" async defer></script>
     
     <style>
         /* Reset & Base Styles */
