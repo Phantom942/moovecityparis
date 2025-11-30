@@ -2397,6 +2397,12 @@
                         }
                         
                         function selectPlace(prediction) {
+                            // Fermer immédiatement le conteneur
+                            container.style.display = 'none';
+                            
+                            // Mettre la valeur de la prédiction en attendant les détails complets
+                            input.value = prediction.description || prediction.structured_formatting.main_text + ', ' + prediction.structured_formatting.secondary_text;
+                            
                             const service = new google.maps.places.PlacesService(document.createElement('div'));
                             service.getDetails({
                                 placeId: prediction.place_id,
@@ -2405,7 +2411,6 @@
                                 if (status === google.maps.places.PlacesServiceStatus.OK && place) {
                                     input.value = place.formatted_address;
                                     input.setAttribute('data-full-address', place.formatted_address);
-                                    container.style.display = 'none';
                                 }
                             });
                         }
@@ -2415,7 +2420,7 @@
                             clearTimeout(timeout);
                             const query = e.target.value.trim();
                             
-                            if (query.length < 3) {
+                            if (query.length < 1) {
                                 container.style.display = 'none';
                                 return;
                             }
@@ -2432,7 +2437,7 @@
                                         container.style.display = 'none';
                                     }
                                 });
-                            }, 300);
+                            }, 150);
                         });
                         
                         input.addEventListener('keydown', (e) => {
