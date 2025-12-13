@@ -287,7 +287,7 @@
                 "name": "Quels sont les tarifs pour un transport avec chauffeur à Paris ?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Nos tarifs varient selon le volume, la distance et le type de service. Le camion URBAN (6m³) démarre à partir de 40€, l'EXPRESS (8-10m³) à partir de 50€, le PREMIUM (12-14m³) à partir de 60€ et le TITAN (20m³) à partir de 100€. Demandez un devis gratuit instantané en ligne pour connaître le prix exact de votre transport."
+                    "text": "Nos tarifs varient selon le volume, la distance et le type de service. Le camion URBAN (6m³) démarre à partir de 50€, l'EXPRESS (8-10m³) à partir de 60€, le PREMIUM (12-14m³) à partir de 70€ et le TITAN (20m³) à partir de 110€. Demandez un devis gratuit instantané en ligne pour connaître le prix exact de votre transport."
                 }
             },
             {
@@ -2258,22 +2258,22 @@
             <div class="services-grid">
                 <div class="service-card scale-in stagger-delay-1" data-vehicle="urban">
                     <h3>URBAN</h3>
-                    <p><strong>6m³</strong><br>Parfait pour la ville, manœuvrable et efficace. Idéal pour vos courses et livraisons express.<br><span class="service-price">À partir de 40€</span></p>
+                    <p><strong>6m³</strong><br>Parfait pour la ville, manœuvrable et efficace. Idéal pour vos courses et livraisons express.<br><span class="service-price">À partir de 50€</span></p>
                     <a class="service-link" href="urban.html" title="Découvrir le camion URBAN 6m³ pour transport express Paris">Découvrir le camion URBAN 6m³</a>
                 </div>
                 <div class="service-card scale-in stagger-delay-2" data-vehicle="express">
                     <h3>EXPRESS</h3>
-                    <p><strong>8 à 10m³</strong><br>Rapidité et fiabilité pour vos livraisons express et courses urgentes. Intervention dans l'heure.<br><span class="service-price">À partir de 50€</span></p>
+                    <p><strong>8 à 10m³</strong><br>Rapidité et fiabilité pour vos livraisons express et courses urgentes. Intervention dans l'heure.<br><span class="service-price">À partir de 60€</span></p>
                     <a class="service-link" href="express.html" title="Découvrir le camion EXPRESS 8-10m³ pour livraison express Paris">Découvrir le camion EXPRESS 8-10m³</a>
                 </div>
                 <div class="service-card scale-in stagger-delay-3" data-vehicle="premium">
                     <h3>PREMIUM</h3>
-                    <p><strong>12m³ à 14m³</strong><br>Confort et espace pour vos transports et déménagements importants.<br><span class="service-price">À partir de 60€</span></p>
+                    <p><strong>12m³ à 14m³</strong><br>Confort et espace pour vos transports et déménagements importants.<br><span class="service-price">À partir de 70€</span></p>
                     <a class="service-link" href="premium.html" title="Découvrir le camion PREMIUM 12-14m³ pour déménagement Paris">Découvrir le camion PREMIUM 12-14m³</a>
                 </div>
                 <div class="service-card scale-in stagger-delay-4" data-vehicle="titan">
                     <h3>TITAN</h3>
-                    <p><strong>20 m³</strong><br>Avec hayon (500kg max). La puissance pour les gros volumes de déménagement et transport.<br><span class="service-price">À partir de 100€</span></p>
+                    <p><strong>20 m³</strong><br>Avec hayon (500kg max). La puissance pour les gros volumes de déménagement et transport.<br><span class="service-price">À partir de 110€</span></p>
                     <a class="service-link" href="titan.html" title="Découvrir le camion TITAN 20m³ avec hayon pour déménagement complet Paris">Découvrir le camion TITAN 20m³</a>
                 </div>
             </div>
@@ -2405,7 +2405,7 @@
                 </details>
                 <details class="faq-item fade-in stagger-delay-4">
                     <summary>Quels sont les tarifs pour un transport avec chauffeur à Paris&nbsp;?</summary>
-                    <div>Nos tarifs varient selon le volume, la distance et le type de service. Le camion URBAN (6m³) démarre à partir de 40€, l'EXPRESS (8-10m³) à partir de 50€, le PREMIUM (12-14m³) à partir de 60€ et le TITAN (20m³) à partir de 100€. Demandez un devis gratuit instantané en ligne pour connaître le prix exact de votre transport.</div>
+                    <div>Nos tarifs varient selon le volume, la distance et le type de service. Le camion URBAN (6m³) démarre à partir de 50€, l'EXPRESS (8-10m³) à partir de 60€, le PREMIUM (12-14m³) à partir de 70€ et le TITAN (20m³) à partir de 110€. Demandez un devis gratuit instantané en ligne pour connaître le prix exact de votre transport.</div>
                 </details>
                 <details class="faq-item fade-in stagger-delay-5">
                     <summary>Proposez-vous des services de déménagement pour studios et petits appartements&nbsp;?</summary>
@@ -2643,47 +2643,146 @@
 
         (function () {
             const SERVICE_PRICES = {
-                urban: { label: 'À partir de 40€', basePrice: 40 },
-                express: { label: 'À partir de 50€', basePrice: 50 },
-                premium: { label: 'À partir de 60€', basePrice: 60 },
-                titan: { label: 'À partir de 100€', basePrice: 100 }
+                urban: { 
+                    label: 'À partir de 50€', 
+                    basePrice: 50,
+                    pricePerKm: 0.75,      // 0.75€/km pour URBAN
+                    pricePerHour: 18,     // 18€/h pour URBAN
+                    minPrice: 50         // Prix minimum garanti
+                },
+                express: { 
+                    label: 'À partir de 60€', 
+                    basePrice: 60,
+                    pricePerKm: 1.0,      // 1.0€/km pour EXPRESS
+                    pricePerHour: 22,    // 22€/h pour EXPRESS
+                    minPrice: 60
+                },
+                premium: { 
+                    label: 'À partir de 70€', 
+                    basePrice: 70,
+                    pricePerKm: 1.25,     // 1.25€/km pour PREMIUM
+                    pricePerHour: 26,    // 26€/h pour PREMIUM
+                    minPrice: 70
+                },
+                titan: { 
+                    label: 'À partir de 110€', 
+                    basePrice: 110,
+                    pricePerKm: 1.75,     // 1.75€/km pour TITAN
+                    pricePerHour: 32,    // 32€/h pour TITAN
+                    minPrice: 110
+                }
             };
 
-            // Fonction de calcul du prix avec 10€ par heure
+            // Fonction de calcul du prix améliorée avec tarifs progressifs
             function calculatePrice(vehicleKey, durationHours) {
                 if (!vehicleKey || !durationHours) return null;
                 const vehicle = SERVICE_PRICES[vehicleKey];
                 if (!vehicle) return null;
                 const basePrice = vehicle.basePrice;
-                const hourlyRate = 10; // 10€ par heure
+                const hourlyRate = vehicle.pricePerHour;
                 const totalPrice = basePrice + (durationHours * hourlyRate);
-                return Math.round(totalPrice);
+                return Math.max(Math.round(totalPrice), vehicle.minPrice);
+            }
+
+            // Fonction de calcul du prix avec distance (algorithme amélioré)
+            function calculatePriceWithDistanceImproved(vehicleKey, distanceKm, durationMinutes) {
+                if (!vehicleKey) return null;
+                const vehicle = SERVICE_PRICES[vehicleKey];
+                if (!vehicle) return null;
+                
+                const basePrice = vehicle.basePrice;
+                const pricePerKm = vehicle.pricePerKm;
+                const pricePerHour = vehicle.pricePerHour;
+                const minPrice = vehicle.minPrice;
+                
+                // Calcul de la durée en heures (arrondi à la demi-heure supérieure)
+                const durationHours = Math.max(0.5, Math.ceil(durationMinutes / 30) * 0.5);
+                
+                // Tarif progressif selon la distance
+                let distanceCost = 0;
+                if (distanceKm <= 5) {
+                    // Premiers 5 km : tarif réduit
+                    distanceCost = distanceKm * pricePerKm * 0.8;
+                } else if (distanceKm <= 15) {
+                    // Entre 5 et 15 km : tarif normal
+                    distanceCost = (5 * pricePerKm * 0.8) + ((distanceKm - 5) * pricePerKm);
+                } else {
+                    // Au-delà de 15 km : tarif normal
+                    distanceCost = (5 * pricePerKm * 0.8) + (10 * pricePerKm) + ((distanceKm - 15) * pricePerKm);
+                }
+                
+                // Coût de la durée
+                const durationCost = durationHours * pricePerHour;
+                
+                // Calcul du prix total
+                let totalPrice = basePrice + distanceCost + durationCost;
+                
+                // Majoration selon l'heure (pics de trafic : 7h-9h et 17h-19h)
+                const currentHour = new Date().getHours();
+                if ((currentHour >= 7 && currentHour < 9) || (currentHour >= 17 && currentHour < 19)) {
+                    totalPrice = totalPrice * 1.15; // +15% en heures de pointe
+                }
+                
+                // Majoration weekend (samedi et dimanche)
+                const currentDay = new Date().getDay();
+                if (currentDay === 0 || currentDay === 6) {
+                    totalPrice = totalPrice * 1.1; // +10% le weekend
+                }
+                
+                // Application du prix minimum
+                totalPrice = Math.max(totalPrice, minPrice);
+                
+                return {
+                    total: Math.round(totalPrice),
+                    base: basePrice,
+                    distance: Math.round(distanceCost * 100) / 100,
+                    duration: Math.round(durationCost * 100) / 100,
+                    distanceKm: Math.round(distanceKm * 10) / 10,
+                    durationMinutes: Math.round(durationMinutes),
+                    durationHours: Math.round(durationHours * 10) / 10,
+                    isPeakHours: (currentHour >= 7 && currentHour < 9) || (currentHour >= 17 && currentHour < 19),
+                    isWeekend: currentDay === 0 || currentDay === 6
+                };
             }
 
             // Exposer la fonction globalement
             window.calculatePrice = calculatePrice;
+            
+            // Cache des références DOM pour le calculateur de prix
+            const priceCalculatorCache = {
+                elements: null,
+                init: function() {
+                    if (!this.elements) {
+                        this.elements = {
+                            depart: document.getElementById('depart'),
+                            arrivee: document.getElementById('arrivee'),
+                            vehicle: document.getElementById('vehicle'),
+                            calculator: document.getElementById('price-calculator'),
+                            priceResult: document.getElementById('calculated-price'),
+                            priceDetails: document.getElementById('price-details'),
+                            priceNote: document.getElementById('price-note'),
+                            priceLoading: document.getElementById('price-loading')
+                        };
+                    }
+                    return this.elements;
+                }
+            };
             
             // Fonction pour calculer le prix avec distance
             let priceCalculationTimeout;
             function calculatePriceWithDistance() {
                 clearTimeout(priceCalculationTimeout);
                 priceCalculationTimeout = setTimeout(() => {
-                    const departInput = document.getElementById('depart');
-                    const arriveeInput = document.getElementById('arrivee');
-                    const vehicleSelect = document.getElementById('vehicle');
-                    const calculatorDiv = document.getElementById('price-calculator');
-                    const priceResult = document.getElementById('calculated-price');
-                    const priceDetails = document.getElementById('price-details');
-                    const priceNote = document.getElementById('price-note');
-                    const priceLoading = document.getElementById('price-loading');
+                    const elements = priceCalculatorCache.init();
                     
-                    if (!departInput || !arriveeInput || !vehicleSelect || !calculatorDiv || !priceResult) {
+                    if (!elements.depart || !elements.arrivee || !elements.vehicle || 
+                        !elements.calculator || !elements.priceResult) {
                         return;
                     }
                     
-                    const departAddress = departInput.getAttribute('data-full-address') || departInput.value.trim();
-                    const arriveeAddress = arriveeInput.getAttribute('data-full-address') || arriveeInput.value.trim();
-                    const vehicleValue = vehicleSelect.value;
+                    const departAddress = elements.depart.getAttribute('data-full-address') || elements.depart.value.trim();
+                    const arriveeAddress = elements.arrivee.getAttribute('data-full-address') || elements.arrivee.value.trim();
+                    const vehicleValue = elements.vehicle.value;
                     
                     // Déterminer le véhicule
                     let vehicleKey = null;
@@ -2694,7 +2793,7 @@
                     
                     // Vérifier si le véhicule est sélectionné
                     if (!vehicleKey) {
-                        calculatorDiv.style.display = 'none';
+                        elements.calculator.style.display = 'none';
                         return;
                     }
                     
@@ -2703,12 +2802,12 @@
                     const hasArrivee = arriveeAddress && arriveeAddress.length > 3;
                     
                     // Afficher le calculateur même si les adresses ne sont pas complètes (estimation basique)
-                    calculatorDiv.style.display = 'block';
-                    calculatorDiv.style.visibility = 'visible';
-                    calculatorDiv.style.opacity = '1';
-                    priceLoading.style.display = hasDepart && hasArrivee ? 'block' : 'none';
-                    priceResult.textContent = '--€';
-                    priceDetails.textContent = '';
+                    elements.calculator.style.display = 'block';
+                    elements.calculator.style.visibility = 'visible';
+                    elements.calculator.style.opacity = '1';
+                    elements.priceLoading.style.display = hasDepart && hasArrivee ? 'block' : 'none';
+                    elements.priceResult.textContent = '--€';
+                    elements.priceDetails.textContent = '';
                     
                     // Si les adresses ne sont pas complètes, afficher une estimation basique
                     if (!hasDepart || !hasArrivee) {
@@ -2716,14 +2815,42 @@
                         const estimatedDuration = 2;
                         const estimatedPrice = calculatePrice(vehicleKey, estimatedDuration);
                         
-                        priceResult.textContent = estimatedPrice + '€';
-                        priceDetails.innerHTML = '<div style="color: #64748b; font-size: 0.85rem;">Estimation basique (2h)</div>';
-                        priceNote.textContent = `* ${vehicle.basePrice}€ (base) + ${estimatedDuration}h × 10€/h = ${estimatedPrice}€ (estimation)`;
+                        elements.priceResult.textContent = estimatedPrice + '€';
+                        elements.priceDetails.innerHTML = '<div style="color: #64748b; font-size: 0.85rem;">Estimation basique (2h)</div>';
+                        elements.priceNote.textContent = `* ${vehicle.basePrice}€ (base) + ${estimatedDuration}h × 10€/h = ${estimatedPrice}€ (estimation)`;
                         return;
                     }
                     
-                    // Utiliser Google Maps Distance Matrix API
+                    // Utiliser Google Maps Distance Matrix API (avec cache pour éviter les appels répétés)
+                    const cacheKey = `${departAddress}|${arriveeAddress}|${vehicleKey}`;
                     if (typeof google !== 'undefined' && google.maps && google.maps.DistanceMatrixService) {
+                        // Vérifier le cache (sessionStorage pour éviter les appels API répétés)
+                        const cacheId = 'priceCalc_' + btoa(cacheKey).substring(0, 50);
+                        const cachedResult = sessionStorage.getItem(cacheId);
+                        if (cachedResult) {
+                            try {
+                                const cached = JSON.parse(cachedResult);
+                                if (Date.now() - cached.timestamp < 300000) { // Cache valide 5 minutes
+                                    // Vérifier si les conditions ont changé (heures de pointe, weekend)
+                                    const currentHour = new Date().getHours();
+                                    const currentDay = new Date().getDay();
+                                    const cachedIsPeakHours = (currentHour >= 7 && currentHour < 9) || (currentHour >= 17 && currentHour < 19);
+                                    const cachedIsWeekend = currentDay === 0 || currentDay === 6;
+                                    
+                                    // Si les conditions sont identiques, utiliser le cache
+                                    if (cached.isPeakHours === cachedIsPeakHours && cached.isWeekend === cachedIsWeekend) {
+                                        elements.priceLoading.style.display = 'none';
+                                        elements.priceResult.textContent = cached.price + '€';
+                                        elements.priceDetails.innerHTML = cached.details;
+                                        elements.priceNote.textContent = cached.note;
+                                        return;
+                                    }
+                                }
+                            } catch (e) {
+                                // Ignorer les erreurs de cache
+                            }
+                        }
+                        
                         const service = new google.maps.DistanceMatrixService();
                         service.getDistanceMatrix({
                             origins: [departAddress],
@@ -2731,90 +2858,132 @@
                             travelMode: google.maps.TravelMode.DRIVING,
                             unitSystem: google.maps.UnitSystem.METRIC
                         }, function(response, status) {
-                            priceLoading.style.display = 'none';
+                            elements.priceLoading.style.display = 'none';
                             
                             if (status === 'OK' && response.rows[0] && response.rows[0].elements[0]) {
                                 const element = response.rows[0].elements[0];
                                 const distanceKm = element.distance.value / 1000; // Convertir en km
                                 const durationMinutes = element.duration.value / 60; // Convertir en minutes
-                                const durationHours = Math.max(1, Math.ceil(durationMinutes / 60)); // Arrondir à l'heure supérieure, minimum 1h
                                 
-                                // Calcul du prix : prix de base + (distance × 0.5€/km) + (durée × 10€/h)
-                                const vehicle = SERVICE_PRICES[vehicleKey];
-                                const basePrice = vehicle.basePrice;
-                                const distanceCost = Math.round(distanceKm * 0.5); // 0.5€ par km
-                                const durationCost = durationHours * 10; // 10€ par heure
-                                const totalPrice = basePrice + distanceCost + durationCost;
+                                // Utiliser l'algorithme amélioré
+                                const calculation = calculatePriceWithDistanceImproved(vehicleKey, distanceKm, durationMinutes);
                                 
-                                priceResult.textContent = totalPrice + '€';
-                                priceDetails.innerHTML = `
-                                    <div style="display: flex; justify-content: space-around; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid rgba(15, 23, 42, 0.2);">
-                                        <div>
-                                            <div style="color: #64748b; font-size: 0.75rem; margin-bottom: 0.25rem;">Distance</div>
-                                            <div style="color: #0f172a; font-weight: 600; font-size: 1rem;">${Math.round(distanceKm)} km</div>
+                                // Construire le détail du calcul
+                                let detailText = `${calculation.base}€ (base) + ${calculation.distance.toFixed(2)}€ (distance) + ${calculation.duration.toFixed(2)}€ (durée)`;
+                                if (calculation.isPeakHours) {
+                                    detailText += ' + majoration heures de pointe';
+                                }
+                                if (calculation.isWeekend) {
+                                    detailText += ' + majoration weekend';
+                                }
+                                detailText += ` = ${calculation.total}€`;
+                                
+                                elements.priceResult.textContent = calculation.total + '€';
+                                elements.priceDetails.innerHTML = `
+                                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.5rem; margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid rgba(15, 23, 42, 0.2);">
+                                        <div style="text-align: center;">
+                                            <div style="color: #64748b; font-size: 0.7rem; margin-bottom: 0.25rem;">Distance</div>
+                                            <div style="color: #0f172a; font-weight: 600; font-size: 0.9rem;">${calculation.distanceKm} km</div>
                                         </div>
-                                        <div>
-                                            <div style="color: #64748b; font-size: 0.75rem; margin-bottom: 0.25rem;">Durée</div>
-                                            <div style="color: #0f172a; font-weight: 600; font-size: 1rem;">~${Math.round(durationMinutes)} min</div>
+                                        <div style="text-align: center;">
+                                            <div style="color: #64748b; font-size: 0.7rem; margin-bottom: 0.25rem;">Durée</div>
+                                            <div style="color: #0f172a; font-weight: 600; font-size: 0.9rem;">${calculation.durationMinutes} min</div>
                                         </div>
-                                        <div>
-                                            <div style="color: #64748b; font-size: 0.75rem; margin-bottom: 0.25rem;">Base</div>
-                                            <div style="color: #0f172a; font-weight: 600; font-size: 1rem;">${basePrice}€</div>
+                                        <div style="text-align: center;">
+                                            <div style="color: #64748b; font-size: 0.7rem; margin-bottom: 0.25rem;">Base</div>
+                                            <div style="color: #0f172a; font-weight: 600; font-size: 0.9rem;">${calculation.base}€</div>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <div style="color: #64748b; font-size: 0.7rem; margin-bottom: 0.25rem;">Total</div>
+                                            <div style="color: #10b981; font-weight: 700; font-size: 0.9rem;">${calculation.total}€</div>
                                         </div>
                                     </div>
+                                    ${calculation.isPeakHours || calculation.isWeekend ? `
+                                    <div style="margin-top: 0.5rem; padding: 0.5rem; background: rgba(255, 193, 7, 0.1); border-radius: 6px; text-align: center;">
+                                        <div style="color: #856404; font-size: 0.75rem;">
+                                            ${calculation.isPeakHours ? '⏰ Majoration heures de pointe (+15%)' : ''}
+                                            ${calculation.isPeakHours && calculation.isWeekend ? ' • ' : ''}
+                                            ${calculation.isWeekend ? '📅 Majoration weekend (+10%)' : ''}
+                                        </div>
+                                    </div>
+                                    ` : ''}
                                 `;
-                                priceNote.textContent = `* ${basePrice}€ (base) + ${distanceCost}€ (distance) + ${durationCost}€ (durée) = ${totalPrice}€`;
+                                elements.priceNote.textContent = `* ${detailText}`;
+                                
+                                // Mettre en cache le résultat
+                                try {
+                                    sessionStorage.setItem(cacheId, JSON.stringify({
+                                        price: calculation.total,
+                                        details: elements.priceDetails.innerHTML,
+                                        note: elements.priceNote.textContent,
+                                        timestamp: Date.now(),
+                                        isPeakHours: calculation.isPeakHours,
+                                        isWeekend: calculation.isWeekend
+                                    }));
+                                } catch (e) {
+                                    // Ignorer les erreurs de sessionStorage (quota, etc.)
+                                }
                             } else {
                                 // Si l'API ne fonctionne pas, utiliser une estimation basique
                                 const vehicle = SERVICE_PRICES[vehicleKey];
                                 const estimatedDuration = 2; // Estimation par défaut : 2 heures
                                 const estimatedPrice = calculatePrice(vehicleKey, estimatedDuration);
                                 
-                                priceResult.textContent = estimatedPrice + '€';
-                                priceDetails.textContent = 'Estimation basée sur 2h de transport';
-                                priceNote.textContent = `* ${vehicle.basePrice}€ (base) + ${estimatedDuration}h × 10€/h = ${estimatedPrice}€ (estimation)`;
+                                elements.priceResult.textContent = estimatedPrice + '€';
+                                elements.priceDetails.textContent = 'Estimation basée sur 2h de transport';
+                                elements.priceNote.textContent = `* ${vehicle.basePrice}€ (base) + ${estimatedDuration}h × 10€/h = ${estimatedPrice}€ (estimation)`;
                             }
                         });
                     } else {
                         // Fallback si Google Maps n'est pas chargé
-                        priceLoading.style.display = 'none';
+                        elements.priceLoading.style.display = 'none';
                         const vehicle = SERVICE_PRICES[vehicleKey];
                         const estimatedDuration = 2;
                         const estimatedPrice = calculatePrice(vehicleKey, estimatedDuration);
                         
-                        priceResult.textContent = estimatedPrice + '€';
-                        priceDetails.textContent = 'Estimation basée sur 2h de transport';
-                        priceNote.textContent = `* ${vehicle.basePrice}€ (base) + ${estimatedDuration}h × 10€/h = ${estimatedPrice}€ (estimation)`;
+                        elements.priceResult.textContent = estimatedPrice + '€';
+                        elements.priceDetails.textContent = 'Estimation basée sur 2h de transport';
+                        elements.priceNote.textContent = `* ${vehicle.basePrice}€ (base) + ${estimatedDuration}h × 10€/h = ${estimatedPrice}€ (estimation)`;
                     }
-                }, 500); // Délai de 500ms pour éviter trop de calculs
+                }, 600); // Debounce optimisé : 600ms pour réduire les appels API
             }
             
-            // Écouter les changements sur les champs
+            // Écouter les changements sur les champs (optimisé avec délégation d'événements)
             function setupPriceCalculator() {
-                const departInput = document.getElementById('depart');
-                const arriveeInput = document.getElementById('arrivee');
-                const vehicleSelect = document.getElementById('vehicle');
+                const elements = priceCalculatorCache.init();
                 
                 // Calculer immédiatement si un véhicule est déjà sélectionné
-                if (vehicleSelect && vehicleSelect.value) {
+                if (elements.vehicle && elements.vehicle.value) {
                     setTimeout(calculatePriceWithDistance, 100);
                 }
                 
-                if (departInput) {
-                    departInput.addEventListener('input', calculatePriceWithDistance);
-                    departInput.addEventListener('change', calculatePriceWithDistance);
-                    departInput.addEventListener('blur', calculatePriceWithDistance);
-                }
-                
-                if (arriveeInput) {
-                    arriveeInput.addEventListener('input', calculatePriceWithDistance);
-                    arriveeInput.addEventListener('change', calculatePriceWithDistance);
-                    arriveeInput.addEventListener('blur', calculatePriceWithDistance);
-                }
-                
-                if (vehicleSelect) {
-                    vehicleSelect.addEventListener('change', calculatePriceWithDistance);
-                    vehicleSelect.addEventListener('input', calculatePriceWithDistance);
+                // Utiliser un seul handler avec délégation d'événements
+                const bookingForm = elements.depart?.closest('.booking-form');
+                if (bookingForm) {
+                    bookingForm.addEventListener('input', function(e) {
+                        if (e.target.id === 'depart' || e.target.id === 'arrivee' || e.target.id === 'vehicle') {
+                            calculatePriceWithDistance();
+                        }
+                    });
+                    bookingForm.addEventListener('change', function(e) {
+                        if (e.target.id === 'depart' || e.target.id === 'arrivee' || e.target.id === 'vehicle') {
+                            calculatePriceWithDistance();
+                        }
+                    });
+                } else {
+                    // Fallback si la délégation ne fonctionne pas
+                    if (elements.depart) {
+                        elements.depart.addEventListener('input', calculatePriceWithDistance);
+                        elements.depart.addEventListener('change', calculatePriceWithDistance);
+                    }
+                    if (elements.arrivee) {
+                        elements.arrivee.addEventListener('input', calculatePriceWithDistance);
+                        elements.arrivee.addEventListener('change', calculatePriceWithDistance);
+                    }
+                    if (elements.vehicle) {
+                        elements.vehicle.addEventListener('change', calculatePriceWithDistance);
+                        elements.vehicle.addEventListener('input', calculatePriceWithDistance);
+                    }
                 }
             }
             
@@ -2831,17 +3000,6 @@
             
             // Initialiser immédiatement
             initPriceCalculator();
-            
-            // Vérifier périodiquement si un véhicule est sélectionné (pour le cas où le DOM change)
-            setInterval(function() {
-                const vehicleSelect = document.getElementById('vehicle');
-                if (vehicleSelect && vehicleSelect.value && document.getElementById('price-calculator')) {
-                    const calculator = document.getElementById('price-calculator');
-                    if (calculator && calculator.style.display === 'none') {
-                        calculatePriceWithDistance();
-                    }
-                }
-            }, 1000);
             
             // Réinitialiser quand Google Maps est chargé
             if (window.initGoogleMapsPlaces) {
