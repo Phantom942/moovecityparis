@@ -2948,12 +2948,19 @@
                         elements.priceDetails.textContent = 'Estimation basée sur 2h de transport';
                         elements.priceNote.textContent = `* ${vehicle.basePrice}€ (base) + ${estimatedDuration}h × 10€/h = ${estimatedPrice}€ (estimation)`;
                     }
-                }, 600); // Debounce optimisé : 600ms pour réduire les appels API
+                }, 400); // Debounce optimisé : 400ms pour une meilleure réactivité
             }
             
             // Écouter les changements sur les champs (optimisé avec délégation d'événements)
+            let priceCalculatorInitialized = false;
             function setupPriceCalculator() {
                 const elements = priceCalculatorCache.init();
+                
+                // Éviter d'ajouter plusieurs fois les mêmes listeners
+                if (priceCalculatorInitialized) {
+                    return;
+                }
+                priceCalculatorInitialized = true;
                 
                 // Calculer immédiatement si un véhicule est déjà sélectionné
                 if (elements.vehicle && elements.vehicle.value) {
@@ -2963,30 +2970,57 @@
                 // Utiliser un seul handler avec délégation d'événements
                 const bookingForm = elements.depart?.closest('.booking-form');
                 if (bookingForm) {
+                    // Écouter tous les types d'événements pour une réactivité maximale
                     bookingForm.addEventListener('input', function(e) {
                         if (e.target.id === 'depart' || e.target.id === 'arrivee' || e.target.id === 'vehicle') {
                             calculatePriceWithDistance();
                         }
-                    });
+                    }, { passive: true });
                     bookingForm.addEventListener('change', function(e) {
                         if (e.target.id === 'depart' || e.target.id === 'arrivee' || e.target.id === 'vehicle') {
                             calculatePriceWithDistance();
                         }
-                    });
+                    }, { passive: true });
+                    bookingForm.addEventListener('blur', function(e) {
+                        if (e.target.id === 'depart' || e.target.id === 'arrivee') {
+                            // Recalculer quand l'utilisateur quitte le champ
+                            setTimeout(calculatePriceWithDistance, 200);
+                        }
+                    }, { passive: true });
                 } else {
                     // Fallback si la délégation ne fonctionne pas
                     if (elements.depart) {
-                        elements.depart.addEventListener('input', calculatePriceWithDistance);
-                        elements.depart.addEventListener('change', calculatePriceWithDistance);
+                        elements.depart.addEventListener('input', calculatePriceWithDistance, { passive: true });
+                        elements.depart.addEventListener('change', calculatePriceWithDistance, { passive: true });
+                        elements.depart.addEventListener('blur', function() {
+                            setTimeout(calculatePriceWithDistance, 200);
+                        }, { passive: true });
                     }
                     if (elements.arrivee) {
-                        elements.arrivee.addEventListener('input', calculatePriceWithDistance);
-                        elements.arrivee.addEventListener('change', calculatePriceWithDistance);
+                        elements.arrivee.addEventListener('input', calculatePriceWithDistance, { passive: true });
+                        elements.arrivee.addEventListener('change', calculatePriceWithDistance, { passive: true });
+                        elements.arrivee.addEventListener('blur', function() {
+                            setTimeout(calculatePriceWithDistance, 200);
+                        }, { passive: true });
                     }
                     if (elements.vehicle) {
-                        elements.vehicle.addEventListener('change', calculatePriceWithDistance);
-                        elements.vehicle.addEventListener('input', calculatePriceWithDistance);
+                        elements.vehicle.addEventListener('change', calculatePriceWithDistance, { passive: true });
+                        elements.vehicle.addEventListener('input', calculatePriceWithDistance, { passive: true });
                     }
+                }
+                
+                // Observer les changements d'attributs (pour l'autocomplétion Google Maps)
+                if (elements.depart && elements.arrivee) {
+                    const observer = new MutationObserver(function(mutations) {
+                        mutations.forEach(function(mutation) {
+                            if (mutation.type === 'attributes' && mutation.attributeName === 'data-full-address') {
+                                calculatePriceWithDistance();
+                            }
+                        });
+                    });
+                    
+                    observer.observe(elements.depart, { attributes: true, attributeFilter: ['data-full-address'] });
+                    observer.observe(elements.arrivee, { attributes: true, attributeFilter: ['data-full-address'] });
                 }
             }
             
