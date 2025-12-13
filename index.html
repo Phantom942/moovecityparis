@@ -287,7 +287,7 @@
                 "name": "Quels sont les tarifs pour un transport avec chauffeur à Paris ?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Nos tarifs varient selon le volume, la distance et le type de service. Le camion URBAN (6m³) démarre à partir de 50€, l'EXPRESS (8-10m³) à partir de 60€, le PREMIUM (12-14m³) à partir de 70€ et le TITAN (20m³) à partir de 110€. Demandez un devis gratuit instantané en ligne pour connaître le prix exact de votre transport."
+                    "text": "Nos tarifs varient selon le volume, la distance et le type de service. Le camion URBAN (6m³) démarre à partir de 40€, l'EXPRESS (8-10m³) à partir de 50€, le PREMIUM (12-14m³) à partir de 70€ et le TITAN (20m³) à partir de 110€. Demandez un devis gratuit instantané en ligne pour connaître le prix exact de votre transport."
                 }
             },
             {
@@ -2258,12 +2258,12 @@
             <div class="services-grid">
                 <div class="service-card scale-in stagger-delay-1" data-vehicle="urban">
                     <h3>URBAN</h3>
-                    <p><strong>6m³</strong><br>Parfait pour la ville, manœuvrable et efficace. Idéal pour vos courses et livraisons express.<br><span class="service-price">À partir de 50€</span></p>
+                    <p><strong>6m³</strong><br>Parfait pour la ville, manœuvrable et efficace. Idéal pour vos courses et livraisons express.<br><span class="service-price">À partir de 40€</span></p>
                     <a class="service-link" href="urban.html" title="Découvrir le camion URBAN 6m³ pour transport express Paris">Découvrir le camion URBAN 6m³</a>
                 </div>
                 <div class="service-card scale-in stagger-delay-2" data-vehicle="express">
                     <h3>EXPRESS</h3>
-                    <p><strong>8 à 10m³</strong><br>Rapidité et fiabilité pour vos livraisons express et courses urgentes. Intervention dans l'heure.<br><span class="service-price">À partir de 60€</span></p>
+                    <p><strong>8 à 10m³</strong><br>Rapidité et fiabilité pour vos livraisons express et courses urgentes. Intervention dans l'heure.<br><span class="service-price">À partir de 50€</span></p>
                     <a class="service-link" href="express.html" title="Découvrir le camion EXPRESS 8-10m³ pour livraison express Paris">Découvrir le camion EXPRESS 8-10m³</a>
                 </div>
                 <div class="service-card scale-in stagger-delay-3" data-vehicle="premium">
@@ -2408,7 +2408,7 @@
                 </details>
                 <details class="faq-item fade-in stagger-delay-4">
                     <summary>Quels sont les tarifs pour un transport avec chauffeur à Paris&nbsp;?</summary>
-                    <div>Nos tarifs varient selon le volume, la distance et le type de service. Le camion URBAN (6m³) démarre à partir de 50€, l'EXPRESS (8-10m³) à partir de 60€, le PREMIUM (12-14m³) à partir de 70€ et le TITAN (20m³) à partir de 110€. Demandez un devis gratuit instantané en ligne pour connaître le prix exact de votre transport.</div>
+                    <div>Nos tarifs varient selon le volume, la distance et le type de service. Le camion URBAN (6m³) démarre à partir de 40€, l'EXPRESS (8-10m³) à partir de 50€, le PREMIUM (12-14m³) à partir de 70€ et le TITAN (20m³) à partir de 110€. Demandez un devis gratuit instantané en ligne pour connaître le prix exact de votre transport.</div>
                 </details>
                 <details class="faq-item fade-in stagger-delay-5">
                     <summary>Proposez-vous des services de déménagement pour studios et petits appartements&nbsp;?</summary>
@@ -2647,18 +2647,18 @@
         (function () {
             const SERVICE_PRICES = {
                 urban: { 
-                    label: 'À partir de 50€', 
-                    basePrice: 50,
+                    label: 'À partir de 40€', 
+                    basePrice: 40,
                     pricePerKm: 0.75,      // 0.75€/km pour URBAN
                     pricePerHour: 18,     // 18€/h pour URBAN
-                    minPrice: 50         // Prix minimum garanti
+                    minPrice: 40         // Prix minimum garanti
                 },
                 express: { 
-                    label: 'À partir de 60€', 
-                    basePrice: 60,
+                    label: 'À partir de 50€', 
+                    basePrice: 50,
                     pricePerKm: 1.0,      // 1.0€/km pour EXPRESS
                     pricePerHour: 22,    // 22€/h pour EXPRESS
-                    minPrice: 60
+                    minPrice: 50
                 },
                 premium: { 
                     label: 'À partir de 70€', 
@@ -2688,7 +2688,7 @@
             }
 
             // Fonction de calcul du prix avec distance (algorithme amélioré)
-            function calculatePriceWithDistanceImproved(vehicleKey, distanceKm, durationMinutes) {
+            function calculatePriceWithDistanceImproved(vehicleKey, distanceKm, durationMinutes, selectedDate, selectedTime) {
                 if (!vehicleKey) return null;
                 const vehicle = SERVICE_PRICES[vehicleKey];
                 if (!vehicle) return null;
@@ -2720,15 +2720,46 @@
                 // Calcul du prix total
                 let totalPrice = basePrice + distanceCost + durationCost;
                 
+                // Déterminer la date et l'heure de la réservation
+                let reservationDate = new Date();
+                let reservationHour = reservationDate.getHours();
+                let reservationDay = reservationDate.getDay();
+                
+                // Si une date est sélectionnée, l'utiliser
+                if (selectedDate) {
+                    try {
+                        const dateParts = selectedDate.split('-');
+                        if (dateParts.length === 3) {
+                            reservationDate = new Date(parseInt(dateParts[0]), parseInt(dateParts[1]) - 1, parseInt(dateParts[2]));
+                            reservationDay = reservationDate.getDay();
+                        }
+                    } catch (e) {
+                        // Si erreur de parsing, utiliser la date actuelle
+                    }
+                }
+                
+                // Si une heure est sélectionnée, l'utiliser
+                if (selectedTime && selectedTime !== '' && selectedTime !== 'Dès que possible') {
+                    try {
+                        // Format attendu : "HH:MM" ou "HHhMM"
+                        const timeMatch = selectedTime.match(/(\d{1,2})[h:](\d{2})?/);
+                        if (timeMatch) {
+                            reservationHour = parseInt(timeMatch[1]);
+                        }
+                    } catch (e) {
+                        // Si erreur de parsing, utiliser l'heure actuelle
+                    }
+                }
+                
                 // Majoration selon l'heure (pics de trafic : 7h-9h et 17h-19h)
-                const currentHour = new Date().getHours();
-                if ((currentHour >= 7 && currentHour < 9) || (currentHour >= 17 && currentHour < 19)) {
+                const isPeakHours = (reservationHour >= 7 && reservationHour < 9) || (reservationHour >= 17 && reservationHour < 19);
+                if (isPeakHours) {
                     totalPrice = totalPrice * 1.15; // +15% en heures de pointe
                 }
                 
                 // Majoration weekend (samedi et dimanche)
-                const currentDay = new Date().getDay();
-                if (currentDay === 0 || currentDay === 6) {
+                const isWeekend = reservationDay === 0 || reservationDay === 6;
+                if (isWeekend) {
                     totalPrice = totalPrice * 1.1; // +10% le weekend
                 }
                 
@@ -2743,8 +2774,8 @@
                     distanceKm: Math.round(distanceKm * 10) / 10,
                     durationMinutes: Math.round(durationMinutes),
                     durationHours: Math.round(durationHours * 10) / 10,
-                    isPeakHours: (currentHour >= 7 && currentHour < 9) || (currentHour >= 17 && currentHour < 19),
-                    isWeekend: currentDay === 0 || currentDay === 6
+                    isPeakHours: isPeakHours,
+                    isWeekend: isWeekend
                 };
             }
 
@@ -2787,6 +2818,12 @@
                     const arriveeAddress = elements.arrivee.getAttribute('data-full-address') || elements.arrivee.value.trim();
                     const vehicleValue = elements.vehicle.value;
                     
+                    // Récupérer la date et l'heure du formulaire
+                    const dateInput = document.getElementById('date');
+                    const heureSelect = document.getElementById('heure');
+                    const selectedDate = dateInput ? dateInput.value : null;
+                    const selectedTime = heureSelect ? heureSelect.value : null;
+                    
                     // Déterminer le véhicule
                     let vehicleKey = null;
                     if (vehicleValue && vehicleValue.includes('URBAN')) vehicleKey = 'urban';
@@ -2825,7 +2862,7 @@
                     }
                     
                     // Utiliser Google Maps Distance Matrix API (avec cache pour éviter les appels répétés)
-                    const cacheKey = `${departAddress}|${arriveeAddress}|${vehicleKey}`;
+                    const cacheKey = `${departAddress}|${arriveeAddress}|${vehicleKey}|${selectedDate || ''}|${selectedTime || ''}`;
                     if (typeof google !== 'undefined' && google.maps && google.maps.DistanceMatrixService) {
                         // Vérifier le cache (sessionStorage pour éviter les appels API répétés)
                         const cacheId = 'priceCalc_' + btoa(cacheKey).substring(0, 50);
@@ -2834,20 +2871,12 @@
                             try {
                                 const cached = JSON.parse(cachedResult);
                                 if (Date.now() - cached.timestamp < 300000) { // Cache valide 5 minutes
-                                    // Vérifier si les conditions ont changé (heures de pointe, weekend)
-                                    const currentHour = new Date().getHours();
-                                    const currentDay = new Date().getDay();
-                                    const cachedIsPeakHours = (currentHour >= 7 && currentHour < 9) || (currentHour >= 17 && currentHour < 19);
-                                    const cachedIsWeekend = currentDay === 0 || currentDay === 6;
-                                    
-                                    // Si les conditions sont identiques, utiliser le cache
-                                    if (cached.isPeakHours === cachedIsPeakHours && cached.isWeekend === cachedIsWeekend) {
-                                        elements.priceLoading.style.display = 'none';
-                                        elements.priceResult.textContent = cached.price + '€';
-                                        elements.priceDetails.innerHTML = cached.details;
-                                        elements.priceNote.textContent = cached.note;
-                                        return;
-                                    }
+                                    // Le cache inclut déjà les bonnes conditions (date/heure)
+                                    elements.priceLoading.style.display = 'none';
+                                    elements.priceResult.textContent = cached.price + '€';
+                                    elements.priceDetails.innerHTML = cached.details;
+                                    elements.priceNote.textContent = cached.note;
+                                    return;
                                 }
                             } catch (e) {
                                 // Ignorer les erreurs de cache
@@ -2868,8 +2897,8 @@
                                 const distanceKm = element.distance.value / 1000; // Convertir en km
                                 const durationMinutes = element.duration.value / 60; // Convertir en minutes
                                 
-                                // Utiliser l'algorithme amélioré
-                                const calculation = calculatePriceWithDistanceImproved(vehicleKey, distanceKm, durationMinutes);
+                                // Utiliser l'algorithme amélioré avec la date et l'heure sélectionnées
+                                const calculation = calculatePriceWithDistanceImproved(vehicleKey, distanceKm, durationMinutes, selectedDate, selectedTime);
                                 
                                 // Construire le détail du calcul
                                 let detailText = `${calculation.base}€ (base) + ${calculation.distance.toFixed(2)}€ (distance) + ${calculation.duration.toFixed(2)}€ (durée)`;
@@ -2972,12 +3001,12 @@
                 if (bookingForm) {
                     // Écouter tous les types d'événements pour une réactivité maximale
                     bookingForm.addEventListener('input', function(e) {
-                        if (e.target.id === 'depart' || e.target.id === 'arrivee' || e.target.id === 'vehicle') {
+                        if (e.target.id === 'depart' || e.target.id === 'arrivee' || e.target.id === 'vehicle' || e.target.id === 'date' || e.target.id === 'heure') {
                             calculatePriceWithDistance();
                         }
                     }, { passive: true });
                     bookingForm.addEventListener('change', function(e) {
-                        if (e.target.id === 'depart' || e.target.id === 'arrivee' || e.target.id === 'vehicle') {
+                        if (e.target.id === 'depart' || e.target.id === 'arrivee' || e.target.id === 'vehicle' || e.target.id === 'date' || e.target.id === 'heure') {
                             calculatePriceWithDistance();
                         }
                     }, { passive: true });
@@ -3006,6 +3035,17 @@
                     if (elements.vehicle) {
                         elements.vehicle.addEventListener('change', calculatePriceWithDistance, { passive: true });
                         elements.vehicle.addEventListener('input', calculatePriceWithDistance, { passive: true });
+                    }
+                    
+                    // Ajouter les listeners pour la date et l'heure
+                    const dateInput = document.getElementById('date');
+                    const heureSelect = document.getElementById('heure');
+                    if (dateInput) {
+                        dateInput.addEventListener('change', calculatePriceWithDistance, { passive: true });
+                        dateInput.addEventListener('input', calculatePriceWithDistance, { passive: true });
+                    }
+                    if (heureSelect) {
+                        heureSelect.addEventListener('change', calculatePriceWithDistance, { passive: true });
                     }
                 }
                 
