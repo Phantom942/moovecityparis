@@ -2141,10 +2141,13 @@
         <div class="hero-overlay"></div>
         <div class="container">
             <div class="hero-content">
-                <h1 class="fade-in">Votre camionnette avec chauffeur disponible dans l'heure.</h1>
+                <h1 class="fade-in">Transport avec chauffeur. Simple. Rapide. Fiable.</h1>
+                <p class="fade-in" style="font-size: 1.3rem; margin: 1.5rem 0 2.5rem; color: rgba(255, 255, 255, 0.95); max-width: 600px; line-height: 1.6;">
+                    Disponible dans l'heure. Réponse garantie en moins de 5 minutes. Service 24h/24 et 7j/7.
+                </p>
                 
-                <!-- Booking Form - Style Supervan avec fond -->
-                <div class="booking-form fade-in stagger-delay-2">
+                <!-- Formulaire simplifié -->
+                <div class="booking-form fade-in stagger-delay-2" style="max-width: 600px; margin: 0 auto;">
                     <div class="form-row">
                         <div class="form-group">
                             <label for="depart">Départ</label>
@@ -2161,31 +2164,9 @@
                             <input type="date" id="date">
                         </div>
                         <div class="form-group">
-                            <label for="heure">Heure</label>
-                            <select id="heure">
-                                <option value="">Dès que possible</option>
-                                <option value="07:00">7h00</option>
-                                <option value="08:00">8h00</option>
-                                <option value="09:00">9h00</option>
-                                <option value="10:00">10h00</option>
-                                <option value="11:00">11h00</option>
-                                <option value="12:00">12h00</option>
-                                <option value="13:00">13h00</option>
-                                <option value="14:00">14h00</option>
-                                <option value="15:00">15h00</option>
-                                <option value="16:00">16h00</option>
-                                <option value="17:00">17h00</option>
-                                <option value="18:00">18h00</option>
-                                <option value="19:00">19h00</option>
-                                <option value="20:00">20h00</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="vehicle">Type de véhicule</label>
+                            <label for="vehicle">Véhicule</label>
                             <select id="vehicle">
-                                <option value="">Sélectionnez un véhicule</option>
+                                <option value="">Choisissez un véhicule</option>
                                 <option value="URBAN - 6 m³">URBAN — 6 m³</option>
                                 <option value="EXPRESS - 9 m³">EXPRESS — 9 m³</option>
                                 <option value="PREMIUM - 12 m³">PREMIUM — 12 m³</option>
@@ -2195,67 +2176,53 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group" style="grid-column: 1 / -1;">
-                            <!-- Calculateur de Prix -->
-                            <div id="price-calculator" style="padding: 1.5rem; background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(5, 150, 105, 0.15) 100%); border-radius: 12px; border: 2px solid rgba(16, 185, 129, 0.4); display: none; margin-top: 0; opacity: 1; visibility: visible !important;">
-                                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
-                                    <h4 style="color: #0f172a; font-size: 1.1rem; margin: 0; display: flex; align-items: center; gap: 0.5rem; font-weight: 600;">
-                                        <span>💰</span> Estimation du prix
-                                    </h4>
-                                    <div id="price-loading" style="display: none; color: #0f172a; font-size: 0.85rem; font-weight: 500;">Calcul en cours...</div>
-                                </div>
-                                <div id="price-result" style="text-align: center;">
-                                    <div style="color: #10b981; font-size: 2.8rem; font-weight: 700; margin-bottom: 0.75rem; text-shadow: 0 2px 4px rgba(0,0,0,0.1);" id="calculated-price">--€</div>
-                                    <div style="color: #0f172a; font-size: 0.95rem; margin-bottom: 0.75rem; font-weight: 500;" id="price-details"></div>
-                                    <div style="color: #64748b; font-size: 0.8rem; font-style: italic; margin-top: 0.5rem;" id="price-note">* Estimation basée sur la distance et le véhicule sélectionné</div>
-                                </div>
+                            <!-- Calculateur de Prix simplifié -->
+                            <div id="price-calculator" style="padding: 1.5rem; background: rgba(255, 255, 255, 0.95); border-radius: 12px; display: none; margin-top: 0; text-align: center;">
+                                <div style="color: #10b981; font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem;" id="calculated-price">--€</div>
+                                <div style="color: #64748b; font-size: 0.9rem;" id="price-note">Estimation indicative</div>
                             </div>
                         </div>
                     </div>
                     <div class="form-row-center">
-                        <button class="btn btn-primary btn-large" onclick="redirectToWhatsApp()">Voir le prix</button>
+                        <button class="btn btn-primary btn-large" onclick="redirectToWhatsApp()" style="width: 100%; font-size: 1.1rem; padding: 1.2rem;">
+                            Obtenir un devis gratuit
+                        </button>
                     </div>
+                    <p style="text-align: center; margin-top: 1rem; color: rgba(255, 255, 255, 0.8); font-size: 0.9rem;">
+                        Ou contactez-nous directement : 
+                        <a href="https://wa.me/33751213255" style="color: #10b981; font-weight: 600; text-decoration: none;">WhatsApp</a> • 
+                        <a href="tel:+33751213255" style="color: #10b981; font-weight: 600; text-decoration: none;">07 51 21 32 55</a>
+                    </p>
                 </div>
-                <div class="contact-card fade-in stagger-delay-3">
-                    <h3>Envoyer une demande par email</h3>
-                    <form class="contact-form" id="contactForm" autocomplete="off">
-                        <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
-                        <div id="contact-form-message" style="display:none; padding: 15px; margin-bottom: 20px; border-radius: 8px; text-align: center;"></div>
 
-                        <div class="contact-inline">
-                            <div class="form-group">
-                                <label for="contact-name">Nom complet</label>
-                                <input type="text" id="contact-name" name="Nom" placeholder="Votre nom" autocomplete="name" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="contact-email">Email</label>
-                                <input type="email" id="contact-email" name="Email" placeholder="exemple@email.com" autocomplete="email" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="contact-phone">Téléphone</label>
-                                <input type="tel" id="contact-phone" name="Téléphone" placeholder="06 12 34 56 78" autocomplete="tel">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="contact-message">Votre demande</label>
-                            <textarea id="contact-message" name="Message" placeholder="Décrivez votre besoin (volume, date, lieu...)" autocomplete="off" required></textarea>
-                        </div>
-
-                        <div class="contact-actions">
-                            <button type="button" class="btn btn-primary" onclick="sendContactEmail()">Envoyer ma demande</button>
-                        </div>
-                    </form>
+                <!-- Messages de confiance simplifiés -->
+                <div class="fade-in stagger-delay-3" style="display: flex; justify-content: center; gap: 3rem; margin-top: 4rem; flex-wrap: wrap;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">⚡</div>
+                        <div style="font-weight: 600; color: white; margin-bottom: 0.25rem;">Rapide</div>
+                        <div style="font-size: 0.9rem; color: rgba(255, 255, 255, 0.8);">Dans l'heure</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">✨</div>
+                        <div style="font-weight: 600; color: white; margin-bottom: 0.25rem;">Simple</div>
+                        <div style="font-size: 0.9rem; color: rgba(255, 255, 255, 0.8);">3 clics</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">🛡️</div>
+                        <div style="font-weight: 600; color: white; margin-bottom: 0.25rem;">Fiable</div>
+                        <div style="font-size: 0.9rem; color: rgba(255, 255, 255, 0.8);">24/7 disponible</div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Services & Features Section unifiée -->
+    <!-- Services Section simplifiée -->
     <section class="services" id="services">
         <div class="container">
-            <h2 class="fade-in">Nos véhicules pour transport, déménagement et livraison</h2>
-            <p class="fade-in" style="text-align: center; max-width: 800px; margin: 1rem auto 3rem; color: #ffffff; line-height: 1.7;">
-                Que vous ayez besoin d'un <strong>déménagement studio Paris</strong>, d'une <strong>livraison express dans l'heure</strong>, d'un <strong>transport avec chauffeur professionnel</strong> ou d'un <strong>camion avec hayon pour charges lourdes</strong>, Moove City vous propose la solution adaptée. Nos véhicules de <strong>6m³ à 20m³</strong> couvrent tous vos besoins de transport, déménagement et livraison à Paris et en Île-de-France. <strong>Intervention rapide garantie</strong>, devis gratuit instantané, paiement flexible (espèces, CB, crypto).
+            <h2 class="fade-in">Nos véhicules</h2>
+            <p class="fade-in" style="text-align: center; max-width: 600px; margin: 1rem auto 3rem; color: #ffffff; line-height: 1.6; font-size: 1.1rem;">
+                De 6 m³ à 20 m³, nous avons le véhicule adapté à votre besoin.
             </p>
             <div class="services-grid">
                 <div class="service-card scale-in stagger-delay-1" data-vehicle="urban">
@@ -2280,11 +2247,7 @@
                 </div>
             </div>
             
-            <h2 class="fade-in" style="margin-top: 80px;">Pourquoi choisir Moove City pour votre transport avec chauffeur à Paris ?</h2>
-            <p style="text-align: center; max-width: 900px; margin: 1.5rem auto 3rem; color: #ffffff; line-height: 1.8; font-size: 1.05rem;">
-                Moove City est le <strong>spécialiste du transport avec chauffeur à Paris</strong> et en Île-de-France. Nous proposons des services de <strong>déménagement express</strong>, <strong>livraison rapide</strong>, <strong>course urgente</strong> et <strong>transport professionnel</strong> avec intervention dans l'heure. Que vous soyez un particulier cherchant un <strong>déménagement pas cher Paris</strong> ou une entreprise nécessitant une <strong>solution logistique B2B</strong>, nos véhicules de 6m³ à 20m³ s'adaptent à tous vos besoins. <strong>Devis gratuit instantané</strong>, paiement flexible (espèces, carte bancaire, cryptomonnaie), service client disponible 7j/7.
-            </p>
-            <div class="features-grid">
+            <div class="features-grid" style="margin-top: 60px;">
                 <div class="feature-card slide-in-left stagger-delay-1">
                     <div class="feature-icon">⚡</div>
                     <h3>Disponible 24h/24 – intervention rapide</h3>
@@ -2338,51 +2301,12 @@
     <!-- Séparation entre les sections -->
     <div style="width: 100%; height: 1px; background: linear-gradient(to right, transparent, rgba(15, 23, 42, 0.2), transparent); margin: 80px 0;"></div>
 
-    <!-- Coverage Section -->
-    <section class="cities">
+    <!-- Zone de couverture simplifiée -->
+    <section class="cities" style="padding: 60px 0;">
         <div class="container">
-            <h2 class="fade-in">Notre couverture géographique</h2>
-            <p class="fade-in stagger-delay-1">Basés à Paris, nous proposons nos services de transport avec chauffeur, déménagement, livraison express et courses dans toute la France et à l'échelle européenne. Intervention dans l'heure en Île-de-France avec rapidité garantie. Notre réseau de partenaires nous permet de répondre à vos besoins de transport, qu'ils soient locaux, nationaux ou internationaux.</p>
-            
-            <div class="cities-grid">
-                <div class="city-item scale-in stagger-delay-1">
-                    <img src="images/region-parisienne.jpg" alt="Carte de la région parisienne - Transport Moove City" loading="lazy">
-                    <h4>Région parisienne</h4>
-                    <p>Transport local et périurbain</p>
-                    <a href="seo/villes-idf.html" class="city-link">En savoir plus</a>
-                </div>
-                <div class="city-item scale-in stagger-delay-2">
-                    <img src="images/france-entiere.jpg" alt="Carte de la France - Transport Moove City" loading="lazy">
-                    <h4>France entière</h4>
-                    <p>Livraisons nationales</p>
-                </div>
-                <div class="city-item scale-in stagger-delay-3">
-                    <img src="images/EUROPE.jpg" alt="Carte de l'Europe - Transport international Moove City" loading="lazy">
-                    <h4>Europe</h4>
-                    <p>Transport international</p>
-                    <a href="seo/pays-europe.html" class="city-link">En savoir plus</a>
-                </div>
-                <div class="city-item scale-in stagger-delay-4">
-                    <img src="images/reseau-partenaire.jpg" alt="Réseau partenaires Moove City - Couverture étendue" loading="lazy">
-                    <h4>Réseau partenaires</h4>
-                    <p>Couverture étendue</p>
-                </div>
-            </div>
-            
-            <div style="text-align: center; margin-top: 2rem;">
-                <p style="color: var(--text-secondary); font-style: italic;">
-                    Contactez-nous pour toute demande spécifique. Nous étudions chaque projet pour vous proposer la solution la plus adaptée.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Payment Methods Section -->
-    <section class="content-section" style="background: var(--accent-color); padding: 60px 0;">
-        <div class="container">
-            <h2 class="fade-in" style="text-align: center; margin-bottom: 2rem;">Moyens de paiement flexibles</h2>
-            <p style="text-align: center; max-width: 700px; margin: 0 auto 2rem; color: var(--text-secondary);">
-                Pour tous nos services de <strong>transport</strong>, <strong>déménagement</strong>, <strong>livraison express</strong> et <strong>courses</strong>, nous acceptons les paiements en <strong>espèces</strong>, <strong>carte bancaire</strong> et <strong>cryptomonnaie</strong>. Flexibilité totale pour votre confort.
+            <h2 class="fade-in" style="text-align: center; margin-bottom: 1rem;">Où intervenons-nous ?</h2>
+            <p class="fade-in stagger-delay-1" style="text-align: center; max-width: 600px; margin: 0 auto 2rem; color: var(--text-secondary);">
+                Île-de-France • France entière • Europe
             </p>
         </div>
     </section>
@@ -2393,48 +2317,24 @@
             <h2 class="fade-in">Questions fréquentes</h2>
             <div class="faq-list">
                 <details class="faq-item fade-in stagger-delay-1">
-                    <summary>Quels types de transports, déménagements et livraisons proposez-vous&nbsp;?</summary>
-                    <div>Nous proposons des services de transport avec chauffeur, déménagement complet, livraison express et courses urgentes. Nous disposons de quatre capacités de véhicules (URBAN, EXPRESS, PREMIUM et TITAN) pour couvrir tous vos besoins : déménagements particuliers, livraisons express de marchandises, courses rapides et transferts professionnels.</div>
+                    <summary>Dans quels délais pouvez-vous intervenir ?</summary>
+                    <div>Dans l'heure sur Paris et Île-de-France. Réponse garantie en moins de 5 minutes.</div>
                 </details>
                 <details class="faq-item fade-in stagger-delay-2">
-                    <summary>Dans quels délais peut intervenir un chauffeur&nbsp;? Quelle est votre rapidité d'intervention&nbsp;?</summary>
-                    <div>Sur Paris et toute l'Île-de-France, un chauffeur peut se rendre sur place dans l'heure selon les disponibilités. Pour vos urgences, nous garantissons une intervention rapide. Pour un transport programmé, choisissez simplement la date et l'heure qui vous conviennent.</div>
+                    <summary>Quels moyens de paiement acceptez-vous ?</summary>
+                    <div>Espèces, carte bancaire et cryptomonnaie.</div>
                 </details>
                 <details class="faq-item fade-in stagger-delay-3">
-                    <summary>Quels moyens de paiement acceptez-vous&nbsp;?</summary>
-                    <div>Nous acceptons les paiements en espèces, carte bancaire et cryptomonnaie pour tous nos services de transport, déménagement et livraison. Flexibilité totale pour votre confort.</div>
-                </details>
-                <details class="faq-item fade-in stagger-delay-3">
-                    <summary>Comment obtenir un devis personnalisé&nbsp;?</summary>
-                    <div>Vous pouvez nous contacter par WhatsApp, via le formulaire email ou la page «&nbsp;Devis gratuit&nbsp;». Un conseiller vous rappelle rapidement pour confirmer le volume, l'accès et le tarif final.</div>
+                    <summary>Comment obtenir un devis ?</summary>
+                    <div>Remplissez le formulaire ci-dessus ou contactez-nous par WhatsApp. Devis gratuit en quelques minutes.</div>
                 </details>
                 <details class="faq-item fade-in stagger-delay-4">
-                    <summary>Quels sont les tarifs pour un transport avec chauffeur à Paris&nbsp;?</summary>
-                    <div>Nos tarifs varient selon le volume, la distance et le type de service. Le camion URBAN (6m³) démarre à partir de 40€, l'EXPRESS (8-10m³) à partir de 50€, le PREMIUM (12-14m³) à partir de 70€ et le TITAN (20m³) à partir de 110€. Demandez un devis gratuit instantané en ligne pour connaître le prix exact de votre transport.</div>
+                    <summary>Quels sont vos tarifs ?</summary>
+                    <div>À partir de 40€ pour l'URBAN (6m³), 50€ pour l'EXPRESS (9m³), 60€ pour le PREMIUM (12m³) et 100€ pour le TITAN (20m³). Le prix final dépend de la distance et de la durée.</div>
                 </details>
                 <details class="faq-item fade-in stagger-delay-5">
-                    <summary>Proposez-vous des services de déménagement pour studios et petits appartements&nbsp;?</summary>
-                    <div>Oui, nos véhicules URBAN (6m³) et EXPRESS (8-10m³) sont parfaits pour les déménagements de studios et petits appartements à Paris. Nous proposons également des services de manutention et emballage sur demande.</div>
-                </details>
-                <details class="faq-item fade-in stagger-delay-6">
-                    <summary>Acceptez-vous les paiements en cryptomonnaie&nbsp;?</summary>
-                    <div>Oui, nous acceptons les paiements en cryptomonnaie (Bitcoin, Ethereum et autres cryptomonnaies principales) en plus des paiements en espèces et carte bancaire. C'est l'une de nos spécificités pour offrir une flexibilité maximale à nos clients.</div>
-                </details>
-                <details class="faq-item fade-in stagger-delay-7">
-                    <summary>Intervenez-vous dans toute l'Île-de-France&nbsp;?</summary>
-                    <div>Oui, nous intervenons dans toute l'Île-de-France : Paris (75), Essonne (91), Hauts-de-Seine (92), Seine-Saint-Denis (93), Val-de-Marne (94) et Val-d'Oise (95). Nous proposons également des services en France entière et en Europe via notre réseau de partenaires.</div>
-                </details>
-                <details class="faq-item fade-in stagger-delay-8">
-                    <summary>Quelle est la différence entre vos différents types de véhicules&nbsp;?</summary>
-                    <div>Nous proposons 4 types de véhicules : <strong>URBAN</strong> (6m³) pour la ville et studios, <strong>EXPRESS</strong> (8-10m³) pour livraisons express et petits appartements, <strong>PREMIUM</strong> (12-14m³) pour transports importants et appartements 2-3 pièces, et <strong>TITAN</strong> (20m³ avec hayon) pour déménagements complets et charges lourdes. Chaque véhicule est adapté à des besoins spécifiques.</div>
-                </details>
-                <details class="faq-item fade-in stagger-delay-9">
-                    <summary>Proposez-vous des services pour les entreprises&nbsp;?</summary>
-                    <div>Oui, nous proposons des solutions B2B complètes : tournées de livraison, transport régulier, logistique événementielle, transferts de bureaux. Nous pouvons mettre en place des plans sur mesure avec reporting et suivi dédié pour les entreprises.</div>
-                </details>
-                <details class="faq-item fade-in stagger-delay-10">
-                    <summary>Combien de temps à l'avance dois-je réserver&nbsp;?</summary>
-                    <div>Pour une intervention dans l'heure, réservez dès que possible. Pour un transport programmé, nous recommandons de réserver au moins 24h à l'avance, mais nous pouvons souvent intervenir le jour même selon les disponibilités.</div>
+                    <summary>Où intervenez-vous ?</summary>
+                    <div>Île-de-France, France entière et Europe via notre réseau de partenaires.</div>
                 </details>
             </div>
         </div>
@@ -3521,7 +3421,6 @@
 
     <script>
         // Scripts du site
-
     </script>
 </body>
 </html>

@@ -30,6 +30,18 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
+    <!-- PWA & Performance Level 2050 -->
+    <link rel="manifest" href="../../manifest.json">
+    <meta name="theme-color" content="#059669">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    
+    <!-- Animations Niveau 2050 -->
+    <link rel="stylesheet" href="../../css/animations-2050.css">
+    
     <!-- Google Analytics 4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-WC9EEBKP2E"></script>
     <script>
@@ -247,6 +259,16 @@
             background-position: 0 0, 0 30px, 30px -30px, -30px 0px;
             z-index: -1;
             opacity: 0.3;
+            animation: backgroundMove 20s ease infinite;
+        }
+
+        @keyframes backgroundMove {
+            0%, 100% {
+                background-position: 0 0, 0 30px, 30px -30px, -30px 0px;
+            }
+            50% {
+                background-position: 30px 30px, 30px 60px, 60px 0px, 0px 30px;
+            }
         }
 
         .container {
@@ -425,6 +447,18 @@
         .page-header {
             text-align: center;
             padding: 3rem 0 2rem;
+            animation: slideDown 1s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .page-header h1 {
@@ -433,6 +467,64 @@
             color: var(--text-primary);
             margin-bottom: 1rem;
             line-height: 1.2;
+            background: linear-gradient(135deg, #059669 0%, #10b981 50%, #34d399 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientFlow 3s ease infinite, titleFloat 4s ease-in-out infinite;
+            background-size: 200% 200%;
+            position: relative;
+            text-shadow: 0 0 30px rgba(5, 150, 105, 0.3);
+            filter: drop-shadow(0 4px 20px rgba(5, 150, 105, 0.4));
+        }
+
+        @keyframes gradientFlow {
+            0%, 100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        @keyframes titleFloat {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Étoiles brillantes autour du titre */
+        .page-header h1::before,
+        .page-header h1::after {
+            content: '✨';
+            position: absolute;
+            font-size: 2rem;
+            animation: sparkle 2s ease-in-out infinite;
+        }
+
+        .page-header h1::before {
+            left: -50px;
+            top: -10px;
+        }
+
+        .page-header h1::after {
+            right: -50px;
+            bottom: -10px;
+            animation-delay: 1s;
+        }
+
+        @keyframes sparkle {
+            0%, 100% {
+                opacity: 0.3;
+                transform: scale(0.8) rotate(0deg);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2) rotate(180deg);
+            }
         }
 
         .page-header p {
@@ -652,6 +744,167 @@
             color: white;
         }
 
+        /* ========================================
+           ANIMATIONS NIVEAU 2050 - INLINE
+           ======================================== */
+
+        /* Scroll Progress Bar */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, #059669, #10b981, #34d399);
+            z-index: 9999;
+            box-shadow: 0 2px 10px rgba(5, 150, 105, 0.5);
+            transition: width 0.1s ease-out;
+        }
+
+        /* Animations Scroll Reveal */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Appliquer animations */
+        .article-card {
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+        }
+
+        .article-card:nth-child(1) { animation-delay: 0.1s; }
+        .article-card:nth-child(2) { animation-delay: 0.2s; }
+        .article-card:nth-child(3) { animation-delay: 0.3s; }
+        .article-card:nth-child(4) { animation-delay: 0.4s; }
+        .article-card:nth-child(5) { animation-delay: 0.5s; }
+        .article-card:nth-child(6) { animation-delay: 0.6s; }
+        .article-card:nth-child(7) { animation-delay: 0.7s; }
+        .article-card:nth-child(8) { animation-delay: 0.8s; }
+        .article-card:nth-child(9) { animation-delay: 0.9s; }
+        .article-card:nth-child(10) { animation-delay: 1s; }
+
+        /* Page Header Animation */
+        .page-header h1 {
+            animation: scaleIn 0.8s ease-out forwards;
+        }
+
+        .page-header p {
+            animation: fadeInUp 0.8s ease-out 0.2s forwards;
+            opacity: 0;
+        }
+
+        .intro-section {
+            animation: fadeInUp 0.8s ease-out 0.4s forwards;
+            opacity: 0;
+        }
+
+        /* Hover Effects Améliorés */
+        .article-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .article-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(5, 150, 105, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .article-card:hover::before {
+            left: 100%;
+        }
+
+        .article-card:hover {
+            transform: translateY(-12px) scale(1.03);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2),
+                        0 0 0 1px rgba(5, 150, 105, 0.3),
+                        0 0 40px rgba(5, 150, 105, 0.4);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2),
+                            0 0 0 1px rgba(5, 150, 105, 0.3),
+                            0 0 40px rgba(5, 150, 105, 0.4);
+            }
+            50% {
+                box-shadow: 0 25px 70px rgba(0, 0, 0, 0.25),
+                            0 0 0 2px rgba(5, 150, 105, 0.5),
+                            0 0 60px rgba(5, 150, 105, 0.6);
+            }
+        }
+
+        .article-card:hover .article-card-link {
+            transform: translateX(10px);
+        }
+
+        .article-card-link {
+            transition: transform 0.3s ease;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(5, 150, 105, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(5, 150, 105, 0.6);
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Breadcrumb Animation */
+        .breadcrumb {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             body {
@@ -755,6 +1008,26 @@
 
             <section class="articles-section">
                 <div class="articles-grid">
+                    <article class="article-card" itemscope itemtype="https://schema.org/Article">
+                        <a href="demenagement-paris-guide-complet-2026.html" style="text-decoration: none; color: inherit; display: block;">
+                            <div class="article-card-image">🏙️</div>
+                            <div class="article-card-content">
+                                <div class="article-card-meta">
+                                    <span itemprop="articleSection">Guide Complet</span>
+                                    <span>•</span>
+                                    <time datetime="2026-01-10" itemprop="datePublished">10 janvier 2026</time>
+                                    <span>•</span>
+                                    <span>12 min de lecture</span>
+                                </div>
+                                <h2 class="article-card-title" itemprop="headline">Déménagement Paris 2026 : Guide Complet</h2>
+                                <p class="article-card-excerpt" itemprop="description">Guide complet du déménagement à Paris en 2026 : tarifs transparents, meilleurs quartiers, démarches administratives, conseils d'experts. Tout ce qu'il faut savoir pour réussir votre déménagement parisien. Devis gratuit en 3 clics dès 49€.</p>
+                                <span class="article-card-link">Lire l'article complet →</span>
+                                <meta itemprop="author" content="Moove City">
+                                <link itemprop="url" href="https://www.moovecity.fr/seo/articles/demenagement-paris-guide-complet-2026.html">
+                            </div>
+                        </a>
+                    </article>
+
                     <article class="article-card" itemscope itemtype="https://schema.org/Article">
                         <a href="choisir-vehicule-demenagement.html" style="text-decoration: none; color: inherit; display: block;">
                             <div class="article-card-image">🚛</div>
@@ -874,6 +1147,78 @@
                             </div>
                         </a>
                     </article>
+
+                    <article class="article-card" itemscope itemtype="https://schema.org/Article">
+                        <a href="demenagement-paris-quartiers-2026.html" style="text-decoration: none; color: inherit; display: block;">
+                            <div class="article-card-image">🏘️</div>
+                            <div class="article-card-content">
+                                <div class="article-card-meta">
+                                    <span itemprop="articleSection">Guide Quartiers</span>
+                                    <span>•</span>
+                                    <time datetime="2026-01-10" itemprop="datePublished">10 janvier 2026</time>
+                                    <span>•</span>
+                                    <span>10 min de lecture</span>
+                                </div>
+                                <h2 class="article-card-title" itemprop="headline">Les 15 Meilleurs Quartiers de Paris pour Déménager</h2>
+                                <p class="article-card-excerpt" itemprop="description">Guide complet des 15 meilleurs quartiers parisiens en 2026. Analyse détaillée : prix, ambiance, transports, écoles, commerces. Marais, Montmartre, Canal Saint-Martin... Trouvez votre quartier idéal selon budget et lifestyle.</p>
+                                <span class="article-card-link">Lire l'article complet →</span>
+                            </div>
+                        </a>
+                    </article>
+
+                    <article class="article-card" itemscope itemtype="https://schema.org/Article">
+                        <a href="livraison-express-paris-rapide.html" style="text-decoration: none; color: inherit; display: block;">
+                            <div class="article-card-image">⚡</div>
+                            <div class="article-card-content">
+                                <div class="article-card-meta">
+                                    <span itemprop="articleSection">Guide Livraison</span>
+                                    <span>•</span>
+                                    <time datetime="2026-01-10" itemprop="datePublished">10 janvier 2026</time>
+                                    <span>•</span>
+                                    <span>5 min de lecture</span>
+                                </div>
+                                <h2 class="article-card-title" itemprop="headline">Livraison Express Paris : Service Rapide dans l'Heure</h2>
+                                <p class="article-card-excerpt" itemprop="description">Service de livraison express à Paris avec intervention dans l'heure. Transport urgent marchandises, colis volumineux, courses professionnelles. Tarifs dès 49€. Disponible 7j/7 dans toute l'Île-de-France.</p>
+                                <span class="article-card-link">Lire l'article complet →</span>
+                            </div>
+                        </a>
+                    </article>
+
+                    <article class="article-card" itemscope itemtype="https://schema.org/Article">
+                        <a href="transport-entreprise-paris-b2b.html" style="text-decoration: none; color: inherit; display: block;">
+                            <div class="article-card-image">💼</div>
+                            <div class="article-card-content">
+                                <div class="article-card-meta">
+                                    <span itemprop="articleSection">Guide B2B</span>
+                                    <span>•</span>
+                                    <time datetime="2026-01-10" itemprop="datePublished">10 janvier 2026</time>
+                                    <span>•</span>
+                                    <span>6 min de lecture</span>
+                                </div>
+                                <h2 class="article-card-title" itemprop="headline">Transport Entreprise Paris B2B : Solutions Professionnelles</h2>
+                                <p class="article-card-excerpt" itemprop="description">Solutions de transport professionnel pour entreprises à Paris. Livraisons B2B, déménagement bureaux, transport matériel IT. Flotte 6-20m³, facturation pro, intervention rapide. Tarifs dégressifs entreprises.</p>
+                                <span class="article-card-link">Lire l'article complet →</span>
+                            </div>
+                        </a>
+                    </article>
+
+                    <article class="article-card" itemscope itemtype="https://schema.org/Article">
+                        <a href="demenagement-paris-quartiers-2026.html" style="text-decoration: none; color: inherit; display: block;">
+                            <div class="article-card-image">🏘️</div>
+                            <div class="article-card-content">
+                                <div class="article-card-meta">
+                                    <span itemprop="articleSection">Guide Quartiers</span>
+                                    <span>•</span>
+                                    <time datetime="2026-01-10" itemprop="datePublished">10 janvier 2026</time>
+                                    <span>•</span>
+                                    <span>10 min de lecture</span>
+                                </div>
+                                <h2 class="article-card-title" itemprop="headline">Les 15 Meilleurs Quartiers de Paris 2026</h2>
+                                <p class="article-card-excerpt" itemprop="description">Guide des 15 meilleurs quartiers parisiens : Marais, Montmartre, Canal Saint-Martin, Oberkampf... Prix, ambiance, transports. Trouvez votre quartier idéal selon budget et lifestyle pour déménager à Paris.</p>
+                                <span class="article-card-link">Lire l'article complet →</span>
+                            </div>
+                        </a>
+                    </article>
                 </div>
             </section>
         </div>
@@ -958,5 +1303,67 @@
             </div>
         </div>
     </footer>
+
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+    
+    <!-- JavaScript Niveau 2050 - INLINE pour activation immédiate -->
+    <script>
+        // 🚀 MOOVE CITY 2050 - Activé !
+        console.log('🚀 Mode 2050 activé !');
+
+        // Scroll Progress Bar
+        window.addEventListener('scroll', () => {
+            const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (window.scrollY / windowHeight) * 100;
+            document.getElementById('scrollProgress').style.width = scrolled + '%';
+        });
+
+        // Back to Top Button
+        const backToTop = document.createElement('button');
+        backToTop.innerHTML = '↑';
+        backToTop.className = 'back-to-top';
+        backToTop.setAttribute('aria-label', 'Retour en haut');
+        document.body.appendChild(backToTop);
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTop.classList.add('show');
+            } else {
+                backToTop.classList.remove('show');
+            }
+        });
+
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Effet de brillance au survol des cards
+        document.querySelectorAll('.article-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.background = 'linear-gradient(135deg, white 0%, rgba(5,150,105,0.03) 100%)';
+            });
+            card.addEventListener('mouseleave', function() {
+                this.style.background = 'white';
+            });
+        });
+
+        // Console log stylisé
+        console.log('%c🚀 MOOVE CITY 2050 ', 'background: #059669; color: white; font-size: 20px; padding: 10px; border-radius: 5px;');
+        console.log('%cAnimations activées ✨', 'color: #059669; font-size: 14px;');
+        console.log('%cScroll Progress activé 📊', 'color: #059669; font-size: 14px;');
+        console.log('%cBack to Top activé ⬆️', 'color: #059669; font-size: 14px;');
+        console.log('%cHover Effects activés 🎨', 'color: #059669; font-size: 14px;');
+
+        // Service Worker (PWA)
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('../../sw.js')
+                .then(reg => console.log('✅ Service Worker enregistré'))
+                .catch(err => console.log('Service Worker pas encore disponible'));
+        }
+    </script>
 </body>
 </html>

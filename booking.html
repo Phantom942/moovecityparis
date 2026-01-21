@@ -693,6 +693,22 @@
             font-weight: 600;
         }
 
+        /* Animation pour l'affichage du prix */
+        @keyframes priceFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #priceEstimate {
+            animation: priceFadeIn 0.3s ease-out;
+        }
+
         @media (max-width: 992px) {
             .hero-grid,
             .form-wrapper,
@@ -804,9 +820,9 @@
             </div>
         </section>
 
-        <section class="container form-wrapper" id="devis">
+        <section class="container form-wrapper" id="devis" style="max-width: 700px;">
             <div class="card">
-                <h2>📋 Formulaire de devis</h2>
+                <h2 style="text-align: center; margin-bottom: 2rem;">Votre demande</h2>
                 <form id="quoteForm" action="https://formsubmit.co/contact@moovecity.fr" method="POST" autocomplete="on">
                     <input type="hidden" name="_subject" value="📋 Nouvelle demande de devis depuis moovecity.fr">
                     <input type="hidden" name="_captcha" value="false">
@@ -854,8 +870,24 @@
                             </div>
                         </div>
                         <div>
-                            <label for="description">📝 Description du transport</label>
-                            <textarea id="description" name="description" placeholder="Détaillez les volumes, objets fragiles, logement avec ascenseur ou non, contraintes horaires..."></textarea>
+                            <label for="description">📝 Informations complémentaires (optionnel)</label>
+                            <textarea id="description" name="description" placeholder="Volume, objets fragiles, ascenseur, contraintes..."></textarea>
+                        </div>
+                        <!-- Affichage du prix approximatif -->
+                        <div id="priceEstimate" style="display: none; background: linear-gradient(135deg, rgba(14, 165, 233, 0.1), rgba(16, 185, 129, 0.1)); border: 2px solid rgba(14, 165, 233, 0.3); border-radius: 16px; padding: 1.5rem; margin-top: 1rem; transition: all 0.3s ease;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;">
+                                <div>
+                                    <div style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem; font-weight: 600;">💰 Estimation du prix</div>
+                                    <div style="font-size: 2rem; font-weight: 700; color: var(--brand-primary); line-height: 1;">
+                                        <span id="estimatedPriceValue">-</span><span style="font-size: 1.2rem; margin-left: 0.25rem;">€</span>
+                                    </div>
+                                    <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem;" id="priceDetails"></div>
+                                </div>
+                                <div style="font-size: 2.5rem;">💸</div>
+                            </div>
+                            <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(14, 165, 233, 0.2); font-size: 0.85rem; color: var(--text-secondary); font-style: italic;">
+                                ⚠️ Prix indicatif basé sur les informations renseignées. Le prix final peut varier selon la distance réelle, les contraintes d'accès et les options supplémentaires.
+                            </div>
                         </div>
                         <div class="form-row">
                             <div>
@@ -869,8 +901,12 @@
                         </div>
                     </div>
                     <div class="form-footer">
-                        <p class="privacy-note">En cliquant sur "Demander mon devis", votre demande sera envoyée par email et un message WhatsApp s'ouvrira pour finaliser votre demande.</p>
-                        <button type="submit" class="btn-primary" onclick="event.preventDefault(); sendQuoteRequest();">🚀 Demander mon devis gratuit</button>
+                        <button type="submit" class="btn-primary" onclick="event.preventDefault(); sendQuoteRequest();" style="width: 100%; font-size: 1.1rem; padding: 1.2rem;">
+                            Obtenir mon devis gratuit
+                        </button>
+                        <p class="privacy-note" style="text-align: center; margin-top: 1rem;">
+                            Votre demande sera envoyée par email et un message WhatsApp s'ouvrira automatiquement.
+                        </p>
                     </div>
                     <div id="formError" class="error-message" style="display:none;" role="alert" aria-live="polite"></div>
                 </form>
@@ -1042,21 +1078,225 @@
         now.setHours(now.getHours() + 1);
         document.getElementById('time').value = now.toTimeString().slice(0, 5);
 
+        // Initialiser le calculateur de prix
+        setupPriceCalculator();
+
         // Prix de base par véhicule
         const VEHICLE_PRICES = {
-            'URBAN': 40,
-            'EXPRESS': 50,
-            'PREMIUM': 60,
-            'TITAN': 100
+            'URBAN': { base: 40, hourly: 18, perKm: 0.75 },
+            'EXPRESS': { base: 50, hourly: 22, perKm: 1.0 },
+            'PREMIUM': { base: 60, hourly: 26, perKm: 1.25 },
+            'TITAN': { base: 100, hourly: 32, perKm: 1.75 }
         };
 
-        // Fonction de calcul du prix
-        function calculatePrice(vehicle, duration) {
+        // Variables pour stocker la distance calculée
+        let calculatedDistance = null;
+        let distanceService = null;
+
+        // Fonction de calcul du prix améliorée
+        function calculatePrice(vehicle, duration, distance = null) {
             if (!vehicle || !duration) return null;
-            const basePrice = VEHICLE_PRICES[vehicle] || 0;
-            const hourlyRate = 10; // 10€ par heure
-            const totalPrice = basePrice + (duration * hourlyRate);
+            const vehicleData = VEHICLE_PRICES[vehicle];
+            if (!vehicleData) return null;
+            
+            const basePrice = vehicleData.base;
+            const hourlyRate = vehicleData.hourly;
+            
+            // Calcul de base : prix de base + durée
+            let totalPrice = basePrice + (duration * hourlyRate);
+            
+            // Si on a une distance, l'ajouter au calcul
+            if (distance && distance > 0) {
+                const distanceCost = distance * vehicleData.perKm;
+                totalPrice += distanceCost;
+            }
+            
+            // Majoration weekend (samedi = 6, dimanche = 0)
+            const dateInput = document.getElementById('date');
+            if (dateInput && dateInput.value) {
+                const selectedDate = new Date(dateInput.value);
+                const dayOfWeek = selectedDate.getDay();
+                if (dayOfWeek === 0 || dayOfWeek === 6) {
+                    totalPrice = totalPrice * 1.1; // +10% le weekend
+                }
+            }
+            
+            // Majoration heures de pointe (7h-9h et 17h-19h)
+            const timeInput = document.getElementById('time');
+            if (timeInput && timeInput.value) {
+                const hour = parseInt(timeInput.value.split(':')[0]);
+                if ((hour >= 7 && hour < 9) || (hour >= 17 && hour < 19)) {
+                    totalPrice = totalPrice * 1.15; // +15% en heures de pointe
+                }
+            }
+            
             return Math.round(totalPrice);
+        }
+
+        // Fonction pour calculer la distance entre deux adresses
+        function calculateDistanceBetweenAddresses(departure, arrival, callback) {
+            // Vérifier que Google Maps est chargé
+            if (!window.google || !window.google.maps || !window.google.maps.DistanceMatrixService) {
+                callback(null);
+                return;
+            }
+
+            if (!distanceService) {
+                try {
+                    distanceService = new google.maps.DistanceMatrixService();
+                } catch (e) {
+                    console.log('Erreur lors de l\'initialisation du service de distance:', e);
+                    callback(null);
+                    return;
+                }
+            }
+
+            if (!departure || !arrival || departure.trim() === '' || arrival.trim() === '') {
+                callback(null);
+                return;
+            }
+
+            distanceService.getDistanceMatrix({
+                origins: [departure],
+                destinations: [arrival],
+                travelMode: google.maps.TravelMode.DRIVING,
+                unitSystem: google.maps.UnitSystem.METRIC
+            }, function(response, status) {
+                if (status === 'OK' && response.rows[0] && response.rows[0].elements[0]) {
+                    const element = response.rows[0].elements[0];
+                    if (element.status === 'OK') {
+                        const distanceKm = element.distance.value / 1000; // Convertir en km
+                        calculatedDistance = distanceKm;
+                        callback(distanceKm);
+                    } else {
+                        callback(null);
+                    }
+                } else {
+                    callback(null);
+                }
+            });
+        }
+
+        // Fonction pour mettre à jour l'affichage du prix
+        function updatePriceDisplay() {
+            const vehicle = document.getElementById('vehicle').value;
+            const duration = parseFloat(document.getElementById('duration').value);
+            const priceEstimateDiv = document.getElementById('priceEstimate');
+            const priceValueSpan = document.getElementById('estimatedPriceValue');
+            const priceDetailsDiv = document.getElementById('priceDetails');
+
+            if (!vehicle || !duration || duration <= 0) {
+                priceEstimateDiv.style.display = 'none';
+                return;
+            }
+
+            // Calculer le prix avec la distance si disponible
+            const price = calculatePrice(vehicle, duration, calculatedDistance);
+            
+            if (price) {
+                priceValueSpan.textContent = price;
+                
+                // Construire les détails du prix
+                const vehicleData = VEHICLE_PRICES[vehicle];
+                let details = `Prix de base : ${vehicleData.base}€ + ${duration}h × ${vehicleData.hourly}€/h`;
+                
+                if (calculatedDistance) {
+                    const distanceCost = Math.round(calculatedDistance * vehicleData.perKm);
+                    details += ` + ${calculatedDistance.toFixed(1)}km × ${vehicleData.perKm}€/km (${distanceCost}€)`;
+                }
+                
+                // Vérifier les majorations
+                const dateInput = document.getElementById('date');
+                const timeInput = document.getElementById('time');
+                let surcharges = [];
+                
+                if (dateInput && dateInput.value) {
+                    const selectedDate = new Date(dateInput.value);
+                    const dayOfWeek = selectedDate.getDay();
+                    if (dayOfWeek === 0 || dayOfWeek === 6) {
+                        surcharges.push('Weekend (+10%)');
+                    }
+                }
+                
+                if (timeInput && timeInput.value) {
+                    const hour = parseInt(timeInput.value.split(':')[0]);
+                    if ((hour >= 7 && hour < 9) || (hour >= 17 && hour < 19)) {
+                        surcharges.push('Heures de pointe (+15%)');
+                    }
+                }
+                
+                if (surcharges.length > 0) {
+                    details += ' | ' + surcharges.join(', ');
+                }
+                
+                priceDetailsDiv.textContent = details;
+                priceEstimateDiv.style.display = 'block';
+            } else {
+                priceEstimateDiv.style.display = 'none';
+            }
+        }
+
+        // Ajouter les event listeners pour mettre à jour le prix en temps réel
+        function setupPriceCalculator() {
+            const vehicleSelect = document.getElementById('vehicle');
+            const durationInput = document.getElementById('duration');
+            const departureInput = document.getElementById('departure');
+            const arrivalInput = document.getElementById('arrival');
+            const dateInput = document.getElementById('date');
+            const timeInput = document.getElementById('time');
+
+            // Mettre à jour le prix quand le véhicule ou la durée change
+            if (vehicleSelect) {
+                vehicleSelect.addEventListener('change', updatePriceDisplay);
+            }
+            if (durationInput) {
+                durationInput.addEventListener('input', updatePriceDisplay);
+                durationInput.addEventListener('change', updatePriceDisplay);
+            }
+            if (dateInput) {
+                dateInput.addEventListener('change', updatePriceDisplay);
+            }
+            if (timeInput) {
+                timeInput.addEventListener('change', updatePriceDisplay);
+            }
+
+            // Calculer la distance quand les adresses changent (avec délai pour éviter trop de requêtes)
+            let distanceTimeout;
+            function updateDistance() {
+                clearTimeout(distanceTimeout);
+                distanceTimeout = setTimeout(() => {
+                    const departure = departureInput.value.trim();
+                    const arrival = arrivalInput.value.trim();
+                    
+                    // Vérifier que Google Maps est disponible avant de calculer la distance
+                    if (departure && arrival && departure.length > 5 && arrival.length > 5) {
+                        if (window.google && window.google.maps && window.google.maps.DistanceMatrixService) {
+                            calculateDistanceBetweenAddresses(departure, arrival, function(distance) {
+                                updatePriceDisplay();
+                            });
+                        } else {
+                            // Si Google Maps n'est pas encore chargé, on calcule sans distance
+                            calculatedDistance = null;
+                            updatePriceDisplay();
+                        }
+                    } else {
+                        calculatedDistance = null;
+                        updatePriceDisplay();
+                    }
+                }, 800); // Attendre 800ms après la dernière frappe
+            }
+
+            if (departureInput) {
+                departureInput.addEventListener('blur', updateDistance);
+                departureInput.addEventListener('change', updateDistance);
+            }
+            if (arrivalInput) {
+                arrivalInput.addEventListener('blur', updateDistance);
+                arrivalInput.addEventListener('change', updateDistance);
+            }
+
+            // Calcul initial si des valeurs sont déjà présentes
+            setTimeout(updatePriceDisplay, 500);
         }
 
         function sendQuoteRequest() {
@@ -1081,26 +1321,110 @@
                 return;
             }
 
-            // Calcul du prix estimé
+            // Calcul du prix estimé (avec distance si disponible)
             let estimatedPrice = null;
             if (vehicle && duration) {
-                estimatedPrice = calculatePrice(vehicle, duration);
+                estimatedPrice = calculatePrice(vehicle, duration, calculatedDistance);
             }
 
-            // Préparer les données pour l'email
-            const emailBody = `Nouvelle demande de devis\n\n` +
-                `Détails de la demande :\n` +
-                `Départ : ${departure}\n` +
-                `Arrivée : ${arrival}\n` +
-                `Date : ${date}\n` +
-                `Heure : ${time}\n` +
-                (vehicle ? `Véhicule souhaité : ${vehicle}\n` : '') +
-                `Durée estimée : ${duration} heure(s)\n` +
-                (estimatedPrice ? `Estimation : ${estimatedPrice}€ (prix de base + ${duration} × 10€/h)\n` : '') +
-                (description ? `Description : ${description}\n` : '') +
-                `\nCoordonnées :\n` +
-                `Nom : ${name}\n` +
-                `Téléphone : ${phone}`;
+            // Fonction pour formater la date (réutilisable)
+            function formatDateForEmail(dateString) {
+                if (!dateString) return '';
+                const date = new Date(dateString);
+                const days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+                const months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+                const dayName = days[date.getDay()];
+                const day = date.getDate();
+                const month = months[date.getMonth()];
+                const year = date.getFullYear();
+                return `${dayName} ${day} ${month} ${year}`;
+            }
+
+            // Préparer les données pour l'email (version améliorée)
+            let emailBody = `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+            emailBody += `NOUVELLE DEMANDE DE DEVIS - MOOVE CITY\n`;
+            emailBody += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+            
+            emailBody += `📋 DÉTAILS DU TRANSPORT\n`;
+            emailBody += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+            emailBody += `📍 Départ : ${departure}\n`;
+            emailBody += `📍 Arrivée : ${arrival}\n`;
+            
+            if (calculatedDistance) {
+                emailBody += `📏 Distance : ${calculatedDistance.toFixed(1)} km\n`;
+            }
+            
+            emailBody += `📅 Date souhaitée : ${formatDateForEmail(date)}\n`;
+            emailBody += `🕐 Heure souhaitée : ${time}\n`;
+            
+            if (vehicle) {
+                const vehicleNames = {
+                    'URBAN': 'URBAN — 6 m³',
+                    'EXPRESS': 'EXPRESS — 9 m³',
+                    'PREMIUM': 'PREMIUM — 12 m³',
+                    'TITAN': 'TITAN — 20 m³ avec hayon'
+                };
+                emailBody += `🚛 Véhicule souhaité : ${vehicleNames[vehicle] || vehicle}\n`;
+            }
+            
+            emailBody += `⏱️ Durée estimée : ${duration} heure(s)\n\n`;
+            
+            if (estimatedPrice) {
+                emailBody += `💰 ESTIMATION DU PRIX\n`;
+                emailBody += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+                emailBody += `Prix estimé : ${estimatedPrice}€\n\n`;
+                
+                const vehicleData = VEHICLE_PRICES[vehicle];
+                if (vehicleData) {
+                    emailBody += `Détail du calcul :\n`;
+                    emailBody += `• Prix de base : ${vehicleData.base}€\n`;
+                    emailBody += `• Durée (${duration}h × ${vehicleData.hourly}€/h) : ${(duration * vehicleData.hourly).toFixed(0)}€\n`;
+                    if (calculatedDistance) {
+                        const distanceCost = calculatedDistance * vehicleData.perKm;
+                        emailBody += `• Distance (${calculatedDistance.toFixed(1)}km × ${vehicleData.perKm}€/km) : ${distanceCost.toFixed(0)}€\n`;
+                    }
+                    
+                    // Ajouter les majorations si applicable
+                    const dateInput = document.getElementById('date');
+                    const timeInput = document.getElementById('time');
+                    let surcharges = [];
+                    
+                    if (dateInput && dateInput.value) {
+                        const selectedDate = new Date(dateInput.value);
+                        const dayOfWeek = selectedDate.getDay();
+                        if (dayOfWeek === 0 || dayOfWeek === 6) {
+                            surcharges.push('Majoration weekend (+10%)');
+                        }
+                    }
+                    
+                    if (timeInput && timeInput.value) {
+                        const hour = parseInt(timeInput.value.split(':')[0]);
+                        if ((hour >= 7 && hour < 9) || (hour >= 17 && hour < 19)) {
+                            surcharges.push('Majoration heures de pointe (+15%)');
+                        }
+                    }
+                    
+                    if (surcharges.length > 0) {
+                        emailBody += `• ${surcharges.join(' + ')}\n`;
+                    }
+                }
+                emailBody += `\n⚠️ Prix indicatif - Le tarif final peut varier selon les contraintes d'accès et conditions réelles.\n\n`;
+            }
+            
+            if (description) {
+                emailBody += `📝 INFORMATIONS COMPLÉMENTAIRES\n`;
+                emailBody += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+                emailBody += `${description}\n\n`;
+            }
+            
+            emailBody += `👤 COORDONNÉES DU CLIENT\n`;
+            emailBody += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+            emailBody += `Nom : ${name}\n`;
+            emailBody += `Téléphone : ${phone}\n\n`;
+            
+            emailBody += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+            emailBody += `Demande reçue le ${new Date().toLocaleString('fr-FR', { dateStyle: 'full', timeStyle: 'short' })}\n`;
+            emailBody += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
 
             // Ajouter un champ caché pour le message complet
             let messageField = document.getElementById('quote-message-field');
@@ -1113,34 +1437,127 @@
             }
             messageField.value = emailBody;
 
-            // Create WhatsApp message
-            let message = `Bonjour ! Je souhaite obtenir un devis pour un transport.\n\n`;
-            message += `📋 **Détails de ma demande :**\n`;
-            message += `📍 Départ : ${departure}\n`;
-            message += `📍 Arrivée : ${arrival}\n`;
-            message += `📅 Date : ${date}\n`;
-            message += `🕐 Heure : ${time}\n`;
+            // Formater la date en français (pour WhatsApp)
+            function formatDate(dateString) {
+                if (!dateString) return '';
+                const date = new Date(dateString);
+                const days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+                const months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+                const dayName = days[date.getDay()];
+                const day = date.getDate();
+                const month = months[date.getMonth()];
+                const year = date.getFullYear();
+                return `${dayName} ${day} ${month} ${year}`;
+            }
+
+            // Formater l'heure
+            function formatTime(timeString) {
+                if (!timeString) return '';
+                const [hours, minutes] = timeString.split(':');
+                return `${hours}h${minutes}`;
+            }
+
+            // Obtenir le nom complet du véhicule
+            function getVehicleFullName(vehicleKey) {
+                const vehicleNames = {
+                    'URBAN': 'URBAN — 6 m³',
+                    'EXPRESS': 'EXPRESS — 9 m³',
+                    'PREMIUM': 'PREMIUM — 12 m³',
+                    'TITAN': 'TITAN — 20 m³ avec hayon'
+                };
+                return vehicleNames[vehicleKey] || vehicleKey;
+            }
+
+            // Create WhatsApp message amélioré
+            let message = `🚛 *Demande de devis - Moove City*\n\n`;
+            message += `Bonjour ! 👋\n\n`;
+            message += `Je souhaite obtenir un devis personnalisé pour un transport avec chauffeur.\n\n`;
+            
+            message += `━━━━━━━━━━━━━━━━━━━━\n`;
+            message += `📋 *DÉTAILS DU TRANSPORT*\n`;
+            message += `━━━━━━━━━━━━━━━━━━━━\n\n`;
+            
+            message += `📍 *Départ :*\n${departure}\n\n`;
+            message += `📍 *Arrivée :*\n${arrival}\n\n`;
+            
+            if (calculatedDistance) {
+                message += `📏 *Distance :* ${calculatedDistance.toFixed(1)} km\n\n`;
+            }
+            
+            message += `📅 *Date souhaitée :*\n${formatDate(date)}\n\n`;
+            message += `🕐 *Heure souhaitée :*\n${formatTime(time)}\n\n`;
             
             if (vehicle) {
-                message += `🚛 Véhicule souhaité : ${vehicle}\n`;
+                message += `🚛 *Véhicule souhaité :*\n${getVehicleFullName(vehicle)}\n\n`;
             }
             
             if (duration) {
-                message += `⏱️ Durée estimée : ${duration} heure(s)\n`;
+                message += `⏱️ *Durée estimée :*\n${duration} heure(s)\n\n`;
             }
             
             if (estimatedPrice) {
-                message += `💰 Estimation : ${estimatedPrice}€ (prix de base + ${duration} × 10€/h)\n`;
+                const vehicleData = VEHICLE_PRICES[vehicle];
+                message += `━━━━━━━━━━━━━━━━━━━━\n`;
+                message += `💰 *ESTIMATION DU PRIX*\n`;
+                message += `━━━━━━━━━━━━━━━━━━━━\n\n`;
+                message += `*Prix estimé : ${estimatedPrice}€*\n\n`;
+                message += `Détail du calcul :\n`;
+                message += `• Prix de base : ${vehicleData.base}€\n`;
+                message += `• Durée (${duration}h × ${vehicleData.hourly}€/h) : ${(duration * vehicleData.hourly).toFixed(0)}€\n`;
+                if (calculatedDistance) {
+                    const distanceCost = calculatedDistance * vehicleData.perKm;
+                    message += `• Distance (${calculatedDistance.toFixed(1)}km × ${vehicleData.perKm}€/km) : ${distanceCost.toFixed(0)}€\n`;
+                }
+                
+                // Ajouter les majorations si applicable
+                const dateInput = document.getElementById('date');
+                const timeInput = document.getElementById('time');
+                let surcharges = [];
+                
+                if (dateInput && dateInput.value) {
+                    const selectedDate = new Date(dateInput.value);
+                    const dayOfWeek = selectedDate.getDay();
+                    if (dayOfWeek === 0 || dayOfWeek === 6) {
+                        surcharges.push('Majoration weekend (+10%)');
+                    }
+                }
+                
+                if (timeInput && timeInput.value) {
+                    const hour = parseInt(timeInput.value.split(':')[0]);
+                    if ((hour >= 7 && hour < 9) || (hour >= 17 && hour < 19)) {
+                        surcharges.push('Majoration heures de pointe (+15%)');
+                    }
+                }
+                
+                if (surcharges.length > 0) {
+                    message += `• ${surcharges.join(' + ')}\n`;
+                }
+                
+                message += `\n⚠️ *Prix indicatif* - Le tarif final peut varier selon les contraintes d'accès, options supplémentaires et conditions réelles du trajet.\n\n`;
             }
             
             if (description) {
-                message += `📝 Description : ${description}\n`;
+                message += `━━━━━━━━━━━━━━━━━━━━\n`;
+                message += `📝 *INFORMATIONS COMPLÉMENTAIRES*\n`;
+                message += `━━━━━━━━━━━━━━━━━━━━\n\n`;
+                message += `${description}\n\n`;
             }
 
-            message += `\n👤 **Mes coordonnées :**\n`;
+            message += `━━━━━━━━━━━━━━━━━━━━\n`;
+            message += `👤 *MES COORDONNÉES*\n`;
+            message += `━━━━━━━━━━━━━━━━━━━━\n\n`;
             message += `Nom : ${name}\n`;
             message += `Téléphone : ${phone}\n\n`;
-            message += `Pouvez-vous me faire un devis personnalisé ? Merci !`;
+            
+            message += `━━━━━━━━━━━━━━━━━━━━\n\n`;
+            message += `💬 *MODE DE PAIEMENT ACCEPTÉ :*\n`;
+            message += `• Espèces\n`;
+            message += `• Carte bancaire\n`;
+            message += `• Cryptomonnaie\n\n`;
+            
+            message += `✨ *SERVICE DISPONIBLE 24h/24 et 7j/7*\n\n`;
+            message += `Merci de me confirmer la disponibilité et le devis finalisé. Je reste disponible pour toute question ! 🙏\n\n`;
+            message += `Cordialement,\n${name}`;
 
             // Track the event
             if (typeof gtag !== 'undefined') {
@@ -1333,6 +1750,23 @@
         window.initBookingAutocomplete = function () {
             function tryInit() {
                 if (initBookingPlacesAutocomplete()) {
+                    // Une fois Google Maps chargé, réinitialiser le calculateur de distance
+                    if (typeof setupPriceCalculator === 'function') {
+                        // Recalculer la distance si des adresses sont déjà renseignées
+                        const departure = document.getElementById('departure');
+                        const arrival = document.getElementById('arrival');
+                        if (departure && arrival && departure.value.trim() && arrival.value.trim()) {
+                            setTimeout(() => {
+                                calculateDistanceBetweenAddresses(
+                                    departure.value.trim(), 
+                                    arrival.value.trim(), 
+                                    function(distance) {
+                                        updatePriceDisplay();
+                                    }
+                                );
+                            }, 500);
+                        }
+                    }
                     return;
                 }
                 setTimeout(tryInit, 200);

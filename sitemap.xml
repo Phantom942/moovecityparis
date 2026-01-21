@@ -143,17 +143,71 @@
         <priority>0.75</priority>
     </url>
     
-    <!-- Pages SEO Articles & Guides -->
+    <!-- Pages SEO Articles & Guides - MISE À JOUR 2026-01-02 -->
     <url>
         <loc>https://www.moovecity.fr/seo/articles/</loc>
-        <lastmod>2025-01-27</lastmod>
+        <lastmod>2026-01-02</lastmod>
         <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
+        <priority>0.85</priority>
     </url>
     <url>
         <loc>https://www.moovecity.fr/seo/articles/choisir-vehicule-demenagement.html</loc>
-        <lastmod>2025-01-27</lastmod>
+        <lastmod>2026-01-02</lastmod>
         <changefreq>monthly</changefreq>
-        <priority>0.75</priority>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.moovecity.fr/seo/articles/tarifs-demenagement-paris-2026.html</loc>
+        <lastmod>2026-01-02</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.moovecity.fr/seo/articles/preparer-demenagement-checklist.html</loc>
+        <lastmod>2026-01-02</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.moovecity.fr/seo/articles/transport-objets-volumineux-paris.html</loc>
+        <lastmod>2026-01-02</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.moovecity.fr/seo/articles/demenagement-etudiant-paris-pas-cher.html</loc>
+        <lastmod>2026-01-02</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.moovecity.fr/seo/articles/erreurs-eviter-demenagement-paris.html</loc>
+        <lastmod>2026-01-02</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://www.moovecity.fr/seo/articles/demenagement-paris-guide-complet-2026.html</loc>
+        <lastmod>2026-01-10</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.95</priority>
+    </url>
+    <url>
+        <loc>https://www.moovecity.fr/seo/articles/demenagement-paris-quartiers-2026.html</loc>
+        <lastmod>2026-01-10</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.85</priority>
+    </url>
+    <url>
+        <loc>https://www.moovecity.fr/seo/articles/livraison-express-paris-rapide.html</loc>
+        <lastmod>2026-01-10</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.85</priority>
+    </url>
+    <url>
+        <loc>https://www.moovecity.fr/seo/articles/transport-entreprise-paris-b2b.html</loc>
+        <lastmod>2026-01-10</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.85</priority>
     </url>
 </urlset>
