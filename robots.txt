@@ -1,36 +1,42 @@
 # robots.txt pour Moove City
 # https://www.moovecity.fr/robots.txt
 
-# Autoriser tous les robots de recherche
+# Autoriser tous les robots de recherche et crawlers IA
 User-agent: *
 Allow: /
-
-# Pages à ne pas indexer (pages de confirmation, admin)
 Disallow: /admin.html
 Disallow: /admin-clients.html
 Disallow: /merci.html
 
-# Autoriser les fichiers importants pour le SEO
+# Fichiers importants pour le SEO et l'indexation
 Allow: /sitemap.xml
 Allow: /robots.txt
 Allow: /images/
-Allow: /videos/
 Allow: /brand/
-Allow: /*.css
-Allow: /*.js
 
-# Autoriser spécifiquement Googlebot
+# Google
 User-agent: Googlebot
 Allow: /
-Crawl-delay: 0
 
-# Autoriser Bingbot
+User-agent: Googlebot-Image
+Allow: /
+
+# Bing
 User-agent: Bingbot
 Allow: /
-Crawl-delay: 1
 
-# Sitemap principal
+# Crawlers IA (autoriser pour recommandations et citations)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+# Sitemap
 Sitemap: https://www.moovecity.fr/sitemap.xml
-
-# Crawl-delay pour autres robots (éviter surcharge serveur)
-Crawl-delay: 1

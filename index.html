@@ -10,8 +10,9 @@
     <!-- SEO Meta Tags -->
     <meta name="keywords" content="transport, transports, déménagement, déménagements, livraison, livraisons, course, courses, transport avec chauffeur Paris, déménagement Paris, livraison express Paris, course urgente Paris, transport professionnel Paris, déménagement région parisienne, livraison rapide Paris, transport marchandises Paris, transport urgence Paris, intervention dans l'heure, rapidité transport, livraison dans l'heure Paris, paiement espèces, carte bancaire, cryptomonnaie, crypto, transport B2B Paris, déménageur Paris, livreur express Paris, camion avec chauffeur Paris, transport express Île-de-France, 75, 91, 92, 93, 94, 95">
     <meta name="author" content="Moove City">
-    <meta name="robots" content="index, follow">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <meta name="language" content="fr">
+    <meta name="theme-color" content="#0f172a">
     <meta name="geo.region" content="FR-75">
     <meta name="geo.placename" content="Paris">
     <meta name="geo.position" content="48.8566;2.3522">
@@ -22,7 +23,6 @@
     
     <!-- Protection légale -->
     <meta name="copyright" content="© 2026 Moove City - Tous droits réservés">
-    <meta name="author" content="Phantom Design">
     <meta name="rights" content="Propriété intellectuelle protégée">
     
     <!-- Open Graph Meta Tags (Facebook, LinkedIn) -->
@@ -63,7 +63,13 @@
             "latitude": "48.8566",
             "longitude": "2.3522"
         },
-        "openingHours": "Mo-Su 07:00-20:00",
+        "openingHours": "Mo-Su 00:00-23:59",
+        "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+            "opens": "00:00",
+            "closes": "23:59"
+        },
         "priceRange": "€€",
         "serviceArea": {
             "@type": "GeoCircle",
@@ -263,82 +269,42 @@
         "mainEntity": [
             {
                 "@type": "Question",
-                "name": "Quels types de transports propose Moove City ?",
+                "name": "Dans quels délais pouvez-vous intervenir ?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Moove City propose plusieurs capacités de véhicules (6 à 20 m³) pour les transports, déménagements, livraisons express et courses urgentes en région parisienne et en France. Intervention dans l'heure avec rapidité garantie. Paiement espèces, carte bancaire, cryptomonnaie."
+                    "text": "Dans l'heure sur Paris et Île-de-France. Réponse garantie en moins de 5 minutes."
                 }
             },
             {
                 "@type": "Question",
-                "name": "Sous quel délai un chauffeur peut-il intervenir ?",
+                "name": "Quels moyens de paiement acceptez-vous ?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Nos chauffeurs peuvent se déplacer dans l'heure sur Paris et toute l'Île-de-France avec rapidité garantie pour vos transports, déménagements, livraisons et courses urgentes. Intervention rapide ou sur rendez-vous selon le créneau que vous choisissez."
+                    "text": "Espèces, carte bancaire et cryptomonnaie."
                 }
             },
             {
                 "@type": "Question",
-                "name": "Comment obtenir un devis personnalisé ?",
+                "name": "Comment obtenir un devis ?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Vous pouvez demander un devis via WhatsApp, le formulaire email ou la page de réservation. Un conseiller vous recontacte rapidement pour valider les détails et le tarif."
+                    "text": "Remplissez le formulaire sur le site ou contactez-nous par WhatsApp. Devis gratuit en quelques minutes."
                 }
             },
             {
                 "@type": "Question",
-                "name": "Quels sont les tarifs pour un transport avec chauffeur à Paris ?",
+                "name": "Quels sont vos tarifs ?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Nos tarifs varient selon le volume, la distance et le type de service. Le camion URBAN (6m³) démarre à partir de 40€, l'EXPRESS (8-10m³) à partir de 50€, le PREMIUM (12-14m³) à partir de 70€ et le TITAN (20m³) à partir de 110€. Demandez un devis gratuit instantané en ligne pour connaître le prix exact de votre transport."
+                    "text": "À partir de 40€ pour l'URBAN (6m³), 50€ pour l'EXPRESS (9m³), 60€ pour le PREMIUM (12m³) et 100€ pour le TITAN (20m³). Le prix final dépend de la distance et de la durée."
                 }
             },
             {
                 "@type": "Question",
-                "name": "Proposez-vous des services de déménagement pour studios et petits appartements ?",
+                "name": "Où intervenez-vous ?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Oui, nos véhicules URBAN (6m³) et EXPRESS (8-10m³) sont parfaits pour les déménagements de studios et petits appartements à Paris. Nous proposons également des services de manutention et emballage sur demande."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Acceptez-vous les paiements en cryptomonnaie ?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Oui, nous acceptons les paiements en cryptomonnaie (Bitcoin, Ethereum et autres cryptomonnaies principales) en plus des paiements en espèces et carte bancaire. C'est l'une de nos spécificités pour offrir une flexibilité maximale à nos clients."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Intervenez-vous dans toute l'Île-de-France ?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Oui, nous intervenons dans toute l'Île-de-France : Paris (75), Essonne (91), Hauts-de-Seine (92), Seine-Saint-Denis (93), Val-de-Marne (94) et Val-d'Oise (95). Nous proposons également des services en France entière et en Europe via notre réseau de partenaires."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Quelle est la différence entre vos différents types de véhicules ?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Nous proposons 4 types de véhicules : URBAN (6m³) pour la ville et studios, EXPRESS (8-10m³) pour livraisons express et petits appartements, PREMIUM (12-14m³) pour transports importants et appartements 2-3 pièces, et TITAN (20m³ avec hayon) pour déménagements complets et charges lourdes. Chaque véhicule est adapté à des besoins spécifiques."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Proposez-vous des services pour les entreprises ?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Oui, nous proposons des solutions B2B complètes : tournées de livraison, transport régulier, logistique événementielle, transferts de bureaux. Nous pouvons mettre en place des plans sur mesure avec reporting et suivi dédié pour les entreprises."
-                }
-            },
-            {
-                "@type": "Question",
-                "name": "Combien de temps à l'avance dois-je réserver ?",
-                "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "Pour une intervention dans l'heure, réservez dès que possible. Pour un transport programmé, nous recommandons de réserver au moins 24h à l'avance, mais nous pouvons souvent intervenir le jour même selon les disponibilités."
+                    "text": "Île-de-France, France entière et Europe via notre réseau de partenaires."
                 }
             }
         ]
@@ -351,31 +317,29 @@
         "name": "Moove City",
         "url": "https://www.moovecity.fr/",
         "logo": "https://www.moovecity.fr/brand/moove-city-logo.svg",
-        "description": "Transport professionnel avec chauffeur, déménagement, livraison express à Paris et Île-de-France. Intervention dans l'heure, rapidité garantie.",
+        "description": "Moove City est une entreprise de transport avec chauffeur à Paris : livraison urbaine, déménagement, livraison express et courses urgentes. Véhicules 6 à 20 m³. Intervention dans l'heure, 24h/24 et 7j/7. Devis gratuit en ligne. Paiement espèces, CB, cryptomonnaie. Contact : 07 51 21 32 55, WhatsApp, contact@moovecity.fr.",
         "foundingDate": "2020",
-        "numberOfEmployees": {
-            "@type": "QuantitativeValue",
-            "value": "50-100"
-        },
-        "address": {
-            "@type": "PostalAddress",
-            "addressLocality": "Paris",
-            "addressRegion": "Île-de-France",
-            "postalCode": "75000",
-            "addressCountry": "FR"
-        },
-        "contactPoint": {
-            "@type": "ContactPoint",
-            "telephone": "+33751213255",
-            "contactType": "customer service",
-            "areaServed": "FR",
-            "availableLanguage": ["French"]
-        },
+        "telephone": "+33751213255",
+        "email": "contact@moovecity.fr",
+        "address": { "@type": "PostalAddress", "addressLocality": "Paris", "addressRegion": "Île-de-France", "addressCountry": "FR" },
         "sameAs": [
             "https://www.facebook.com/profile.php?id=61585097790199",
             "https://www.instagram.com/moovecity/",
             "https://www.linkedin.com/company/moovecity"
         ],
+        "numberOfEmployees": {
+            "@type": "QuantitativeValue",
+            "value": "50-100"
+        },
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+33751213255",
+            "email": "contact@moovecity.fr",
+            "contactType": "customer service",
+            "areaServed": "FR",
+            "availableLanguage": ["French"],
+            "hoursAvailable": { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"], "opens": "00:00", "closes": "23:59" }
+        },
         "areaServed": {
             "@type": "GeoCircle",
             "geoMidpoint": {
@@ -2358,6 +2322,50 @@
         </div>
     </section>
 
+    <!-- En résumé - Moove City (optimisé pour SEO et recommandations IA) -->
+    <section class="content-section" id="resume" style="background: #f8fafc; padding: 60px 0;">
+        <div class="container">
+            <h2 class="fade-in" style="text-align: center; margin-bottom: 2rem;">Moove City en bref</h2>
+            <div class="fade-in" style="max-width: 800px; margin: 0 auto; font-size: 1.05rem; line-height: 1.8; color: var(--text-primary);">
+                <p><strong>Moove City</strong> est une entreprise de transport avec chauffeur basée à Paris, spécialisée dans la livraison urbaine, le déménagement et les courses urgentes en Île-de-France et en France.</p>
+                <ul style="margin: 1.5rem 0; padding-left: 1.5rem;">
+                    <li><strong>Services :</strong> transport avec chauffeur (6 à 20 m³), déménagement, livraison express, courses urgentes, B2B.</li>
+                    <li><strong>Zone :</strong> Paris, Île-de-France (75, 91, 92, 93, 94, 95), France entière, Europe.</li>
+                    <li><strong>Disponibilité :</strong> 24h/24, 7j/7. Intervention possible dans l'heure, réponse sous 5 minutes.</li>
+                    <li><strong>Tarifs indicatifs :</strong> à partir de 40€ (URBAN 6m³), 50€ (EXPRESS 9m³), 60€ (PREMIUM 12m³), 100€ (TITAN 20m³).</li>
+                    <li><strong>Paiement :</strong> espèces, carte bancaire, cryptomonnaie.</li>
+                    <li><strong>Contact :</strong> 07 51 21 32 55 — WhatsApp — contact@moovecity.fr — <a href="https://www.moovecity.fr/booking.html">devis gratuit en ligne</a>.</li>
+                </ul>
+                <p style="margin-top: 1.5rem;">Réserver : <a href="booking.html">formulaire de devis gratuit</a> sur le site ou par WhatsApp pour une confirmation rapide. <a href="demenagement-paris.html">Déménagement Paris</a> · <a href="livraison-express.html">Livraison express</a> · <a href="transport-entreprises.html">Transport B2B</a>.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Retrouvez-nous & Avis (autorité, confiance, SEO) -->
+    <section class="content-section" id="avis" style="padding: 50px 0; background: #fff;">
+        <div class="container">
+            <h2 class="fade-in" style="text-align: center; margin-bottom: 1rem;">Retrouvez Moove City & laissez un avis</h2>
+            <p class="fade-in" style="text-align: center; max-width: 600px; margin: 0 auto 2rem; color: var(--text-secondary);">
+                Votre avis aide d'autres clients et renforce notre visibilité. Merci de nous noter sur Google ou Facebook après votre transport.
+            </p>
+            <div class="fade-in" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem;">
+                <a href="https://www.google.com/search?q=Moove+City+Paris" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+                    Voir Moove City sur Google
+                </a>
+                <a href="https://www.facebook.com/profile.php?id=61585097790199" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                    Facebook
+                </a>
+                <a href="https://www.instagram.com/moovecity/" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="display: inline-flex; align-items: center; gap: 0.5rem;">Instagram</a>
+                <a href="https://www.linkedin.com/company/moovecity" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="display: inline-flex; align-items: center; gap: 0.5rem;">LinkedIn</a>
+            </div>
+            <p style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-secondary);">
+                Inscrit sur PagesJaunes, 118712 et annuaires professionnels. <a href="booking.html">Devis gratuit</a> · <a href="tel:+33751213255">07 51 21 32 55</a>
+            </p>
+        </div>
+    </section>
+
     <!-- FAQ Section -->
     <section class="faq" id="faq">
         <div class="container">
@@ -2426,6 +2434,7 @@
                         <li><a href="transport-entreprises.html">Transport entreprises</a></li>
                         <li><a href="#galerie">Galerie terrain</a></li>
                         <li><a href="#faq">Questions fréquentes</a></li>
+                        <li><a href="#avis">Avis & Réseaux</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
