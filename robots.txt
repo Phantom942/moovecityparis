@@ -4,8 +4,6 @@
 # Autoriser tous les robots de recherche et crawlers IA
 User-agent: *
 Allow: /
-Disallow: /admin.html
-Disallow: /admin-clients.html
 Disallow: /merci.html
 
 # Fichiers importants pour le SEO et l'indexation

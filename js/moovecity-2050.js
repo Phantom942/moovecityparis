@@ -10,8 +10,7 @@ const MooveCity2050 = {
         scrollReveal: true,
         lazyLoad: true,
         smoothScroll: true,
-        performanceMonitoring: true,
-        offlineSupport: true
+        performanceMonitoring: true
     },
 
     /* ========================================
@@ -25,7 +24,6 @@ const MooveCity2050 = {
         if (this.config.lazyLoad) this.initLazyLoad();
         if (this.config.smoothScroll) this.initSmoothScroll();
         if (this.config.performanceMonitoring) this.initPerformance();
-        if (this.config.offlineSupport) this.registerServiceWorker();
         
         this.initScrollProgress();
         this.initBackToTop();
@@ -242,40 +240,6 @@ const MooveCity2050 = {
         });
 
         console.log('✅ Accessibilité renforcée');
-    },
-
-    /* ========================================
-       SERVICE WORKER (Mode Offline)
-       ======================================== */
-
-    registerServiceWorker() {
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(registration => {
-                        console.log('✅ Service Worker enregistré:', registration.scope);
-                        
-                        // Vérifier mises à jour
-                        registration.addEventListener('updatefound', () => {
-                            console.log('🔄 Nouvelle version disponible');
-                        });
-                    })
-                    .catch(error => {
-                        console.log('❌ Service Worker échoué:', error);
-                    });
-            });
-
-            // Détecter connexion/déconnexion
-            window.addEventListener('online', () => {
-                console.log('✅ Connexion rétablie');
-                this.showNotification('Connexion rétablie !', 'success');
-            });
-
-            window.addEventListener('offline', () => {
-                console.log('📡 Mode hors ligne');
-                this.showNotification('Mode hors ligne activé', 'info');
-            });
-        }
     },
 
     /* ========================================

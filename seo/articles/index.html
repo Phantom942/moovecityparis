@@ -30,11 +30,7 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- PWA & Performance Level 2050 -->
-    <link rel="manifest" href="../../manifest.json">
     <meta name="theme-color" content="#059669">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://www.googletagmanager.com">
@@ -1358,12 +1354,6 @@
         console.log('%cBack to Top activé ⬆️', 'color: #059669; font-size: 14px;');
         console.log('%cHover Effects activés 🎨', 'color: #059669; font-size: 14px;');
 
-        // Service Worker (PWA)
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('../../sw.js')
-                .then(reg => console.log('✅ Service Worker enregistré'))
-                .catch(err => console.log('Service Worker pas encore disponible'));
-        }
     </script>
 </body>
 </html>
