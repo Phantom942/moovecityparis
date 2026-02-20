@@ -1,0 +1,10 @@
+{
+  "name": "moove-city",
+  "private": true,
+  "scripts": {
+    "generate-webp": "node scripts/generate-webp.js"
+  },
+  "devDependencies": {
+    "sharp": "^0.33.0"
+  }
+}

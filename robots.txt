@@ -1,39 +1,72 @@
-# robots.txt pour Moove City
+# robots.txt pour Moove City - Optimisé GEO (Generative Engine Optimization)
 # https://www.moovecity.fr/robots.txt
+# Autorisation explicite des crawlers IA pour recommandations et citations
 
-# Autoriser tous les robots de recherche et crawlers IA
 User-agent: *
 Allow: /
 Disallow: /merci.html
 
-# Fichiers importants pour le SEO et l'indexation
+# Ressources essentielles pour indexation
 Allow: /sitemap.xml
 Allow: /robots.txt
 Allow: /images/
 Allow: /brand/
+Allow: /index.html
+Allow: /booking.html
+Allow: /demenagement-paris.html
+Allow: /livraison-express.html
+Allow: /transport-entreprises.html
+Allow: /urban.html
+Allow: /express.html
+Allow: /premium.html
+Allow: /titan.html
+Allow: /seo/
 
-# Google
+# Google (recherche classique + SGE)
 User-agent: Googlebot
 Allow: /
 
 User-agent: Googlebot-Image
 Allow: /
 
-# Bing
+User-agent: Google-Extended
+Allow: /
+
+# Bing / Microsoft Copilot
 User-agent: Bingbot
 Allow: /
 
-# Crawlers IA (autoriser pour recommandations et citations)
+# OpenAI (ChatGPT, recherche)
 User-agent: GPTBot
 Allow: /
 
 User-agent: ChatGPT-User
 Allow: /
 
+User-agent: OAI-SearchBot
+Allow: /
+
+# Anthropic (Claude)
+User-agent: Claude-Web
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+# Perplexity
 User-agent: PerplexityBot
 Allow: /
 
-User-agent: Claude-Web
+# Cohere
+User-agent: cohere-ai
+Allow: /
+
+# Meta (Llama)
+User-agent: FacebookBot
+Allow: /
+
+# Common Crawl (base de données pour IA)
+User-agent: CCBot
 Allow: /
 
 # Sitemap

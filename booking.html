@@ -17,6 +17,13 @@
     <!-- Canonical URL -->
     <link rel="canonical" href="https://www.moovecity.fr/booking.html">
 
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://www.googletagmanager.com https://maps.googleapis.com https://maps.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://maps.googleapis.com https://maps.gstatic.com https://www.googletagmanager.com https://*.google-analytics.com; frame-ancestors 'self';">
+    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+
     <!-- Open Graph -->
     <meta property="og:title" content="Devis Gratuit Transport avec Chauffeur Paris | Moove City">
     <meta property="og:description" content="Devis gratuit instantané pour transport avec chauffeur, déménagement et livraison express à Paris. Intervention dans l'heure, véhicules 6 à 20 m³. Réservez en 3 clics.">
@@ -162,6 +169,8 @@
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="js/sanitize.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     
     <style>
         .container {
@@ -777,7 +786,7 @@
     <header class="topbar">
         <div class="container">
             <a class="logo" href="/">
-                <img src="brand/moove-city-logo.svg" alt="Logo Moove City">
+                <img src="brand/moove-city-logo.svg" alt="Logo Moove City" width="96" height="96">
                 Moove City
             </a>
             <nav aria-label="Navigation principale">
@@ -812,15 +821,8 @@
         <section class="container form-wrapper" id="devis" style="max-width: 700px;">
             <div class="card">
                 <h2 style="text-align: center; margin-bottom: 2rem;">Votre demande</h2>
-                <form id="quoteForm" action="https://formsubmit.co/contact@moovecity.fr" method="POST" autocomplete="on">
-                    <input type="hidden" name="_subject" value="📋 Nouvelle demande de devis depuis moovecity.fr">
-                    <input type="hidden" name="_captcha" value="false">
-                    <input type="hidden" name="_template" value="table">
-                    <input type="hidden" name="_next" value="https://www.moovecity.fr/merci.html">
-                    <input type="hidden" name="_autoresponse" value="Merci pour votre demande de devis ! Nous vous recontactons dans les plus brefs délais. L'équipe Moove City">
-                    <input type="hidden" name="_format" value="plain">
-                    <input type="hidden" name="_cc" value="contact@moovecity.fr">
-                    <input type="text" name="_honey" id="honey" tabindex="-1" autocomplete="off" style="display:none;">
+                <form id="quoteForm" autocomplete="on" novalidate>
+                    <input type="text" name="_honey" id="honey" tabindex="-1" autocomplete="off" style="display:none;" aria-hidden="true">
                     <div class="form-grid">
                         <div class="form-row">
                             <div>
@@ -844,39 +846,58 @@
                         </div>
                         <div class="form-row">
                             <div>
-                                <label for="vehicle">🚛 Type de véhicule souhaité</label>
-                                <select id="vehicle" name="vehicle">
-                                    <option value="">Sélectionnez un véhicule</option>
-                                    <option value="URBAN">URBAN — 6 m³</option>
-                                    <option value="EXPRESS">EXPRESS — 9 m³</option>
-                                    <option value="PREMIUM">PREMIUM — 12 m³</option>
-                                    <option value="TITAN">TITAN — 20 m³ avec hayon</option>
-                                </select>
+                                <label for="vehicle" class="block text-sm font-semibold text-slate-700 mb-1">Type de véhicule souhaité</label>
+                                <div class="flex items-center gap-3">
+                                    <div id="vehicleIcon" class="flex-shrink-0 w-14 h-14 rounded-xl bg-slate-100 flex items-center justify-center transition-all duration-300 opacity-50" title="Sélectionnez un véhicule">
+                                        <svg class="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+                                    </div>
+                                    <select id="vehicle" name="vehicle" class="flex-1 rounded-xl border-slate-200">
+                                        <option value="">Sélectionnez un véhicule</option>
+                                        <option value="URBAN">URBAN — 6 m³</option>
+                                        <option value="EXPRESS">EXPRESS — 9 m³</option>
+                                        <option value="PREMIUM">PREMIUM — 12 m³</option>
+                                        <option value="TITAN">TITAN — 20 m³ avec hayon</option>
+                                    </select>
+                                </div>
                             </div>
                             <div>
-                                <label for="duration">⏱️ Durée estimée (heures) *</label>
-                                <input type="number" id="duration" name="duration" min="1" max="12" step="0.5" placeholder="Ex: 2" required>
+                                <label for="duration" class="block text-sm font-semibold text-slate-700 mb-1">Durée estimée (heures) *</label>
+                                <input type="number" id="duration" name="duration" min="1" max="12" step="0.5" placeholder="Ex: 2" required class="rounded-xl border-slate-200">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Besoin de manutention ?</label>
+                            <div class="flex gap-4">
+                                <label class="inline-flex items-center gap-2 cursor-pointer group">
+                                    <input type="radio" name="manutention" value="non" id="manutentionNon" checked class="w-4 h-4 text-emerald-600 border-slate-300 focus:ring-emerald-500">
+                                    <span class="text-slate-600 group-hover:text-slate-800">Non</span>
+                                </label>
+                                <label class="inline-flex items-center gap-2 cursor-pointer group">
+                                    <input type="radio" name="manutention" value="oui" id="manutentionOui" class="w-4 h-4 text-emerald-600 border-slate-300 focus:ring-emerald-500">
+                                    <span class="text-slate-600 group-hover:text-slate-800">Oui (+25€)</span>
+                                </label>
                             </div>
                         </div>
                         <div>
                             <label for="description">📝 Informations complémentaires (optionnel)</label>
                             <textarea id="description" name="description" placeholder="Volume, objets fragiles, ascenseur, contraintes..."></textarea>
                         </div>
-                        <!-- Affichage du prix approximatif -->
-                        <div id="priceEstimate" style="display: none; background: linear-gradient(135deg, rgba(14, 165, 233, 0.1), rgba(16, 185, 129, 0.1)); border: 2px solid rgba(14, 165, 233, 0.3); border-radius: 16px; padding: 1.5rem; margin-top: 1rem; transition: all 0.3s ease;">
-                            <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;">
+                        <!-- Affichage du prix approximatif (Premium avec counter-up) -->
+                        <div id="priceEstimate" class="hidden mt-5 p-6 rounded-2xl bg-gradient-to-br from-sky-50/80 to-emerald-50/80 border-2 border-sky-200/60 shadow-sm transition-all duration-500">
+                            <div class="flex items-center justify-between gap-4 flex-wrap">
                                 <div>
-                                    <div style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0.5rem; font-weight: 600;">💰 Estimation du prix</div>
-                                    <div style="font-size: 2rem; font-weight: 700; color: var(--brand-primary); line-height: 1;">
-                                        <span id="estimatedPriceValue">-</span><span style="font-size: 1.2rem; margin-left: 0.25rem;">€</span>
+                                    <div class="text-sm font-semibold text-slate-600 mb-1">Estimation du prix</div>
+                                    <div class="flex items-baseline gap-1">
+                                        <span id="estimatedPriceValue" class="text-3xl font-bold text-emerald-600 tabular-nums transition-all duration-500">0</span>
+                                        <span class="text-xl font-semibold text-emerald-600">€</span>
                                     </div>
-                                    <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.5rem;" id="priceDetails"></div>
+                                    <div id="priceDetails" class="text-xs text-slate-500 mt-2"></div>
                                 </div>
-                                <div style="font-size: 2.5rem;">💸</div>
+                                <div id="priceVehicleIcon" class="w-16 h-16 rounded-xl bg-white/80 flex items-center justify-center shadow-sm"></div>
                             </div>
-                            <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(14, 165, 233, 0.2); font-size: 0.85rem; color: var(--text-secondary); font-style: italic;">
-                                ⚠️ Prix indicatif basé sur les informations renseignées. Le prix final peut varier selon la distance réelle, les contraintes d'accès et les options supplémentaires.
-                            </div>
+                            <p class="mt-4 pt-4 border-t border-sky-200/50 text-xs text-slate-500 italic">
+                                Prix indicatif. Le tarif final peut varier selon la distance, les contraintes d'accès et les options.
+                            </p>
                         </div>
                         <div class="form-row">
                             <div>
@@ -884,18 +905,27 @@
                                 <input type="text" id="name" name="name" placeholder="Votre nom complet" autocomplete="name" required>
                             </div>
                             <div>
-                                <label for="phone">Votre téléphone *</label>
+                                <label for="email">📧 Votre email *</label>
+                                <input type="email" id="email" name="email" placeholder="votre@email.fr" autocomplete="email" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div>
+                                <label for="phone">📞 Votre téléphone *</label>
                                 <input type="tel" id="phone" name="phone" placeholder="06 12 34 56 78" autocomplete="tel" required>
                             </div>
                         </div>
                     </div>
-                    <div class="form-footer">
-                        <button type="submit" class="btn-primary" onclick="event.preventDefault(); sendQuoteRequest();" style="width: 100%; font-size: 1.1rem; padding: 1.2rem;">
+                    <div class="form-footer flex flex-col gap-3">
+                        <a href="tel:+33751213255" id="cta-call-booking" onclick="trackBookingCall()" class="btn-primary w-full py-4 rounded-xl text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; text-decoration: none; color: white; text-align: center;">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
                             Obtenir mon devis gratuit
-                        </button>
-                        <p class="privacy-note" style="text-align: center; margin-top: 1rem;">
-                            Votre demande sera envoyée par email et un message WhatsApp s'ouvrira automatiquement.
-                        </p>
+                        </a>
+                        <a href="#" id="cta-whatsapp-booking" onclick="redirectToWhatsAppBooking(); trackBookingWhatsApp(); return false;" class="w-full py-3 rounded-xl text-base font-semibold shadow-md hover:shadow-lg transition-all duration-300" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; text-decoration: none; color: white; text-align: center; background: #25d366; border: none; cursor: pointer;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/></svg>
+                            Demander par WhatsApp
+                        </a>
+                        <p style="margin: 0.25rem 0 0; font-size: 0.85rem; color: #64748b; text-align: center;">Réponse immédiate par téléphone 24h/7j</p>
                     </div>
                     <div id="formError" class="error-message" style="display:none;" role="alert" aria-live="polite"></div>
                 </form>
@@ -1059,8 +1089,36 @@
     </footer>
 
     <script>
+        // Tracking Google Ads / Analytics - conversions au clic
+        function trackBookingCall() {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'conversion', { event_category: 'booking', event_label: 'Appel telephone booking', value: 1 });
+            }
+        }
+        function trackBookingWhatsApp() {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'conversion', { event_category: 'booking', event_label: 'WhatsApp booking', value: 1 });
+            }
+        }
+        function redirectToWhatsAppBooking() {
+            const vehicle = document.getElementById('vehicle')?.value || '';
+            const date = document.getElementById('date')?.value || '';
+            const departure = document.getElementById('departure')?.value || '';
+            const arrival = document.getElementById('arrival')?.value || '';
+            const time = document.getElementById('time')?.value || '';
+            const parts = ['Bonjour Moove City, je souhaite un devis'];
+            if (vehicle) parts[0] += ' pour un camion ' + vehicle;
+            if (date) parts.push('Date : ' + date);
+            if (time) parts.push('Heure : ' + time);
+            if (departure) parts.push('Depart : ' + departure);
+            if (arrival) parts.push('Arrivee : ' + arrival);
+            const msg = parts.join('\n');
+            window.open('https://wa.me/33751213255?text=' + encodeURIComponent(msg), '_blank');
+        }
+
         // Auto-fill date with today
-        document.getElementById('date').valueAsDate = new Date();
+        const dateInput = document.getElementById('date');
+        if (dateInput) dateInput.valueAsDate = new Date();
 
         // Auto-fill time with current time + 1 hour
         const now = new Date();
@@ -1078,12 +1136,24 @@
             'TITAN': { base: 100, hourly: 32, perKm: 1.75 }
         };
 
+        const MANUTENTION_FEE = 25;
+
+        // Icônes SVG des véhicules (miniatures)
+        const VEHICLE_ICONS = {
+            'URBAN': '<svg viewBox="0 0 48 32" fill="none" stroke="currentColor" stroke-width="1.5" class="w-10 h-7 text-emerald-600"><rect x="4" y="12" width="20" height="14" rx="2"/><path d="M24 14h12l4 6v6h-4"/><circle cx="10" cy="26" r="3"/><circle cx="38" cy="26" r="3"/></svg>',
+            'EXPRESS': '<svg viewBox="0 0 48 32" fill="none" stroke="currentColor" stroke-width="1.5" class="w-11 h-7 text-emerald-600"><rect x="2" y="10" width="24" height="16" rx="2"/><path d="M26 12h14l2 4v8h-4"/><circle cx="8" cy="26" r="3"/><circle cx="40" cy="26" r="3"/></svg>',
+            'PREMIUM': '<svg viewBox="0 0 48 32" fill="none" stroke="currentColor" stroke-width="1.5" class="w-12 h-8 text-emerald-600"><rect x="1" y="8" width="28" height="18" rx="2"/><path d="M29 10h16l2 5v7h-4"/><circle cx="7" cy="26" r="3"/><circle cx="41" cy="26" r="3"/></svg>',
+            'TITAN': '<svg viewBox="0 0 48 32" fill="none" stroke="currentColor" stroke-width="1.5" class="w-14 h-8 text-emerald-600"><rect x="0" y="6" width="32" height="20" rx="2"/><rect x="32" y="14" width="14" height="12" rx="1"/><path d="M34 14V10"/><circle cx="6" cy="26" r="3"/><circle cx="42" cy="26" r="3"/></svg>'
+        };
+
+        const EMPTY_ICON = '<svg class="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>';
+
         // Variables pour stocker la distance calculée
         let calculatedDistance = null;
         let distanceService = null;
 
         // Fonction de calcul du prix améliorée
-        function calculatePrice(vehicle, duration, distance = null) {
+        function calculatePrice(vehicle, duration, distance = null, manutention = false) {
             if (!vehicle || !duration) return null;
             const vehicleData = VEHICLE_PRICES[vehicle];
             if (!vehicleData) return null;
@@ -1098,6 +1168,11 @@
             if (distance && distance > 0) {
                 const distanceCost = distance * vehicleData.perKm;
                 totalPrice += distanceCost;
+            }
+            
+            // Manutention
+            if (manutention) {
+                totalPrice += MANUTENTION_FEE;
             }
             
             // Majoration weekend (samedi = 6, dimanche = 0)
@@ -1120,6 +1195,40 @@
             }
             
             return Math.round(totalPrice);
+        }
+
+        // Mise à jour dynamique de l'icône véhicule
+        function updateVehicleIcon() {
+            const vehicle = document.getElementById('vehicle').value;
+            const iconContainer = document.getElementById('vehicleIcon');
+            const priceIconContainer = document.getElementById('priceVehicleIcon');
+            if (!iconContainer) return;
+            
+            const svg = vehicle && VEHICLE_ICONS[vehicle] ? VEHICLE_ICONS[vehicle] : EMPTY_ICON;
+            iconContainer.innerHTML = svg;
+            iconContainer.classList.toggle('opacity-50', !vehicle);
+            iconContainer.classList.toggle('bg-emerald-50', !!vehicle);
+            iconContainer.classList.toggle('bg-slate-100', !vehicle);
+            
+            if (priceIconContainer) {
+                priceIconContainer.innerHTML = vehicle && VEHICLE_ICONS[vehicle] ? VEHICLE_ICONS[vehicle] : '';
+            }
+        }
+
+        // Animation counter-up pour le prix
+        function animateCounter(element, targetValue, duration = 500) {
+            const start = parseInt(element.textContent) || 0;
+            if (start === targetValue) return;
+            const startTime = performance.now();
+            function step(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const current = Math.round(start + (targetValue - start) * eased);
+                element.textContent = current;
+                if (progress < 1) requestAnimationFrame(step);
+            }
+            requestAnimationFrame(step);
         }
 
         // Fonction pour calculer la distance entre deux adresses
@@ -1170,58 +1279,53 @@
         function updatePriceDisplay() {
             const vehicle = document.getElementById('vehicle').value;
             const duration = parseFloat(document.getElementById('duration').value);
+            const manutentionInput = document.querySelector('input[name="manutention"]:checked');
+            const manutention = manutentionInput ? manutentionInput.value === 'oui' : false;
             const priceEstimateDiv = document.getElementById('priceEstimate');
             const priceValueSpan = document.getElementById('estimatedPriceValue');
             const priceDetailsDiv = document.getElementById('priceDetails');
 
+            updateVehicleIcon();
+
             if (!vehicle || !duration || duration <= 0) {
-                priceEstimateDiv.style.display = 'none';
+                priceEstimateDiv.classList.add('hidden');
                 return;
             }
 
-            // Calculer le prix avec la distance si disponible
-            const price = calculatePrice(vehicle, duration, calculatedDistance);
+            // Calculer le prix avec la distance et manutention
+            const price = calculatePrice(vehicle, duration, calculatedDistance, manutention);
             
             if (price) {
-                priceValueSpan.textContent = price;
+                animateCounter(priceValueSpan, price, 450);
                 
-                // Construire les détails du prix
                 const vehicleData = VEHICLE_PRICES[vehicle];
                 let details = `Prix de base : ${vehicleData.base}€ + ${duration}h × ${vehicleData.hourly}€/h`;
                 
+                if (manutention) {
+                    details += ` + manutention (${MANUTENTION_FEE}€)`;
+                }
                 if (calculatedDistance) {
                     const distanceCost = Math.round(calculatedDistance * vehicleData.perKm);
-                    details += ` + ${calculatedDistance.toFixed(1)}km × ${vehicleData.perKm}€/km (${distanceCost}€)`;
+                    details += ` + ${calculatedDistance.toFixed(1)}km (${distanceCost}€)`;
                 }
                 
-                // Vérifier les majorations
                 const dateInput = document.getElementById('date');
                 const timeInput = document.getElementById('time');
                 let surcharges = [];
-                
                 if (dateInput && dateInput.value) {
                     const selectedDate = new Date(dateInput.value);
-                    const dayOfWeek = selectedDate.getDay();
-                    if (dayOfWeek === 0 || dayOfWeek === 6) {
-                        surcharges.push('Weekend (+10%)');
-                    }
+                    if (selectedDate.getDay() === 0 || selectedDate.getDay() === 6) surcharges.push('Weekend (+10%)');
                 }
-                
                 if (timeInput && timeInput.value) {
                     const hour = parseInt(timeInput.value.split(':')[0]);
-                    if ((hour >= 7 && hour < 9) || (hour >= 17 && hour < 19)) {
-                        surcharges.push('Heures de pointe (+15%)');
-                    }
+                    if ((hour >= 7 && hour < 9) || (hour >= 17 && hour < 19)) surcharges.push('Heures de pointe (+15%)');
                 }
-                
-                if (surcharges.length > 0) {
-                    details += ' | ' + surcharges.join(', ');
-                }
+                if (surcharges.length > 0) details += ' | ' + surcharges.join(', ');
                 
                 priceDetailsDiv.textContent = details;
-                priceEstimateDiv.style.display = 'block';
+                priceEstimateDiv.classList.remove('hidden');
             } else {
-                priceEstimateDiv.style.display = 'none';
+                priceEstimateDiv.classList.add('hidden');
             }
         }
 
@@ -1236,7 +1340,7 @@
 
             // Mettre à jour le prix quand le véhicule ou la durée change
             if (vehicleSelect) {
-                vehicleSelect.addEventListener('change', updatePriceDisplay);
+                vehicleSelect.addEventListener('change', () => { updateVehicleIcon(); updatePriceDisplay(); });
             }
             if (durationInput) {
                 durationInput.addEventListener('input', updatePriceDisplay);
@@ -1248,6 +1352,9 @@
             if (timeInput) {
                 timeInput.addEventListener('change', updatePriceDisplay);
             }
+            document.querySelectorAll('input[name="manutention"]').forEach(radio => {
+                radio.addEventListener('change', updatePriceDisplay);
+            });
 
             // Calculer la distance quand les adresses changent (avec délai pour éviter trop de requêtes)
             let distanceTimeout;
@@ -1284,286 +1391,42 @@
                 arrivalInput.addEventListener('change', updateDistance);
             }
 
-            // Calcul initial si des valeurs sont déjà présentes
+            // État initial
+            updateVehicleIcon();
             setTimeout(updatePriceDisplay, 500);
         }
 
-        function sendQuoteRequest() {
-            const honey = document.getElementById('honey').value;
-            if (honey) {
-                return;
-            }
-
-            const departure = document.getElementById('departure').value.trim();
-            const arrival = document.getElementById('arrival').value.trim();
-            const date = document.getElementById('date').value;
-            const time = document.getElementById('time').value;
-            const vehicle = document.getElementById('vehicle').value;
-            const duration = parseFloat(document.getElementById('duration').value);
-            const description = document.getElementById('description').value.trim();
-            const name = document.getElementById('name').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-
-            // Validation
-            if (!departure || !arrival || !date || !time || !name || !phone || !duration) {
-                showErrorMessage('Veuillez remplir tous les champs obligatoires marqués d\'un *');
-                return;
-            }
-
-            // Calcul du prix estimé (avec distance si disponible)
-            let estimatedPrice = null;
-            if (vehicle && duration) {
-                estimatedPrice = calculatePrice(vehicle, duration, calculatedDistance);
-            }
-
-            // Fonction pour formater la date (réutilisable)
-            function formatDateForEmail(dateString) {
-                if (!dateString) return '';
-                const date = new Date(dateString);
-                const days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
-                const months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
-                const dayName = days[date.getDay()];
-                const day = date.getDate();
-                const month = months[date.getMonth()];
-                const year = date.getFullYear();
-                return `${dayName} ${day} ${month} ${year}`;
-            }
-
-            // Préparer les données pour l'email (version améliorée)
-            let emailBody = `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-            emailBody += `NOUVELLE DEMANDE DE DEVIS - MOOVE CITY\n`;
-            emailBody += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
-            
-            emailBody += `📋 DÉTAILS DU TRANSPORT\n`;
-            emailBody += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
-            emailBody += `📍 Départ : ${departure}\n`;
-            emailBody += `📍 Arrivée : ${arrival}\n`;
-            
-            if (calculatedDistance) {
-                emailBody += `📏 Distance : ${calculatedDistance.toFixed(1)} km\n`;
-            }
-            
-            emailBody += `📅 Date souhaitée : ${formatDateForEmail(date)}\n`;
-            emailBody += `🕐 Heure souhaitée : ${time}\n`;
-            
-            if (vehicle) {
-                const vehicleNames = {
-                    'URBAN': 'URBAN — 6 m³',
-                    'EXPRESS': 'EXPRESS — 9 m³',
-                    'PREMIUM': 'PREMIUM — 12 m³',
-                    'TITAN': 'TITAN — 20 m³ avec hayon'
-                };
-                emailBody += `🚛 Véhicule souhaité : ${vehicleNames[vehicle] || vehicle}\n`;
-            }
-            
-            emailBody += `⏱️ Durée estimée : ${duration} heure(s)\n\n`;
-            
-            if (estimatedPrice) {
-                emailBody += `💰 ESTIMATION DU PRIX\n`;
-                emailBody += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
-                emailBody += `Prix estimé : ${estimatedPrice}€\n\n`;
-                
-                const vehicleData = VEHICLE_PRICES[vehicle];
-                if (vehicleData) {
-                    emailBody += `Détail du calcul :\n`;
-                    emailBody += `• Prix de base : ${vehicleData.base}€\n`;
-                    emailBody += `• Durée (${duration}h × ${vehicleData.hourly}€/h) : ${(duration * vehicleData.hourly).toFixed(0)}€\n`;
-                    if (calculatedDistance) {
-                        const distanceCost = calculatedDistance * vehicleData.perKm;
-                        emailBody += `• Distance (${calculatedDistance.toFixed(1)}km × ${vehicleData.perKm}€/km) : ${distanceCost.toFixed(0)}€\n`;
-                    }
-                    
-                    // Ajouter les majorations si applicable
-                    const dateInput = document.getElementById('date');
-                    const timeInput = document.getElementById('time');
-                    let surcharges = [];
-                    
-                    if (dateInput && dateInput.value) {
-                        const selectedDate = new Date(dateInput.value);
-                        const dayOfWeek = selectedDate.getDay();
-                        if (dayOfWeek === 0 || dayOfWeek === 6) {
-                            surcharges.push('Majoration weekend (+10%)');
-                        }
-                    }
-                    
-                    if (timeInput && timeInput.value) {
-                        const hour = parseInt(timeInput.value.split(':')[0]);
-                        if ((hour >= 7 && hour < 9) || (hour >= 17 && hour < 19)) {
-                            surcharges.push('Majoration heures de pointe (+15%)');
-                        }
-                    }
-                    
-                    if (surcharges.length > 0) {
-                        emailBody += `• ${surcharges.join(' + ')}\n`;
-                    }
-                }
-                emailBody += `\n⚠️ Prix indicatif - Le tarif final peut varier selon les contraintes d'accès et conditions réelles.\n\n`;
-            }
-            
-            if (description) {
-                emailBody += `📝 INFORMATIONS COMPLÉMENTAIRES\n`;
-                emailBody += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
-                emailBody += `${description}\n\n`;
-            }
-            
-            emailBody += `👤 COORDONNÉES DU CLIENT\n`;
-            emailBody += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
-            emailBody += `Nom : ${name}\n`;
-            emailBody += `Téléphone : ${phone}\n\n`;
-            
-            emailBody += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-            emailBody += `Demande reçue le ${new Date().toLocaleString('fr-FR', { dateStyle: 'full', timeStyle: 'short' })}\n`;
-            emailBody += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`;
-
-            // Ajouter un champ caché pour le message complet
-            let messageField = document.getElementById('quote-message-field');
-            if (!messageField) {
-                messageField = document.createElement('input');
-                messageField.type = 'hidden';
-                messageField.id = 'quote-message-field';
-                messageField.name = 'Message';
-                document.getElementById('quoteForm').appendChild(messageField);
-            }
-            messageField.value = emailBody;
-
-            // Formater la date en français (pour WhatsApp)
-            function formatDate(dateString) {
-                if (!dateString) return '';
-                const date = new Date(dateString);
-                const days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
-                const months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
-                const dayName = days[date.getDay()];
-                const day = date.getDate();
-                const month = months[date.getMonth()];
-                const year = date.getFullYear();
-                return `${dayName} ${day} ${month} ${year}`;
-            }
-
-            // Formater l'heure
-            function formatTime(timeString) {
-                if (!timeString) return '';
-                const [hours, minutes] = timeString.split(':');
-                return `${hours}h${minutes}`;
-            }
-
-            // Obtenir le nom complet du véhicule
-            function getVehicleFullName(vehicleKey) {
-                const vehicleNames = {
-                    'URBAN': 'URBAN — 6 m³',
-                    'EXPRESS': 'EXPRESS — 9 m³',
-                    'PREMIUM': 'PREMIUM — 12 m³',
-                    'TITAN': 'TITAN — 20 m³ avec hayon'
-                };
-                return vehicleNames[vehicleKey] || vehicleKey;
-            }
-
-            // Create WhatsApp message amélioré
-            let message = `🚛 *Demande de devis - Moove City*\n\n`;
-            message += `Bonjour ! 👋\n\n`;
-            message += `Je souhaite obtenir un devis personnalisé pour un transport avec chauffeur.\n\n`;
-            
-            message += `━━━━━━━━━━━━━━━━━━━━\n`;
-            message += `📋 *DÉTAILS DU TRANSPORT*\n`;
-            message += `━━━━━━━━━━━━━━━━━━━━\n\n`;
-            
-            message += `📍 *Départ :*\n${departure}\n\n`;
-            message += `📍 *Arrivée :*\n${arrival}\n\n`;
-            
-            if (calculatedDistance) {
-                message += `📏 *Distance :* ${calculatedDistance.toFixed(1)} km\n\n`;
-            }
-            
-            message += `📅 *Date souhaitée :*\n${formatDate(date)}\n\n`;
-            message += `🕐 *Heure souhaitée :*\n${formatTime(time)}\n\n`;
-            
-            if (vehicle) {
-                message += `🚛 *Véhicule souhaité :*\n${getVehicleFullName(vehicle)}\n\n`;
-            }
-            
-            if (duration) {
-                message += `⏱️ *Durée estimée :*\n${duration} heure(s)\n\n`;
-            }
-            
-            if (estimatedPrice) {
-                const vehicleData = VEHICLE_PRICES[vehicle];
-                message += `━━━━━━━━━━━━━━━━━━━━\n`;
-                message += `💰 *ESTIMATION DU PRIX*\n`;
-                message += `━━━━━━━━━━━━━━━━━━━━\n\n`;
-                message += `*Prix estimé : ${estimatedPrice}€*\n\n`;
-                message += `Détail du calcul :\n`;
-                message += `• Prix de base : ${vehicleData.base}€\n`;
-                message += `• Durée (${duration}h × ${vehicleData.hourly}€/h) : ${(duration * vehicleData.hourly).toFixed(0)}€\n`;
-                if (calculatedDistance) {
-                    const distanceCost = calculatedDistance * vehicleData.perKm;
-                    message += `• Distance (${calculatedDistance.toFixed(1)}km × ${vehicleData.perKm}€/km) : ${distanceCost.toFixed(0)}€\n`;
-                }
-                
-                // Ajouter les majorations si applicable
-                const dateInput = document.getElementById('date');
-                const timeInput = document.getElementById('time');
-                let surcharges = [];
-                
-                if (dateInput && dateInput.value) {
-                    const selectedDate = new Date(dateInput.value);
-                    const dayOfWeek = selectedDate.getDay();
-                    if (dayOfWeek === 0 || dayOfWeek === 6) {
-                        surcharges.push('Majoration weekend (+10%)');
-                    }
-                }
-                
-                if (timeInput && timeInput.value) {
-                    const hour = parseInt(timeInput.value.split(':')[0]);
-                    if ((hour >= 7 && hour < 9) || (hour >= 17 && hour < 19)) {
-                        surcharges.push('Majoration heures de pointe (+15%)');
-                    }
-                }
-                
-                if (surcharges.length > 0) {
-                    message += `• ${surcharges.join(' + ')}\n`;
-                }
-                
-                message += `\n⚠️ *Prix indicatif* - Le tarif final peut varier selon les contraintes d'accès, options supplémentaires et conditions réelles du trajet.\n\n`;
-            }
-            
-            if (description) {
-                message += `━━━━━━━━━━━━━━━━━━━━\n`;
-                message += `📝 *INFORMATIONS COMPLÉMENTAIRES*\n`;
-                message += `━━━━━━━━━━━━━━━━━━━━\n\n`;
-                message += `${description}\n\n`;
-            }
-
-            message += `━━━━━━━━━━━━━━━━━━━━\n`;
-            message += `👤 *MES COORDONNÉES*\n`;
-            message += `━━━━━━━━━━━━━━━━━━━━\n\n`;
-            message += `Nom : ${name}\n`;
-            message += `Téléphone : ${phone}\n\n`;
-            
-            message += `━━━━━━━━━━━━━━━━━━━━\n\n`;
-            message += `💬 *MODE DE PAIEMENT ACCEPTÉ :*\n`;
-            message += `• Espèces\n`;
-            message += `• Carte bancaire\n`;
-            message += `• Cryptomonnaie\n\n`;
-            
-            message += `✨ *SERVICE DISPONIBLE 24h/24 et 7j/7*\n\n`;
-            message += `Merci de me confirmer la disponibilité et le devis finalisé. Je reste disponible pour toute question ! 🙏\n\n`;
-            message += `Cordialement,\n${name}`;
-
-            // Track the event
-            if (typeof gtag !== 'undefined') {
-                gtag('event', 'quote_request', {
-                    'event_category': 'booking',
-                    'event_label': 'Demande de devis depuis booking.html',
-                    'value': 1
-                });
-            }
-
-            // Ouvrir WhatsApp
-            const whatsappUrl = `https://wa.me/33751213255?text=${encodeURIComponent(message)}`;
-            window.open(whatsappUrl, '_blank');
-            
-            // Rediriger vers la page de remerciement
-            window.location.href = 'merci.html';
+        // ========== VALIDATION DES CHAMPS ==========
+        function isValidEmail(email) {
+            if (!email || typeof email !== 'string') return false;
+            const trimmed = email.trim();
+            // RFC 5322 simplifié : format standard avec domaine valide
+            const re = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\.[a-zA-Z]{2,}$/;
+            return re.test(trimmed) && trimmed.length <= 254;
         }
+
+        function isValidFrenchPhone(phone) {
+            if (!phone || typeof phone !== 'string') return false;
+            const digits = phone.replace(/\D/g, '');
+            if (digits.length === 10) {
+                return /^0[1-9]\d{8}$/.test(digits); // 06, 07, 01, 02...
+            }
+            if (digits.length === 11 && digits.startsWith('33')) {
+                return /^33[1-9]\d{8}$/.test(digits); // +33 6 12 34 56 78
+            }
+            return false;
+        }
+
+        function isValidDate(dateStr) {
+            if (!dateStr) return false;
+            const date = new Date(dateStr);
+            if (isNaN(date.getTime())) return false;
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            date.setHours(0, 0, 0, 0);
+            return date >= today;
+        }
+
 
         // Fonction d'initialisation de l'autocomplétion pour booking.html
         function initBookingPlacesAutocomplete() {
@@ -1616,7 +1479,14 @@
                             const item = document.createElement('div');
                             item.className = 'pac-item';
                             item.style.cssText = 'padding: 12px 15px; cursor: pointer; border-bottom: 1px solid #e9ecef; transition: background 0.2s;';
-                            item.innerHTML = '<div style="font-weight: 600; color: #2c3e50;">' + prediction.structured_formatting.main_text + '</div><div style="color: #6c757d; font-size: 0.9em; margin-top: 4px;">' + prediction.structured_formatting.secondary_text + '</div>';
+                            const main = document.createElement('div');
+                            main.style.cssText = 'font-weight: 600; color: #2c3e50;';
+                            main.textContent = (prediction.structured_formatting && prediction.structured_formatting.main_text) || '';
+                            const sec = document.createElement('div');
+                            sec.style.cssText = 'color: #6c757d; font-size: 0.9em; margin-top: 4px;';
+                            sec.textContent = (prediction.structured_formatting && prediction.structured_formatting.secondary_text) || '';
+                            item.appendChild(main);
+                            item.appendChild(sec);
                             
                             item.addEventListener('mouseenter', () => {
                                 item.style.background = '#f8f9fa';
@@ -1800,6 +1670,7 @@
 
         function showErrorMessage(message, success = false) {
             const errorBox = document.getElementById('formError');
+            if (!errorBox) return;
             errorBox.style.display = 'block';
             errorBox.style.background = success ? '#ecfdf5' : '#fee2e2';
             errorBox.style.borderColor = success ? '#6ee7b7' : '#fca5a5';
@@ -1807,9 +1678,12 @@
             errorBox.textContent = message;
 
             if (success) {
+                errorBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 setTimeout(() => {
                     errorBox.style.display = 'none';
                 }, 4000);
+            } else {
+                errorBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         }
     </script>

@@ -48,8 +48,6 @@ Pour mettre à jour le site :
 - **Clé Google Maps** : ⚠️ **IMPORTANT** - Consultez `API-SETUP.md` pour configurer et sécuriser votre clé API Google Maps.
 - **Audit régulier** : lancer un test PageSpeed/Lighthouse et corriger les éventuels points faibles (poids images, cache, accessibilité).
 
-**Guides détaillés :** voir **GUIDE-SEARCH-CONSOLE.md** (configurer Search Console + sitemap) et **SEO-AUTORITE-AVIS-ANNUAIRES.md** (Google Business, avis, annuaires PagesJaunes/118712, demande d’avis).
-
 ## 🎨 Identité visuelle
 
 Un mini-kit est disponible dans `brand/` :
