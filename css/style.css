@@ -1142,21 +1142,42 @@ footer a:link, footer a:visited, footer a:active { color: rgba(255, 255, 255, 0.
     .hero h1 { font-size: 1.75rem; margin-bottom: 1rem; }
     .hero p { font-size: 0.95rem; margin-bottom: 1rem; }
     .booking-form {
-        padding: 1.25rem 1.25rem 1.5rem;
+        padding: 1.25rem 1rem 1.5rem;
         border-radius: 16px;
         max-width: 100%;
         margin: 0.5rem auto 0;
+        overflow: hidden;
+        box-sizing: border-box;
     }
     .form-row {
         grid-template-columns: 1fr;
         gap: 0.75rem;
         margin-bottom: 1rem;
+        max-width: 100%;
     }
     .form-group label { font-size: 0.85rem; }
     .form-group input,
     .form-group select {
         font-size: 0.9rem;
         padding: 0.7rem 0.9rem;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+    .form-group input[type="date"] {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        overflow: hidden;
+    }
+    .form-group {
+        max-width: 100%;
+        overflow: hidden;
+    }
+    .form-row {
+        max-width: 100%;
+        overflow: hidden;
     }
     .cta-call { width: 100%; font-size: 0.9rem; padding: 0.75rem 1rem; }
     .cta-whatsapp { width: 100%; font-size: 0.85rem; padding: 0.65rem 1rem; }
@@ -1222,7 +1243,7 @@ footer a:link, footer a:visited, footer a:active { color: rgba(255, 255, 255, 0.
     .hero { padding: 90px 0 40px; }
     .hero h1 { font-size: 1.5rem; }
     .hero p { font-size: 0.9rem; }
-    .booking-form { padding: 1rem 1rem 1.25rem; border-radius: 14px; }
+    .booking-form { padding: 1rem 0.75rem 1.25rem; border-radius: 14px; overflow: hidden; }
     .service-card { padding: 1.5rem 1rem; }
     .feature-card { padding: 1rem 0.75rem; }
     .gallery-grid { gap: 0.5rem; }
