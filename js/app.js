@@ -452,34 +452,7 @@ function setupPlacesAutocomplete() {
 }
 window.setupPlacesAutocomplete = setupPlacesAutocomplete;
 
-/* ===== Scroll animations ===== */
-
-function initScrollAnimations() {
-    const els = document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .scale-in');
-    if (!('IntersectionObserver' in window) || !els.length) {
-        els.forEach((e) => e.classList.add('visible'));
-        return;
-    }
-    const obs = new IntersectionObserver((entries, o) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) { entry.target.classList.add('visible'); o.unobserve(entry.target); }
-        });
-    }, { threshold: 0.2 });
-    els.forEach((e) => obs.observe(e));
-}
-
-/* ===== Header hide-on-scroll ===== */
-
-function initHeaderScrollBehaviour() {
-    const header = document.querySelector('header');
-    if (!header || window.innerWidth <= 768) return;
-    let last = 0;
-    window.addEventListener('scroll', () => {
-        const cur = window.pageYOffset || document.documentElement.scrollTop;
-        header.style.transform = (cur > last && cur > 120) ? 'translateY(-100%)' : 'translateY(0)';
-        last = Math.max(cur, 0);
-    }, { passive: true });
-}
+/* initScrollAnimations, initHeaderScrollBehaviour → moved to js/main.js */
 
 /* ===== URL cleanup ===== */
 
@@ -491,16 +464,7 @@ if (window.location.pathname.includes('index.html')) {
     } catch (_) { /* file:// */ }
 }
 
-/* ===== Scroll-to-top ===== */
-
-function initScrollToTop() {
-    const btn = document.getElementById('scrollToTop');
-    if (!btn) return;
-    window.addEventListener('scroll', () => {
-        btn.classList.toggle('visible', window.pageYOffset > 300);
-    }, { passive: true });
-    btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-}
+/* initScrollToTop → moved to js/main.js */
 
 /* ===== Sticky mobile footer ===== */
 
@@ -542,12 +506,23 @@ if (window.initGoogleMapsPlaces) {
     window.initGoogleMapsPlaces = function () { orig(); setTimeout(setupPriceCalculator, 200); };
 }
 
+/* ===== Pré-remplissage via paramètre ?city= ===== */
+function prefillCityFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    const city = params.get('city');
+    if (!city) return;
+    const decoded = decodeURIComponent(city);
+    const depart = document.getElementById('depart');
+    if (depart && !depart.value) {
+        depart.value = decoded;
+        depart.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+    prefillCityFromURL();
     enhanceServiceCards();
     setDefaultBookingDate();
-    initScrollAnimations();
-    initHeaderScrollBehaviour();
-    initScrollToTop();
     initStickyMobileFooter();
     initHeroVideo();
 

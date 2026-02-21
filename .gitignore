@@ -19,3 +19,9 @@ Thumbs.db
 # Fichiers de dépendances (si ajoutés plus tard)
 node_modules/
 package-lock.json
+
+# Documentation de développement (optionnel - décommenter si vous ne voulez pas les mettre sur GitHub)
+# DEPLOYMENT.md
+# API-SETUP.md
+# CORRECTIONS-GOOGLE.md
+# SEO-CHECKLIST.md

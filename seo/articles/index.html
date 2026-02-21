@@ -19,6 +19,7 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.moovecity.fr/seo/articles/">
     <meta property="og:image" content="https://www.moovecity.fr/images/hero-moove-city.jpg">
+    <meta property="og:site_name" content="Moove City">
     <meta property="og:locale" content="fr_FR">
     
     <!-- Twitter Card -->
@@ -36,7 +37,6 @@
     <link rel="preconnect" href="https://www.googletagmanager.com">
     
     <!-- Animations Niveau 2050 -->
-    <link rel="stylesheet" href="../../css/animations-2050.css">
     
     <!-- Google Analytics 4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-WC9EEBKP2E"></script>
@@ -630,6 +630,147 @@
             text-decoration: underline;
         }
 
+        /* Featured Article */
+        .featured-section { margin-bottom: 1.5rem; }
+        .featured-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--green-primary);
+            margin-bottom: 1rem;
+        }
+        .featured-label::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--green-primary);
+            border-radius: 50%;
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.3); }
+        }
+        .featured-card {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow-light);
+            border: 1px solid var(--border-color);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            color: inherit;
+        }
+        .featured-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border-color: var(--green-primary);
+        }
+        .featured-image {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient-secondary);
+            font-size: 5rem;
+            min-height: 280px;
+        }
+        .featured-content {
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .featured-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(5, 150, 105, 0.1);
+            color: var(--green-primary);
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.25rem 0.65rem;
+            border-radius: 999px;
+            width: fit-content;
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .featured-content .article-card-title {
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+        }
+        .featured-content .article-card-excerpt {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin-bottom: 1.25rem;
+        }
+        .featured-content .article-card-link { font-size: 1rem; }
+
+        /* Tags Filter */
+        .tags-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            padding: 1.5rem 0 0.5rem;
+            align-items: center;
+        }
+        .tags-filter-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-right: 0.25rem;
+        }
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.4rem 0.9rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1.5px solid var(--border-color);
+            background: white;
+            color: var(--text-secondary);
+            transition: all 0.25s ease;
+            user-select: none;
+            font-family: var(--font-family);
+        }
+        .tag:hover {
+            border-color: var(--green-primary);
+            color: var(--green-primary);
+            background: rgba(5, 150, 105, 0.04);
+        }
+        .tag.active {
+            background: var(--green-primary);
+            color: white;
+            border-color: var(--green-primary);
+            box-shadow: 0 2px 8px rgba(5, 150, 105, 0.3);
+        }
+        .article-card.hidden { display: none; }
+        .card-tags { display: flex; gap: 0.35rem; flex-wrap: wrap; margin-top: 0.5rem; }
+        .card-tag {
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.15rem 0.5rem;
+            border-radius: 999px;
+            background: rgba(5, 150, 105, 0.08);
+            color: var(--green-primary);
+        }
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            display: none;
+        }
+        .no-results.show { display: block; }
+
         /* Footer */
         footer {
             background: #0f172a;
@@ -814,7 +955,9 @@
 
         /* Hover Effects Améliorés */
         .article-card {
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                        box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                        border-color 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
         }
@@ -835,24 +978,9 @@
         }
 
         .article-card:hover {
-            transform: translateY(-12px) scale(1.03);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2),
-                        0 0 0 1px rgba(5, 150, 105, 0.3),
-                        0 0 40px rgba(5, 150, 105, 0.4);
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2),
-                            0 0 0 1px rgba(5, 150, 105, 0.3),
-                            0 0 40px rgba(5, 150, 105, 0.4);
-            }
-            50% {
-                box-shadow: 0 25px 70px rgba(0, 0, 0, 0.25),
-                            0 0 0 2px rgba(5, 150, 105, 0.5),
-                            0 0 60px rgba(5, 150, 105, 0.6);
-            }
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25),
+                        0 0 0 1px rgba(5, 150, 105, 0.2);
         }
 
         .article-card:hover .article-card-link {
@@ -957,6 +1085,13 @@
                 font-size: 0.95rem;
             }
 
+            .featured-card { grid-template-columns: 1fr; }
+            .featured-image { min-height: 160px; font-size: 3.5rem; }
+            .featured-content { padding: 1.5rem; }
+            .featured-content .article-card-title { font-size: 1.35rem; }
+            .tags-filter { gap: 0.4rem; }
+            .tag { font-size: 0.8rem; padding: 0.35rem 0.7rem; }
+
             .articles-grid {
                 grid-template-columns: 1fr;
                 gap: 1.5rem;
@@ -1002,28 +1137,35 @@
                 <p>Que vous soyez un particulier préparant un déménagement à Paris, une entreprise recherchant des solutions de transport logistique, ou un professionnel ayant besoin d'une livraison express, nos guides vous apportent les informations essentielles pour réussir votre projet. Explorez nos articles rédigés par des professionnels du transport avec plus de 10 ans d'expérience dans le secteur.</p>
             </section>
 
+            <!-- Article à la Une -->
+            <section class="featured-section">
+                <div class="featured-label">Article à la une</div>
+                <a href="demenagement-paris-guide-complet-2026.html" class="featured-card" itemscope itemtype="https://schema.org/Article">
+                    <div class="featured-image">🏙️</div>
+                    <div class="featured-content">
+                        <span class="featured-badge">Guide Complet • 12 min</span>
+                        <h2 class="article-card-title" itemprop="headline">Déménagement Paris 2026 : Guide Complet, Tarifs et Conseils d'Expert</h2>
+                        <p class="article-card-excerpt" itemprop="description">Guide complet du déménagement à Paris en 2026 : tarifs transparents, meilleurs quartiers, démarches administratives, conseils d'experts. Tout ce qu'il faut savoir pour réussir votre déménagement parisien. Devis gratuit en 3 clics dès 49€.</p>
+                        <span class="article-card-link">Lire le guide complet →</span>
+                        <meta itemprop="author" content="Moove City">
+                    </div>
+                </a>
+            </section>
+
+            <!-- Filtres par tag -->
+            <div class="tags-filter" role="toolbar" aria-label="Filtrer les articles par catégorie">
+                <span class="tags-filter-label">Filtrer :</span>
+                <button class="tag active" data-filter="all">Tous</button>
+                <button class="tag" data-filter="demenagement">#Déménagement</button>
+                <button class="tag" data-filter="transport">#Transport</button>
+                <button class="tag" data-filter="livraison">#Livraison</button>
+                <button class="tag" data-filter="pro">#Pro</button>
+                <button class="tag" data-filter="budget">#Budget</button>
+                <button class="tag" data-filter="conseils">#Conseils</button>
+            </div>
+
             <section class="articles-section">
                 <div class="articles-grid">
-                    <article class="article-card" itemscope itemtype="https://schema.org/Article">
-                        <a href="demenagement-paris-guide-complet-2026.html" style="text-decoration: none; color: inherit; display: block;">
-                            <div class="article-card-image">🏙️</div>
-                            <div class="article-card-content">
-                                <div class="article-card-meta">
-                                    <span itemprop="articleSection">Guide Complet</span>
-                                    <span>•</span>
-                                    <time datetime="2026-01-10" itemprop="datePublished">10 janvier 2026</time>
-                                    <span>•</span>
-                                    <span>12 min de lecture</span>
-                                </div>
-                                <h2 class="article-card-title" itemprop="headline">Déménagement Paris 2026 : Guide Complet</h2>
-                                <p class="article-card-excerpt" itemprop="description">Guide complet du déménagement à Paris en 2026 : tarifs transparents, meilleurs quartiers, démarches administratives, conseils d'experts. Tout ce qu'il faut savoir pour réussir votre déménagement parisien. Devis gratuit en 3 clics dès 49€.</p>
-                                <span class="article-card-link">Lire l'article complet →</span>
-                                <meta itemprop="author" content="Moove City">
-                                <link itemprop="url" href="https://www.moovecity.fr/seo/articles/demenagement-paris-guide-complet-2026.html">
-                            </div>
-                        </a>
-                    </article>
-
                     <article class="article-card" itemscope itemtype="https://schema.org/Article">
                         <a href="choisir-vehicule-demenagement.html" style="text-decoration: none; color: inherit; display: block;">
                             <div class="article-card-image">🚛</div>
@@ -1199,18 +1341,18 @@
                     </article>
 
                     <article class="article-card" itemscope itemtype="https://schema.org/Article">
-                        <a href="demenagement-paris-quartiers-2026.html" style="text-decoration: none; color: inherit; display: block;">
-                            <div class="article-card-image">🏘️</div>
+                        <a href="demenagement-week-end-paris-2026.html" style="text-decoration: none; color: inherit; display: block;">
+                            <div class="article-card-image">📅</div>
                             <div class="article-card-content">
                                 <div class="article-card-meta">
-                                    <span itemprop="articleSection">Guide Quartiers</span>
+                                    <span itemprop="articleSection">Guide Pratique</span>
                                     <span>•</span>
-                                    <time datetime="2026-01-10" itemprop="datePublished">10 janvier 2026</time>
+                                    <time datetime="2026-02-20" itemprop="datePublished">20 février 2026</time>
                                     <span>•</span>
-                                    <span>10 min de lecture</span>
+                                    <span>9 min de lecture</span>
                                 </div>
-                                <h2 class="article-card-title" itemprop="headline">Les 15 Meilleurs Quartiers de Paris 2026</h2>
-                                <p class="article-card-excerpt" itemprop="description">Guide des 15 meilleurs quartiers parisiens : Marais, Montmartre, Canal Saint-Martin, Oberkampf... Prix, ambiance, transports. Trouvez votre quartier idéal selon budget et lifestyle pour déménager à Paris.</p>
+                                <h2 class="article-card-title" itemprop="headline">Déménagement le Week-end à Paris : Avantages, Tarifs et Conseils</h2>
+                                <p class="article-card-excerpt" itemprop="description">Samedi ou dimanche ? Avantages logistiques, réglementation bruit, stationnement et tarifs identiques 7j/7. Guide complet pour organiser votre déménagement du week-end à Paris sans stress.</p>
                                 <span class="article-card-link">Lire l'article complet →</span>
                             </div>
                         </a>
@@ -1344,6 +1486,70 @@
             });
             card.addEventListener('mouseleave', function() {
                 this.style.background = 'white';
+            });
+        });
+
+        // Tag Assignment & Filter System
+        const tagMap = {
+            'choisir-vehicule-demenagement.html': 'demenagement,conseils',
+            'tarifs-demenagement-paris-2026.html': 'demenagement,budget',
+            'preparer-demenagement-checklist.html': 'demenagement,conseils',
+            'transport-objets-volumineux-paris.html': 'transport',
+            'demenagement-etudiant-paris-pas-cher.html': 'demenagement,budget',
+            'erreurs-eviter-demenagement-paris.html': 'demenagement,conseils',
+            'demenagement-paris-quartiers-2026.html': 'demenagement',
+            'livraison-express-paris-rapide.html': 'livraison',
+            'transport-entreprise-paris-b2b.html': 'pro',
+            'demenagement-week-end-paris-2026.html': 'demenagement,conseils'
+        };
+        const tagLabels = {
+            demenagement: 'Déménagement', transport: 'Transport', livraison: 'Livraison',
+            pro: 'Pro', budget: 'Budget', conseils: 'Conseils'
+        };
+
+        const gridCards = document.querySelectorAll('.articles-grid .article-card');
+        gridCards.forEach(card => {
+            var link = card.querySelector('a');
+            if (!link) return;
+            var href = link.getAttribute('href');
+            var tags = tagMap[href];
+            if (!tags) return;
+            card.dataset.tags = tags;
+            var tagContainer = document.createElement('div');
+            tagContainer.className = 'card-tags';
+            tags.split(',').forEach(function(t) {
+                var span = document.createElement('span');
+                span.className = 'card-tag';
+                span.textContent = '#' + (tagLabels[t] || t);
+                tagContainer.appendChild(span);
+            });
+            var linkSpan = card.querySelector('.article-card-link');
+            if (linkSpan) linkSpan.insertAdjacentElement('beforebegin', tagContainer);
+        });
+
+        var noResults = document.createElement('div');
+        noResults.className = 'no-results';
+        noResults.textContent = 'Aucun article ne correspond à ce filtre.';
+        document.querySelector('.articles-grid').appendChild(noResults);
+
+        document.querySelectorAll('.tag').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var filter = this.dataset.filter;
+                document.querySelectorAll('.tag').forEach(function(b) { b.classList.remove('active'); });
+                this.classList.add('active');
+                var visibleCount = 0;
+                gridCards.forEach(function(card) {
+                    if (filter === 'all') {
+                        card.classList.remove('hidden');
+                        visibleCount++;
+                    } else {
+                        var cardTags = (card.dataset.tags || '').split(',');
+                        var match = cardTags.indexOf(filter) !== -1;
+                        card.classList.toggle('hidden', !match);
+                        if (match) visibleCount++;
+                    }
+                });
+                noResults.classList.toggle('show', visibleCount === 0);
             });
         });
 

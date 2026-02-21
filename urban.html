@@ -74,492 +74,8 @@
     }
     </script>
     
-    <style>
-        /* Reset & Base Styles - Même charte graphique */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary-color: #1a1a1a;
-            --secondary-color: #ffffff;
-            --accent-color: #f8f9fa;
-            --text-primary: #2c3e50;
-            --text-secondary: #6c757d;
-            --text-light: #adb5bd;
-            --border-color: #e9ecef;
-            --shadow-light: 0 2px 8px rgba(0,0,0,0.08);
-            --shadow-medium: 0 4px 16px rgba(0,0,0,0.12);
-            --shadow-heavy: 0 8px 32px rgba(0,0,0,0.16);
-            --border-radius: 8px;
-            --transition: all 0.3s ease;
-            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            
-            --blue-primary: #4a5568;
-            --blue-secondary: #718096;
-            --green-primary: #059669;
-            --green-secondary: #10b981;
-            --gradient-primary: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
-            --gradient-secondary: linear-gradient(135deg, #059669 0%, #047857 100%);
-        }
-
-        body {
-            font-family: var(--font-family);
-            line-height: 1.6;
-            color: var(--text-primary);
-            background: var(--secondary-color);
-            overflow-x: hidden;
-            position: relative;
-            padding-top: 118px;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                linear-gradient(135deg, rgba(74, 85, 104, 0.05) 0%, rgba(5, 150, 105, 0.05) 100%),
-                radial-gradient(circle at 20% 80%, rgba(74, 85, 104, 0.08) 0%, transparent 60%),
-                radial-gradient(circle at 80% 20%, rgba(5, 150, 105, 0.08) 0%, transparent 60%);
-            z-index: -1;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Header */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: rgba(15, 23, 42, 0.9);
-            backdrop-filter: blur(8px);
-            color: white;
-            backdrop-filter: blur(20px);
-            z-index: 1000;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-            box-shadow: var(--shadow-light);
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem 0;
-            min-height: 70px;
-        }
-
-        .logo {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.9rem;
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: white;
-            text-decoration: none;
-        }
-
-        .logo img {
-            width: 96px;
-            height: 96px;
-        }
-
-        .nav-menu {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .nav-menu a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: var(--transition);
-        }
-
-        .nav-menu a:hover {
-            color: white;
-        }
-
-        .nav-buttons {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        .btn {
-            padding: 0.75rem 1.5rem;
-            border-radius: var(--border-radius);
-            font-weight: 600;
-            font-size: 0.9rem;
-            text-decoration: none;
-            transition: var(--transition);
-        }
-
-        .btn-primary {
-            background: var(--gradient-primary);
-            color: var(--secondary-color);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-medium);
-        }
-
-        .whatsapp-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.6rem 1rem;
-            background: #25D366;
-            color: white;
-            text-decoration: none;
-            border-radius: var(--border-radius);
-            font-weight: 600;
-            font-size: 0.85rem;
-        }
-
-        .whatsapp-btn:hover {
-            background: #128C7E;
-            transform: translateY(-2px);
-        }
-
-        /* Hero */
-        .page-hero {
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.7) 0%, rgba(15, 118, 110, 0.55) 100%), url('images/hero-moove-city.jpg');
-            background-size: cover;
-            background-position: center;
-            padding: 120px 0 80px;
-            text-align: center;
-            color: var(--secondary-color);
-        }
-
-        .page-hero h1 {
-            font-size: clamp(2.5rem, 5vw, 3.5rem);
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        .page-hero .volume-badge {
-            display: inline-block;
-            background: var(--gradient-secondary);
-            color: var(--secondary-color);
-            padding: 0.75rem 2rem;
-            border-radius: 999px;
-            font-weight: 700;
-            font-size: 1.5rem;
-            margin: 1.5rem 0;
-        }
-
-        .page-hero p {
-            font-size: 1.2rem;
-            max-width: 800px;
-            margin: 0 auto 2rem;
-            opacity: 0.9;
-        }
-
-        /* Content Sections */
-        .content-section {
-            padding: 100px 0;
-        }
-
-        .content-section h2 {
-            text-align: center;
-            font-size: clamp(2rem, 4vw, 3rem);
-            margin-bottom: 3rem;
-        }
-
-        .advantages-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-
-        .advantage-card {
-            background: var(--secondary-color);
-            padding: 2.5rem 2rem;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-medium);
-            border: 1px solid var(--border-color);
-            transition: var(--transition);
-        }
-
-        .advantage-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-heavy);
-            border-color: var(--green-primary);
-        }
-
-
-        .advantage-card .icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-
-        .advantage-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .advantage-card p {
-            color: var(--text-secondary);
-            line-height: 1.8;
-        }
-
-        /* Specs Section */
-        .specs-section {
-            background: var(--accent-color);
-        }
-
-        .specs-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-
-        .spec-card {
-            background: var(--secondary-color);
-            padding: 2rem;
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow-light);
-            text-align: center;
-        }
-
-        .spec-card strong {
-            display: block;
-            font-size: 2rem;
-            color: var(--green-primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .spec-card span {
-            color: var(--text-secondary);
-        }
-
-        /* Use Cases */
-        .use-cases-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .use-case-card {
-            background: var(--accent-color);
-            padding: 2rem;
-            border-radius: var(--border-radius);
-            border-left: 4px solid var(--green-primary);
-        }
-
-        .use-case-card h4 {
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-        }
-
-        .use-case-card ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .use-case-card ul li {
-            padding: 0.5rem 0;
-            color: var(--text-secondary);
-            position: relative;
-            padding-left: 1.5rem;
-        }
-
-        .use-case-card ul li::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            color: var(--green-primary);
-            font-weight: 700;
-        }
-
-        /* CTA Section */
-        .cta-section {
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.7) 0%, rgba(15, 118, 110, 0.6) 100%), url('images/hero-moove-city.jpg');
-            background-size: cover;
-            background-position: center;
-            color: var(--secondary-color);
-            padding: 80px 0;
-            text-align: center;
-        }
-
-        .cta-section h2 {
-            color: var(--secondary-color);
-            margin-bottom: 1rem;
-        }
-
-        .cta-section p {
-            font-size: 1.1rem;
-            max-width: 700px;
-            margin: 0 auto 2rem;
-            opacity: 0.9;
-        }
-
-        /* Footer */
-        footer {
-            background: #0f172a;
-            color: var(--secondary-color);
-            padding: 60px 0 20px;
-        }
-
-        footer .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 40px;
-        }
-
-        .footer-content {
-            display: grid;
-            grid-template-columns: 1.8fr 1.5fr 1.2fr 1.2fr 1.5fr;
-            gap: 3rem;
-            margin-bottom: 2rem;
-            align-items: start;
-        }
-
-        .footer-section {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .footer-section h3 {
-            color: var(--secondary-color);
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
-            font-weight: 700;
-        }
-
-        .footer-section h4 {
-            color: var(--secondary-color);
-            margin-bottom: 1rem;
-            font-size: 1rem;
-            font-weight: 600;
-        }
-
-        .footer-section p {
-            color: rgba(255, 255, 255, 0.85);
-            margin-bottom: 0.75rem;
-            font-size: 0.9rem;
-        }
-
-        .footer-section ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .footer-section ul li {
-            margin-bottom: 0.65rem;
-        }
-
-        .footer-section ul li a {
-            font-size: 0.9rem;
-            transition: all 0.2s ease;
-        }
-
-        .social-links a {
-            transition: all 0.3s ease;
-        }
-
-        .social-links a:hover {
-            background: rgba(255, 255, 255, 0.2) !important;
-            transform: translateY(-3px);
-        }
-
-        @media (max-width: 1200px) {
-            .footer-content {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 2rem;
-            }
-        }
-
-        @media (max-width: 968px) {
-            .footer-content {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 2rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .footer-content {
-                grid-template-columns: 1fr;
-                gap: 2.5rem;
-            }
-        }
-
-        .footer-section h3,
-        .footer-section h4 {
-            margin-bottom: 1rem;
-        }
-
-        .footer-section a {
-            color: rgba(255, 255, 255, 0.8) !important;
-            text-decoration: none;
-        }
-
-        .footer-section a:hover {
-            color: var(--secondary-color) !important;
-        }
-        
-        /* Forcer tous les liens du footer en blanc */
-        footer a {
-            color: rgba(255, 255, 255, 0.8) !important;
-            text-decoration: none;
-        }
-        
-        footer a:hover {
-            color: var(--secondary-color) !important;
-        }
-        
-        footer a:link,
-        footer a:visited,
-        footer a:active {
-            color: rgba(255, 255, 255, 0.8) !important;
-        }
-
-        .footer-bottom {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 2rem;
-            text-align: center;
-        }
-
-        .footer-bottom p {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.9rem;
-        }
-
-        @media (max-width: 768px) {
-            body {
-                padding-top: 96px;
-            }
-
-            nav {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.75rem;
-            }
-
-            .nav-menu {
-                display: none;
-            }
-
-            .content-section {
-                padding: 60px 0;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="css/global.css">
+    <script src="js/main.js" defer></script>
 </head>
 <body>
     <header>
@@ -590,45 +106,45 @@
     <main>
         <section class="page-hero">
             <div class="container">
-                <h1>Camion URBAN</h1>
+                <h1>Camion URBAN 6 m³ — Transport avec Chauffeur à Paris</h1>
                 <div class="volume-badge">6m³</div>
-                <p>Parfait pour la ville, manœuvrable et efficace. Le véhicule idéal pour vos déménagements légers et livraisons express dans Paris.</p>
+                <p>Le seul utilitaire qui passe partout dans Paris : ruelles du Marais, parkings souterrains, cours d'immeuble haussmanniennes. Gabarit compact, zéro galère de stationnement.</p>
             </div>
         </section>
 
         <section class="content-section">
             <div class="container">
-                <h2>Les avantages du camion URBAN</h2>
+                <h2>Conçu pour naviguer dans Paris</h2>
                 <div class="advantages-grid">
                     <div class="advantage-card">
+                        <div class="icon">🅿️</div>
+                        <h3>Passe en parking souterrain</h3>
+                        <p>Hauteur inférieure à 1,90 m : l'URBAN entre dans la grande majorité des parkings résidentiels et sous-sols parisiens, là où les camions classiques restent dehors.</p>
+                    </div>
+                    <div class="advantage-card">
                         <div class="icon">🏙️</div>
-                        <h3>Idéal pour la ville</h3>
-                        <p>Dimensions compactes parfaites pour naviguer dans les rues étroites de Paris. Accès facile aux parkings et zones résidentielles.</p>
+                        <h3>Taillé pour les rues étroites</h3>
+                        <p>Rayon de braquage ultra-court et gabarit réduit : passages piétons du Marais, impasses de Montmartre ou sens uniques de Saint-Germain, rien ne l'arrête.</p>
                     </div>
                     <div class="advantage-card">
-                        <div class="icon">⚡</div>
-                        <h3>Manœuvrabilité optimale</h3>
-                        <p>Rayon de braquage réduit, facilité de stationnement. Parfait pour les interventions rapides en centre-ville.</p>
+                        <div class="icon">⏱️</div>
+                        <h3>Stationnement instantané</h3>
+                        <p>Il se gare sur une place standard, évitant les amendes et les créneaux impossibles. Votre chauffeur reste au plus près de votre porte.</p>
                     </div>
                     <div class="advantage-card">
-                        <div class="icon">💰</div>
-                        <h3>Tarif économique</h3>
-                        <p>À partir de 40€, la solution la plus accessible pour vos petits déménagements et livraisons express.</p>
+                        <div class="icon">💶</div>
+                        <h3>Le tarif le plus accessible</h3>
+                        <p>Dès 40 € la course : la formule la plus économique de la flotte Moove City, idéale quand le budget est serré.</p>
                     </div>
                     <div class="advantage-card">
-                        <div class="icon">🚚</div>
-                        <h3>Rapidité d'intervention</h3>
-                        <p>Disponible dans l'heure sur Paris intramuros. Réactivité maximale pour vos besoins urgents.</p>
+                        <div class="icon">🎓</div>
+                        <h3>Parfait pour les étudiants</h3>
+                        <p>Départ de chambre universitaire, emménagement en studio ou colocation : 6 m³ suffisent pour transporter l'essentiel en une rotation.</p>
                     </div>
                     <div class="advantage-card">
-                        <div class="icon">📦</div>
-                        <h3>Volume adapté</h3>
-                        <p>6m³ suffisant pour un studio complet, mobilier de bureau ou plusieurs colis volumineux.</p>
-                    </div>
-                    <div class="advantage-card">
-                        <div class="icon">🛡️</div>
-                        <h3>Équipement complet</h3>
-                        <p>Chauffeur professionnel, diable, couvertures de protection inclus. Tout le matériel nécessaire pour un transport sécurisé.</p>
+                        <div class="icon">🔧</div>
+                        <h3>Diable et couvertures fournis</h3>
+                        <p>Votre chauffeur arrive équipé : diable pliable, sangles et housses de protection. Vous n'avez rien à louer en plus.</p>
                     </div>
                 </div>
             </div>
@@ -636,19 +152,19 @@
 
         <section class="content-section specs-section">
             <div class="container">
-                <h2>Caractéristiques techniques</h2>
+                <h2>Fiche technique de l'URBAN</h2>
                 <div class="specs-grid">
                     <div class="spec-card">
-                        <strong>6m³</strong>
-                        <span>Volume de chargement</span>
+                        <strong>6 m³</strong>
+                        <span>Espace utile de chargement</span>
                     </div>
                     <div class="spec-card">
-                        <strong>Compact</strong>
-                        <span>Dimensions adaptées à la ville</span>
+                        <strong>&lt; 1,90 m</strong>
+                        <span>Hauteur — compatible parkings souterrains</span>
                     </div>
                     <div class="spec-card">
-                        <strong>Diable</strong>
-                        <span>Équipement de manutention inclus</span>
+                        <strong>Diable + sangles</strong>
+                        <span>Matériel de manutention inclus</span>
                     </div>
                 </div>
             </div>
@@ -656,33 +172,33 @@
 
         <section class="content-section">
             <div class="container">
-                <h2>Cas d'usage idéaux</h2>
+                <h2>Situations idéales pour l'URBAN</h2>
                 <div class="use-cases-grid">
                     <div class="use-case-card">
-                        <h4>🏠 Déménagement studio</h4>
+                        <h4>🎓 Emménagement / départ étudiant</h4>
                         <ul>
-                            <li>Meubles d'un studio (lit, bureau, armoire)</li>
-                            <li>Électroménager (réfrigérateur, lave-linge)</li>
-                            <li>Cartons et effets personnels</li>
-                            <li>Plantes et décoration</li>
+                            <li>Lit 1 place, bureau et chaise</li>
+                            <li>Réfrigérateur compact ou micro-ondes</li>
+                            <li>5 à 10 cartons de vêtements et livres</li>
+                            <li>Vélo ou trottinette pliable</li>
                         </ul>
                     </div>
                     <div class="use-case-card">
-                        <h4>📦 Livraisons express</h4>
+                        <h4>🛒 Achat marketplace ou IKEA</h4>
                         <ul>
-                            <li>Colis volumineux en urgence</li>
-                            <li>Documents sensibles</li>
-                            <li>Pièces détachées</li>
-                            <li>Marchandises légères</li>
+                            <li>Canapé, table ou bibliothèque achetés en ligne</li>
+                            <li>Récupération Le Bon Coin / Facebook Market</li>
+                            <li>Retrait magasin (IKEA, Leroy Merlin, Conforama)</li>
+                            <li>Livraison le jour-même chez vous</li>
                         </ul>
                     </div>
                     <div class="use-case-card">
-                        <h4>🏢 Transport professionnel</h4>
+                        <h4>⚡ Course urgente de dernière minute</h4>
                         <ul>
-                            <li>Mobilier de bureau léger</li>
-                            <li>Archives et documents</li>
-                            <li>Matériel informatique</li>
-                            <li>Fournitures de bureau</li>
+                            <li>Colis oubliés avant un départ</li>
+                            <li>Pièce détachée critique pour un chantier</li>
+                            <li>Documents originaux à remettre en main propre</li>
+                            <li>Petit matériel événementiel (roll-ups, cartons)</li>
                         </ul>
                     </div>
                 </div>
@@ -691,11 +207,11 @@
 
         <section class="cta-section">
             <div class="container">
-                <h2>Besoin d'un camion URBAN ?</h2>
-                <p>Réservez votre camion 6m³ dès maintenant. Disponible dans l'heure sur Paris, tarif à partir de 40€.</p>
+                <h2>Votre URBAN disponible en moins d'une heure</h2>
+                <p>Indiquez vos adresses, choisissez votre créneau et le tour est joué. Zéro surprise : prix fixe annoncé avant confirmation.</p>
                 <div style="margin-top: 2rem;">
-                    <a href="booking.html" class="btn btn-primary" style="background: white; color: var(--text-primary); margin-right: 1rem;">Demander un devis</a>
-                    <a href="https://wa.me/33751213255" class="whatsapp-btn" target="_blank" rel="noopener noreferrer">Réserver via WhatsApp</a>
+                    <a href="booking.html" class="btn btn-primary" style="background: white; color: var(--text-primary); margin-right: 1rem;">Obtenir mon prix fixe</a>
+                    <a href="https://wa.me/33751213255" class="whatsapp-btn" target="_blank" rel="noopener noreferrer">Réserver par WhatsApp</a>
                 </div>
             </div>
         </section>
