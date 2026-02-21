@@ -604,18 +604,6 @@
         }
     </script>
     
-    <script>
-        window.initGoogleMapsPlaces = function() {
-            window.googleMapsLoaded = true;
-            if (document.readyState === 'complete' || document.readyState === 'interactive') {
-                if (window.setupPlacesAutocomplete) {
-                    window.setupPlacesAutocomplete();
-                }
-            }
-        };
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBj-30c7SBJUcHHdw_hBT17jtH__NRz0L8&libraries=places,marker&loading=async&callback=initGoogleMapsPlaces" async defer></script>
-    
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/style.css">
 
@@ -649,11 +637,10 @@
 
     <main>
     <section class="hero" id="hero" role="banner">
-        <video class="hero-video" autoplay muted loop playsinline preload="metadata" 
+        <video class="hero-video" muted loop playsinline preload="none" 
                poster="images/hero-placeholder.jpg" width="1920" height="1080"
                aria-hidden="true">
-            <source src="videos/Work.mp4" type="video/mp4">
-            Votre navigateur ne supporte pas la vidéo HTML5.
+            <source data-src="videos/Work.mp4" type="video/mp4">
         </video>
         <div class="hero-overlay"></div>
         <div class="container">
@@ -1032,6 +1019,5 @@
     </button>
 
     <script src="js/sanitize.js" defer></script>
-    <script src="https://unpkg.com/twemoji@14.0.2/dist/twemoji.min.js" crossorigin="anonymous" defer></script>
 </body>
 </html>

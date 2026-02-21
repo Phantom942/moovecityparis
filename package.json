@@ -5,6 +5,6 @@
     "generate-webp": "node scripts/generate-webp.js"
   },
   "devDependencies": {
-    "sharp": "^0.33.0"
+    "sharp": "^0.33.5"
   }
 }

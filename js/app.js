@@ -481,13 +481,47 @@ function initStickyMobileFooter() {
     update();
 }
 
-/* ===== Hero video ===== */
+/* ===== Hero video — lazy-loaded after window.load, desktop only ===== */
 
 function initHeroVideo() {
     const video = document.querySelector('.hero-video');
     if (!video) return;
-    video.play().catch(() => {});
+
+    if (window.innerWidth < 768) { video.remove(); return; }
+
+    function loadAndPlay() {
+        const source = video.querySelector('source[data-src]');
+        if (source && !source.src) {
+            source.src = source.getAttribute('data-src');
+            source.removeAttribute('data-src');
+            video.load();
+        }
+        video.play().catch(() => {});
+    }
+
     video.addEventListener('error', () => { video.style.display = 'none'; });
+
+    if (document.readyState === 'complete') setTimeout(loadAndPlay, 200);
+    else window.addEventListener('load', () => setTimeout(loadAndPlay, 200));
+}
+
+/* ===== Google Maps — lazy-loaded on form focus ===== */
+
+let mapsScriptInjected = false;
+function ensureGoogleMaps() {
+    if (mapsScriptInjected || window.google?.maps?.places) return;
+    mapsScriptInjected = true;
+
+    window.initGoogleMapsPlaces = function () {
+        window.googleMapsLoaded = true;
+        if (window.setupPlacesAutocomplete) setupPlacesAutocomplete();
+        setTimeout(setupPriceCalculator, 200);
+    };
+
+    const s = document.createElement('script');
+    s.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBj-30c7SBJUcHHdw_hBT17jtH__NRz0L8&libraries=places,marker&loading=async&callback=initGoogleMapsPlaces';
+    s.async = true;
+    document.head.appendChild(s);
 }
 
 /* ===== Bootstrap ===== */
@@ -526,22 +560,24 @@ document.addEventListener('DOMContentLoaded', () => {
     initStickyMobileFooter();
     initHeroVideo();
 
+    const departInput = document.getElementById('depart');
+    const arriveeInput = document.getElementById('arrivee');
+    if (departInput) departInput.addEventListener('focus', ensureGoogleMaps, { once: true });
+    if (arriveeInput) arriveeInput.addEventListener('focus', ensureGoogleMaps, { once: true });
+
     if (window.google?.maps?.places) {
         setupPlacesAutocomplete();
-    } else {
-        const poll = setInterval(() => {
-            if (window.google?.maps?.places) { setupPlacesAutocomplete(); clearInterval(poll); }
-        }, 100);
-        setTimeout(() => clearInterval(poll), 10000);
-    }
-
-    if (typeof twemoji !== 'undefined') {
-        twemoji.parse(document.body, { folder: 'svg', ext: '.svg' });
     }
 
     document.querySelectorAll('.whatsapp-btn, a[href*="wa.me"]').forEach((btn) => {
         btn.addEventListener('click', trackWhatsAppClick);
     });
-});
 
-if (window.google?.maps?.places) setupPlacesAutocomplete();
+    window.addEventListener('load', () => {
+        const twemojiScript = document.createElement('script');
+        twemojiScript.src = 'https://unpkg.com/twemoji@14.0.2/dist/twemoji.min.js';
+        twemojiScript.crossOrigin = 'anonymous';
+        twemojiScript.onload = () => { twemoji.parse(document.body, { folder: 'svg', ext: '.svg' }); };
+        document.head.appendChild(twemojiScript);
+    });
+});
