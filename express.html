@@ -49,12 +49,47 @@
         "offers": {
             "@type": "Offer",
             "url": "https://www.moovecity.fr/booking.html",
+            "price": "50",
             "priceCurrency": "EUR",
+            "priceValidUntil": "2026-12-31",
             "availability": "https://schema.org/InStock",
             "seller": {
                 "@type": "LocalBusiness",
                 "name": "Moove City",
                 "telephone": "+33751213255"
+            },
+            "shippingDetails": {
+                "@type": "OfferShippingDetails",
+                "shippingDestination": {
+                    "@type": "DefinedRegion",
+                    "addressCountry": "FR",
+                    "addressRegion": ["Île-de-France"]
+                },
+                "deliveryTime": {
+                    "@type": "ShippingDeliveryTime",
+                    "handlingTime": {
+                        "@type": "QuantitativeValue",
+                        "minValue": 0,
+                        "maxValue": 1,
+                        "unitCode": "HUR"
+                    },
+                    "transitTime": {
+                        "@type": "QuantitativeValue",
+                        "minValue": 0,
+                        "maxValue": 24,
+                        "unitCode": "HUR"
+                    }
+                },
+                "shippingRate": {
+                    "@type": "MonetaryAmount",
+                    "value": "0",
+                    "currency": "EUR"
+                }
+            },
+            "hasMerchantReturnPolicy": {
+                "@type": "MerchantReturnPolicy",
+                "applicableCountry": "FR",
+                "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
             }
         },
         "aggregateRating": {
