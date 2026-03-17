@@ -301,101 +301,30 @@ function initBookingPlacesAutocomplete() {
     if (!departureInput || !arrivalInput) return false;
     if (departureInput.getAttribute('data-autocomplete-initialized') === 'true') return true;
 
+    function attachAutocomplete(input) {
+        var autocomplete = new google.maps.places.Autocomplete(input, {
+            types: ['address'],
+            componentRestrictions: { country: 'fr' }
+        });
+
+        autocomplete.addListener('place_changed', function () {
+            var place = autocomplete.getPlace();
+            if (place && place.formatted_address) {
+                input.value = place.formatted_address;
+                input.setAttribute('data-full-address', place.formatted_address);
+            }
+        });
+    }
+
     try {
-        var autocompleteService = new google.maps.places.AutocompleteService();
-
-        function setupCustomAutocomplete(input) {
-            var container = document.createElement('div');
-            container.className = 'pac-container custom-autocomplete';
-            container.style.cssText = 'position:absolute;z-index:999999;background:white;border:1px solid #e9ecef;border-radius:8px;box-shadow:0 8px 32px rgba(0,0,0,0.16);max-height:300px;overflow-y:auto;display:none;width:100%;margin-top:5px';
-
-            var formRow = input.closest('.form-row > div');
-            if (formRow) { formRow.style.position = 'relative'; formRow.appendChild(container); }
-            else input.parentNode.appendChild(container);
-
-            var selectedIndex = -1, predictions = [], isSelecting = false;
-
-            function showSuggestions(preds) {
-                predictions = preds || [];
-                if (!predictions.length) { container.style.display = 'none'; return; }
-                container.innerHTML = '';
-                selectedIndex = -1;
-                predictions.forEach(function (prediction) {
-                    var item = document.createElement('div');
-                    item.className = 'pac-item';
-                    item.style.cssText = 'padding:12px 15px;cursor:pointer;border-bottom:1px solid #e9ecef;transition:background 0.2s';
-                    var main = document.createElement('div');
-                    main.style.cssText = 'font-weight:600;color:#2c3e50';
-                    main.textContent = (prediction.structured_formatting && prediction.structured_formatting.main_text) || '';
-                    var sec = document.createElement('div');
-                    sec.style.cssText = 'color:#6c757d;font-size:0.9em;margin-top:4px';
-                    sec.textContent = (prediction.structured_formatting && prediction.structured_formatting.secondary_text) || '';
-                    item.appendChild(main);
-                    item.appendChild(sec);
-                    item.addEventListener('mouseenter', function () { item.style.background = '#f8f9fa'; });
-                    item.addEventListener('mouseleave', function () { item.style.background = 'white'; });
-                    item.addEventListener('click', function () { selectPlace(prediction); });
-                    container.appendChild(item);
-                });
-                container.style.display = 'block';
-            }
-
-            function selectPlace(prediction) {
-                isSelecting = true;
-                container.style.display = 'none';
-                container.innerHTML = '';
-                input.value = prediction.description || prediction.structured_formatting.main_text + ', ' + prediction.structured_formatting.secondary_text;
-
-                new google.maps.places.PlacesService(document.createElement('div')).getDetails(
-                    { placeId: prediction.place_id, fields: ['formatted_address', 'geometry', 'name', 'address_components'] },
-                    function (place, status) {
-                        if (status === google.maps.places.PlacesServiceStatus.OK && place) {
-                            input.value = place.formatted_address;
-                            input.setAttribute('data-full-address', place.formatted_address);
-                        }
-                        setTimeout(function () { isSelecting = false; }, 100);
-                    }
-                );
-            }
-
-            var timeout;
-            input.addEventListener('input', function (e) {
-                if (isSelecting) return;
-                clearTimeout(timeout);
-                var query = e.target.value.trim();
-                if (query.length < 1) { container.style.display = 'none'; return; }
-                timeout = setTimeout(function () {
-                    autocompleteService.getPlacePredictions(
-                        { input: query, componentRestrictions: { country: 'fr' }, types: ['address'] },
-                        function (preds, status) {
-                            if (status === google.maps.places.PlacesServiceStatus.OK && preds) showSuggestions(preds);
-                            else container.style.display = 'none';
-                        }
-                    );
-                }, 150);
-            });
-
-            input.addEventListener('keydown', function (e) {
-                var items = container.querySelectorAll('.pac-item');
-                if (!items.length) return;
-                if (e.key === 'ArrowDown') { e.preventDefault(); selectedIndex = Math.min(selectedIndex + 1, items.length - 1); }
-                else if (e.key === 'ArrowUp') { e.preventDefault(); selectedIndex = Math.max(selectedIndex - 1, -1); }
-                else if (e.key === 'Enter' && selectedIndex >= 0) { e.preventDefault(); selectPlace(predictions[selectedIndex]); return; }
-                items.forEach(function (it, i) { it.style.background = i === selectedIndex ? '#f8f9fa' : 'white'; });
-                if (selectedIndex >= 0) items[selectedIndex].scrollIntoView({ block: 'nearest' });
-            });
-
-            document.addEventListener('click', function (e) {
-                if (!input.contains(e.target) && !container.contains(e.target)) container.style.display = 'none';
-            });
-        }
-
-        setupCustomAutocomplete(departureInput);
-        setupCustomAutocomplete(arrivalInput);
+        attachAutocomplete(departureInput);
+        attachAutocomplete(arrivalInput);
         departureInput.setAttribute('data-autocomplete-initialized', 'true');
         arrivalInput.setAttribute('data-autocomplete-initialized', 'true');
         return true;
-    } catch (e) { return false; }
+    } catch (e) {
+        return false;
+    }
 }
 
 /* ===== Callback Google Maps ===== */
