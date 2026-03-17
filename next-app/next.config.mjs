@@ -2,9 +2,10 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    unoptimized: true
+    unoptimized: true,
   },
-  output: "standalone"
+  // On exporte un site statique pour GitHub Pages
+  output: "export",
 };
 
 export default nextConfig;
