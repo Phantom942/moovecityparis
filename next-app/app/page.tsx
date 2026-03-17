@@ -41,7 +41,7 @@ export default function HomePage() {
                 <li><a href="#galerie">Galerie</a></li>
                 <li><a href="#faq">FAQ</a></li>
                 <li><a href="seo/articles/">Articles</a></li>
-                <li><a href="transport-entreprises.html">B2B</a></li>
+                <li><a href="/transport-entreprises.html">B2B</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
             <div class="nav-buttons">
@@ -51,16 +51,16 @@ export default function HomePage() {
                     </svg>
                     WhatsApp
                 </a>
-                <a href="booking.html" class="btn btn-primary" aria-label="Réserver un transport avec chauffeur Paris - Accéder au formulaire de devis">RÉSERVER MAINTENANT</a>
+                <a href="/booking" class="btn btn-primary" aria-label="Réserver un transport avec chauffeur Paris - Accéder au formulaire de devis">RÉSERVER MAINTENANT</a>
             </div>
         </nav>
     </header>
 
     <section class="hero" id="hero" role="banner">
-        <video class="hero-video" muted loop playsinline preload="none" 
-               poster="images/hero-placeholder.jpg" width="1920" height="1080"
+        <video class="hero-video" muted loop playsinline autoplay
+               poster="/images/hero-moove-city.jpg" width="1920" height="1080"
                aria-hidden="true">
-            <source data-src="videos/Work.mp4" type="video/mp4">
+            <source src="/videos/Work.mp4" type="video/mp4">
         </video>
         <div class="hero-overlay"></div>
         <div class="container">
@@ -164,22 +164,22 @@ export default function HomePage() {
                 <li class="service-card scale-in stagger-delay-1" data-vehicle="urban">
                     <h3>URBAN</h3>
                     <p><strong>6m³</strong><br>Parfait pour la ville, manœuvrable et efficace. Idéal pour vos courses et livraisons express.<br><span class="service-price">À partir de 40€</span></p>
-                    <a class="service-link" href="urban.html" title="Découvrir le camion URBAN 6m³ pour transport express Paris" aria-label="Réserver un camion URBAN 6m³ pour transport express Paris">Découvrir le camion URBAN 6m³</a>
+                    <a class="service-link" href="/urban.html" title="Découvrir le camion URBAN 6m³ pour transport express Paris" aria-label="Réserver un camion URBAN 6m³ pour transport express Paris">Découvrir le camion URBAN 6m³</a>
                 </li>
                 <li class="service-card scale-in stagger-delay-2" data-vehicle="express">
                     <h3>EXPRESS</h3>
                     <p><strong>8 à 10m³</strong><br>Rapidité et fiabilité pour vos livraisons express et courses urgentes. Intervention dans l'heure.<br><span class="service-price">À partir de 50€</span></p>
-                    <a class="service-link" href="express.html" title="Découvrir le camion EXPRESS 8-10m³ pour livraison express Paris" aria-label="Réserver un camion EXPRESS 8-10m³ pour livraison express Paris">Découvrir le camion EXPRESS 8-10m³</a>
+                    <a class="service-link" href="/express.html" title="Découvrir le camion EXPRESS 8-10m³ pour livraison express Paris" aria-label="Réserver un camion EXPRESS 8-10m³ pour livraison express Paris">Découvrir le camion EXPRESS 8-10m³</a>
                 </li>
                 <li class="service-card scale-in stagger-delay-3" data-vehicle="premium">
                     <h3>PREMIUM</h3>
                     <p><strong>12m³ à 14m³</strong><br>Confort et espace pour vos transports et déménagements importants.<br><span class="service-price">À partir de 70€</span></p>
-                    <a class="service-link" href="premium.html" title="Découvrir le camion PREMIUM 12-14m³ pour déménagement Paris" aria-label="Réserver un camion PREMIUM 12-14m³ pour déménagement Paris">Découvrir le camion PREMIUM 12-14m³</a>
+                    <a class="service-link" href="/premium.html" title="Découvrir le camion PREMIUM 12-14m³ pour déménagement Paris" aria-label="Réserver un camion PREMIUM 12-14m³ pour déménagement Paris">Découvrir le camion PREMIUM 12-14m³</a>
                 </li>
                 <li class="service-card scale-in stagger-delay-4" data-vehicle="titan">
                     <h3>TITAN</h3>
                     <p><strong>20 m³</strong><br>Avec hayon (500kg max). La puissance pour les gros volumes de déménagement et transport.<br><span class="service-price">À partir de 110€</span></p>
-                    <a class="service-link" href="titan.html" title="Découvrir le camion TITAN 20m³ avec hayon pour déménagement complet Paris" aria-label="Réserver un camion 20m³ avec hayon pour déménagement gros volumes Paris">Découvrir le camion TITAN 20m³</a>
+                    <a class="service-link" href="/titan.html" title="Découvrir le camion TITAN 20m³ avec hayon pour déménagement complet Paris" aria-label="Réserver un camion 20m³ avec hayon pour déménagement gros volumes Paris">Découvrir le camion TITAN 20m³</a>
                 </li>
             </ul>
         </div>
@@ -260,9 +260,9 @@ export default function HomePage() {
                     <li><strong>Disponibilité :</strong> 24h/24, 7j/7. Intervention possible dans l'heure, réponse sous 5 minutes.</li>
                     <li id="tarifs"><strong>Tarifs indicatifs :</strong> à partir de 40€ (URBAN 6m³), 50€ (EXPRESS 9m³), 70€ (PREMIUM 12m³), 110€ (TITAN 20m³).</li>
                     <li><strong>Paiement :</strong> espèces, carte bancaire, cryptomonnaie.</li>
-                    <li><strong>Contact :</strong> 07 51 21 32 55 — WhatsApp — contact@moovecity.fr — <a href="https://www.moovecity.fr/booking.html">devis gratuit en ligne</a>.</li>
+                    <li><strong>Contact :</strong> 07 51 21 32 55 — WhatsApp — contact@moovecity.fr — <a href="/booking">devis gratuit en ligne</a>.</li>
                 </ul>
-                <p style="margin-top: 1.5rem;">Réserver : <a href="booking.html">formulaire de devis gratuit</a> sur le site ou par WhatsApp pour une confirmation rapide. <a href="demenagement-paris.html">Déménagement Paris</a> · <a href="livraison-express.html">Livraison express</a> · <a href="transport-entreprises.html">Transport B2B</a>.</p>
+                <p style="margin-top: 1.5rem;">Réserver : <a href="/booking">formulaire de devis gratuit</a> sur le site ou par WhatsApp pour une confirmation rapide. <a href="/demenagement-paris.html">Déménagement Paris</a> · <a href="/livraison-express.html">Livraison express</a> · <a href="/transport-entreprises.html">Transport B2B</a>.</p>
             </div>
         </div>
     </section>
@@ -286,7 +286,7 @@ export default function HomePage() {
                 <a href="https://www.linkedin.com/company/moovecity" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="display: inline-flex; align-items: center; gap: 0.5rem;">LinkedIn</a>
             </div>
             <p style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-secondary);">
-                Inscrit sur PagesJaunes, 118712 et annuaires professionnels. <a href="booking.html">Devis gratuit</a> · <a href="tel:+33751213255">07 51 21 32 55</a>
+                Inscrit sur PagesJaunes, 118712 et annuaires professionnels. <a href="/booking">Devis gratuit</a> · <a href="tel:+33751213255">07 51 21 32 55</a>
             </p>
         </div>
     </section>
@@ -329,30 +329,30 @@ export default function HomePage() {
                 <div class="footer-section">
                     <h4>Liens rapides</h4>
                     <ul>
-                        <li><a href="booking.html">Réserver maintenant</a></li>
-                        <li><a href="demenagement-paris.html">Déménagement Paris</a></li>
-                        <li><a href="livraison-express.html">Livraison express</a></li>
-                        <li><a href="transport-entreprises.html">Transport entreprises</a></li>
+                        <li><a href="/booking">Réserver maintenant</a></li>
+                        <li><a href="/demenagement-paris.html">Déménagement Paris</a></li>
+                        <li><a href="/livraison-express.html">Livraison express</a></li>
+                        <li><a href="/transport-entreprises.html">Transport entreprises</a></li>
                         <li><a href="seo/articles/">Articles & Guides</a></li>
                         <li><a href="#contact">Contact</a></li>
-                        <li><a href="seo/villes-idf.html">Villes desservies</a></li>
+                        <li><a href="/seo/villes-idf.html">Villes desservies</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
                     <h4>Nos Véhicules</h4>
                     <ul>
-                        <li><a href="urban.html">URBAN — 6 m³</a></li>
-                        <li><a href="express.html">EXPRESS — 9 m³</a></li>
-                        <li><a href="premium.html">PREMIUM — 12 m³</a></li>
-                        <li><a href="titan.html">TITAN — 20 m³</a></li>
+                        <li><a href="/urban.html">URBAN — 6 m³</a></li>
+                        <li><a href="/express.html">EXPRESS — 9 m³</a></li>
+                        <li><a href="/premium.html">PREMIUM — 12 m³</a></li>
+                        <li><a href="/titan.html">TITAN — 20 m³</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
                     <h4>Services</h4>
                     <ul>
-                        <li><a href="demenagement-paris.html">Déménagements</a></li>
-                        <li><a href="livraison-express.html">Livraisons express</a></li>
-                        <li><a href="transport-entreprises.html">Transport entreprises</a></li>
+                        <li><a href="/demenagement-paris.html">Déménagements</a></li>
+                        <li><a href="/livraison-express.html">Livraisons express</a></li>
+                        <li><a href="/transport-entreprises.html">Transport entreprises</a></li>
                         <li><a href="#galerie">Galerie terrain</a></li>
                         <li><a href="#faq">Questions fréquentes</a></li>
                         <li><a href="#avis">Avis & Réseaux</a></li>
@@ -392,10 +392,10 @@ export default function HomePage() {
             <div class="footer-bottom">
                 <p>© 2026 Moove City. Tous droits réservés.</p>
                 <p>
-                    <a href="mentions-legales.html" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">Mentions légales</a> | 
-                    <a href="politique-de-confidentialite.html" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">Confidentialité</a> | 
-                    <a href="politique-cookies.html" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">Cookies</a> | 
-                    <a href="conditions-generales.html" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">CGU</a>
+                    <a href="/mentions-legales.html" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">Mentions légales</a> | 
+                    <a href="/politique-de-confidentialite.html" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">Confidentialité</a> | 
+                    <a href="/politique-cookies.html" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">Cookies</a> | 
+                    <a href="/conditions-generales.html" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">CGU</a>
                 </p>
                 <p><a href="https://phantomdev.fr" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 0.5em; color: rgba(255,255,255,0.8); text-decoration: none; font-family: 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; font-weight: 300; font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase; transition: opacity 0.2s ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'"><svg width="20" height="20" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0" aria-hidden="true"><path d="M16 4c-6 0-10 5-10 10 0 1.8.6 3.5 1.5 4.8v4.2l2.5-2.5 2 2.5 2-2.5 2.5 2.5v-4.2c.9-1.3 1.5-3 1.5-4.8 0-5-4-10-10-10z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="11" cy="10.5" r="1.2" fill="currentColor"/><circle cx="21" cy="10.5" r="1.2" fill="currentColor"/></svg>Design by PhantomDev</a></p>
             </div>

@@ -38,12 +38,18 @@ window.trackWhatsAppClick = trackWhatsAppClick;
 
 /* ===== Tarification ===== */
 
-const SERVICE_PRICES = {
+/* Utilisation de var + garde globale pour éviter l'erreur
+   \"Identifier 'SERVICE_PRICES' has already been declared\"
+   lorsque le script est évalué plusieurs fois (dev / HMR). */
+var SERVICE_PRICES = (typeof window !== 'undefined' && window.SERVICE_PRICES) || {
     urban:   { label: 'À partir de 40€',  basePrice: 40,  pricePerKm: 0.75, pricePerHour: 18, minPrice: 40  },
     express: { label: 'À partir de 50€',  basePrice: 50,  pricePerKm: 1.0,  pricePerHour: 22, minPrice: 50  },
     premium: { label: 'À partir de 70€',  basePrice: 70,  pricePerKm: 1.25, pricePerHour: 26, minPrice: 70  },
     titan:   { label: 'À partir de 110€', basePrice: 110, pricePerKm: 1.75, pricePerHour: 32, minPrice: 110 }
 };
+if (typeof window !== 'undefined') {
+    window.SERVICE_PRICES = SERVICE_PRICES;
+}
 
 function calculatePrice(vehicleKey, durationHours) {
     if (!vehicleKey || !durationHours) return null;
@@ -110,9 +116,9 @@ function calculatePriceWithDistanceImproved(vehicleKey, distanceKm, durationMinu
 
 /* ===== Calculateur de prix (formulaire hero) ===== */
 
-const priceCalculatorCache = {
+var priceCalculatorCache = (typeof window !== 'undefined' && window.priceCalculatorCache) || {
     elements: null,
-    init() {
+    init: function() {
         if (!this.elements) {
             this.elements = {
                 depart: document.getElementById('depart'),
@@ -128,6 +134,7 @@ const priceCalculatorCache = {
         return this.elements;
     }
 };
+if (typeof window !== 'undefined') window.priceCalculatorCache = priceCalculatorCache;
 
 let priceCalculationTimeout;
 function calculatePriceWithDistance() {
@@ -528,6 +535,9 @@ function initHeroVideo() {
     else window.addEventListener('load', () => setTimeout(loadAndPlay, 200));
 }
 
+/* Permet d’appeler depuis React/Next si le script charge après DOMContentLoaded */
+window.initHeroVideo = initHeroVideo;
+
 /* ===== Google Maps — lazy-loaded on form focus ===== */
 
 let mapsScriptInjected = false;
@@ -576,31 +586,35 @@ function prefillCityFromURL() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', runPageInit);
+/* Si le script charge après que le DOM est prêt (ex. Next.js avec script injecté en defer) */
+if (document.readyState !== 'loading') runPageInit();
+
+function runPageInit() {
     prefillCityFromURL();
     enhanceServiceCards();
     setDefaultBookingDate();
     initStickyMobileFooter();
     initHeroVideo();
 
-    const departInput = document.getElementById('depart');
-    const arriveeInput = document.getElementById('arrivee');
+    var departInput = document.getElementById('depart');
+    var arriveeInput = document.getElementById('arrivee');
     if (departInput) departInput.addEventListener('focus', ensureGoogleMaps, { once: true });
     if (arriveeInput) arriveeInput.addEventListener('focus', ensureGoogleMaps, { once: true });
 
-    if (window.google?.maps?.places) {
+    if (window.google && window.google.maps && window.google.maps.places) {
         setupPlacesAutocomplete();
     }
 
-    document.querySelectorAll('.whatsapp-btn, a[href*="wa.me"]').forEach((btn) => {
+    document.querySelectorAll('.whatsapp-btn, a[href*="wa.me"]').forEach(function(btn) {
         btn.addEventListener('click', trackWhatsAppClick);
     });
 
-    window.addEventListener('load', () => {
-        const twemojiScript = document.createElement('script');
+    window.addEventListener('load', function() {
+        var twemojiScript = document.createElement('script');
         twemojiScript.src = 'https://unpkg.com/twemoji@14.0.2/dist/twemoji.min.js';
         twemojiScript.crossOrigin = 'anonymous';
-        twemojiScript.onload = () => { twemoji.parse(document.body, { folder: 'svg', ext: '.svg' }); };
+        twemojiScript.onload = function() { if (window.twemoji) twemoji.parse(document.body, { folder: 'svg', ext: '.svg' }); };
         document.head.appendChild(twemojiScript);
     });
-});
+}

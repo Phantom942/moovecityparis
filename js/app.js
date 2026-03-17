@@ -38,12 +38,18 @@ window.trackWhatsAppClick = trackWhatsAppClick;
 
 /* ===== Tarification ===== */
 
-const SERVICE_PRICES = {
+/* Utilisation de var + garde globale pour éviter l'erreur
+   \"Identifier 'SERVICE_PRICES' has already been declared\"
+   lorsque le script est évalué plusieurs fois (dev / HMR). */
+var SERVICE_PRICES = (typeof window !== 'undefined' && window.SERVICE_PRICES) || {
     urban:   { label: 'À partir de 40€',  basePrice: 40,  pricePerKm: 0.75, pricePerHour: 18, minPrice: 40  },
     express: { label: 'À partir de 50€',  basePrice: 50,  pricePerKm: 1.0,  pricePerHour: 22, minPrice: 50  },
     premium: { label: 'À partir de 70€',  basePrice: 70,  pricePerKm: 1.25, pricePerHour: 26, minPrice: 70  },
     titan:   { label: 'À partir de 110€', basePrice: 110, pricePerKm: 1.75, pricePerHour: 32, minPrice: 110 }
 };
+if (typeof window !== 'undefined') {
+    window.SERVICE_PRICES = SERVICE_PRICES;
+}
 
 function calculatePrice(vehicleKey, durationHours) {
     if (!vehicleKey || !durationHours) return null;
@@ -110,9 +116,9 @@ function calculatePriceWithDistanceImproved(vehicleKey, distanceKm, durationMinu
 
 /* ===== Calculateur de prix (formulaire hero) ===== */
 
-const priceCalculatorCache = {
+var priceCalculatorCache = (typeof window !== 'undefined' && window.priceCalculatorCache) || {
     elements: null,
-    init() {
+    init: function() {
         if (!this.elements) {
             this.elements = {
                 depart: document.getElementById('depart'),
@@ -128,6 +134,7 @@ const priceCalculatorCache = {
         return this.elements;
     }
 };
+if (typeof window !== 'undefined') window.priceCalculatorCache = priceCalculatorCache;
 
 let priceCalculationTimeout;
 function calculatePriceWithDistance() {

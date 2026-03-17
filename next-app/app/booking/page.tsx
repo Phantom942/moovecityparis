@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import "./booking.css";
 
 export default function BookingPage() {
   useEffect(() => {
@@ -32,17 +33,17 @@ export default function BookingPage() {
     <main
       dangerouslySetInnerHTML={{
         __html: `
-    <nav aria-label="Fil d'Ariane" class="breadcrumb-nav" style="background: #f8fafc; padding: 12px 0; border-bottom: 1px solid #e2e8f0;">
-        <div class="container" style="max-width: 1080px; margin: 0 auto; padding: 0 20px;">
-            <ol itemscope itemtype="https://schema.org/BreadcrumbList" style="list-style: none; padding: 0; margin: 0; display: flex; align-items: center; gap: 8px; font-size: 14px; color: #64748b;">
+    <nav aria-label="Fil d'Ariane" class="breadcrumb-nav">
+        <div class="container">
+            <ol itemscope itemtype="https://schema.org/BreadcrumbList" class="breadcrumb-list">
                 <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" style="display: inline-flex; align-items: center;">
-                    <a href="index.html" itemprop="item" style="color: #0ea5e9; text-decoration: none; transition: color 0.2s;">
+                    <a href="/" itemprop="item" style="color: #0ea5e9; text-decoration: none; transition: color 0.2s;">
                         <span itemprop="name">Accueil</span>
                     </a>
                     <meta itemprop="position" content="1">
                 </li>
                 <li style="color: #cbd5e1;">/</li>
-                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" style="display: inline-flex; align-items: center; color: #475569; font-weight: 500;">
+                <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="breadcrumb-current">
                     <span itemprop="name">Devis Gratuit</span>
                     <meta itemprop="position" content="2">
                 </li>
@@ -59,20 +60,24 @@ export default function BookingPage() {
                 <ul>
                     <li><a href="/#galerie">Galerie</a></li>
                     <li><a href="/#faq">FAQ</a></li>
-                    <li><a href="transport-entreprises.html">B2B</a></li>
+                    <li><a href="/transport-entreprises.html">B2B</a></li>
                     <li><a href="/#contact">Contact</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <section class="hero">
+    <section class="hero booking-hero" id="hero" role="banner">
+        <video class="hero-video" muted loop playsinline autoplay
+               poster="/images/hero-moove-city.jpg" width="1920" height="1080"
+               aria-hidden="true">
+            <source src="/videos/Work.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay"></div>
         <div class="container hero-grid">
-            <div>
+            <div class="hero-content-block">
                 <h1>Votre devis transport & déménagement en moins d’une minute</h1>
                 <p>Renseignez votre trajet, choisissez un véhicule et recevez instantanément un message WhatsApp pré-rempli pour échanger directement avec notre équipe disponible 24h/24 et 7j/7.</p>
-            </div>
-            <div>
                 <a class="hero-cta" href="https://wa.me/33751213255" target="_blank" rel="noopener noreferrer">
                     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
@@ -83,113 +88,97 @@ export default function BookingPage() {
         </div>
     </section>
 
-    <section class="container form-wrapper" id="devis" style="max-width: 700px;">
-        <div class="card">
-            <h2 style="text-align: center; margin-bottom: 2rem;">Votre demande</h2>
+    <section class="container form-wrapper" id="devis">
+        <div class="card form-card">
+            <h2 class="form-title">Votre demande</h2>
             <form id="quoteForm" autocomplete="on" novalidate>
                 <input type="text" name="_honey" id="honey" tabindex="-1" autocomplete="off" style="display:none;" aria-hidden="true">
                 <div class="form-grid">
+<div class="form-row">
+                    <div class="form-field">
+                        <label for="departure">📍 Départ *</label>
+                        <input type="text" id="departure" name="departure" placeholder="Ex : 12 rue de la Paix, Paris" autocomplete="street-address" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="arrival">📍 Arrivée *</label>
+                        <input type="text" id="arrival" name="arrival" placeholder="Ex : 18 av. de Lyon, Créteil" autocomplete="street-address" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="date">📅 Date *</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="time">🕐 Heure *</label>
+                        <input type="time" id="time" name="time" required>
+                    </div>
+                </div>
                     <div class="form-row">
-                        <div>
-                            <label for="departure">📍 Adresse de départ *</label>
-                            <input type="text" id="departure" name="departure" placeholder="Ex : 12 rue de la Paix, Paris" autocomplete="street-address" required>
+                        <div class="form-field">
+                            <label for="vehicle">🚐 Type de véhicule *</label>
+                            <select id="vehicle" name="vehicle">
+                                <option value="">Sélectionnez un véhicule</option>
+                                <option value="URBAN">URBAN — 6 m³</option>
+                                <option value="EXPRESS">EXPRESS — 9 m³</option>
+                                <option value="PREMIUM">PREMIUM — 12 m³</option>
+                                <option value="TITAN">TITAN — 20 m³ avec hayon</option>
+                            </select>
                         </div>
-                        <div>
-                            <label for="arrival">📍 Adresse d'arrivée *</label>
-                            <input type="text" id="arrival" name="arrival" placeholder="Ex : 18 avenue de Lyon, Créteil" autocomplete="street-address" required>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div>
-                            <label for="date">📅 Date souhaitée *</label>
-                            <input type="date" id="date" name="date" required>
-                        </div>
-                        <div>
-                            <label for="time">🕐 Heure souhaitée *</label>
-                            <input type="time" id="time" name="time" required>
+                        <div class="form-field">
+                            <label for="duration">Durée estimée (h) *</label>
+                            <input type="number" id="duration" name="duration" min="1" max="12" step="0.5" placeholder="Ex: 2" required>
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div>
-                            <label for="vehicle" class="block text-sm font-semibold text-slate-700 mb-1">Type de véhicule souhaité</label>
-                            <div class="flex items-center gap-3">
-                                <div id="vehicleIcon" class="flex-shrink-0 w-14 h-14 rounded-xl bg-slate-100 flex items-center justify-center transition-all duration-300 opacity-50" title="Sélectionnez un véhicule">
-                                    <svg class="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
-                                </div>
-                                <select id="vehicle" name="vehicle" class="flex-1 rounded-xl border-slate-200">
-                                    <option value="">Sélectionnez un véhicule</option>
-                                    <option value="URBAN">URBAN — 6 m³</option>
-                                    <option value="EXPRESS">EXPRESS — 9 m³</option>
-                                    <option value="PREMIUM">PREMIUM — 12 m³</option>
-                                    <option value="TITAN">TITAN — 20 m³ avec hayon</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div>
-                            <label for="duration" class="block text-sm font-semibold text-slate-700 mb-1">Durée estimée (heures) *</label>
-                            <input type="number" id="duration" name="duration" min="1" max="12" step="0.5" placeholder="Ex: 2" required class="rounded-xl border-slate-200">
+                    <div class="form-field form-field-inline">
+                        <span class="form-label">Manutention</span>
+                        <div class="radio-group">
+                            <label class="radio-label"><input type="radio" name="manutention" value="non" id="manutentionNon" checked> Non</label>
+                            <label class="radio-label"><input type="radio" name="manutention" value="oui" id="manutentionOui"> Oui (+25€)</label>
                         </div>
                     </div>
-                    <div>
-                        <label class="block text-sm font-semibold text-slate-700 mb-2">Besoin de manutention ?</label>
-                        <div class="flex gap-4">
-                            <label class="inline-flex items-center gap-2 cursor-pointer group">
-                                <input type="radio" name="manutention" value="non" id="manutentionNon" checked class="w-4 h-4 text-emerald-600 border-slate-300 focus:ring-emerald-500">
-                                <span class="text-slate-600 group-hover:text-slate-800">Non</span>
-                            </label>
-                            <label class="inline-flex items-center gap-2 cursor-pointer group">
-                                <input type="radio" name="manutention" value="oui" id="manutentionOui" class="w-4 h-4 text-emerald-600 border-slate-300 focus:ring-emerald-500">
-                                <span class="text-slate-600 group-hover:text-slate-800">Oui (+25€)</span>
-                            </label>
-                        </div>
+                    <div class="form-field">
+                        <label for="description">📝 Infos complémentaires (optionnel)</label>
+                        <textarea id="description" name="description" placeholder="Volume, objets fragiles, ascenseur..."></textarea>
                     </div>
-                    <div>
-                        <label for="description">📝 Informations complémentaires (optionnel)</label>
-                        <textarea id="description" name="description" placeholder="Volume, objets fragiles, ascenseur, contraintes..."></textarea>
-                    </div>
-                    <div id="priceEstimate" class="hidden mt-5 p-6 rounded-2xl bg-gradient-to-br from-sky-50/80 to-emerald-50/80 border-2 border-sky-200/60 shadow-sm transition-all duration-500">
-                        <div class="flex items-center justify-between gap-4 flex-wrap">
+                    <div id="priceEstimate" class="price-estimate-box hidden">
+                        <div class="price-estimate-inner">
                             <div>
-                                <div class="text-sm font-semibold text-slate-600 mb-1">Estimation du prix</div>
-                                <div class="flex items-baseline gap-1">
-                                    <span id="estimatedPriceValue" class="text-3xl font-bold text-emerald-600 tabular-nums transition-all duration-500">0</span>
-                                    <span class="text-xl font-semibold text-emerald-600">€</span>
-                                </div>
-                                <div id="priceDetails" class="text-xs text-slate-500 mt-2"></div>
+                                <span class="price-estimate-label">Estimation</span>
+                                <div class="price-estimate-value"><span id="estimatedPriceValue">0</span> €</div>
+                                <div id="priceDetails" class="price-estimate-details"></div>
                             </div>
-                            <div id="priceVehicleIcon" class="w-16 h-16 rounded-xl bg-white/80 flex items-center justify-center shadow-sm"></div>
+                            <div id="priceVehicleIcon" class="price-estimate-icon"></div>
                         </div>
-                        <p class="mt-4 pt-4 border-t border-sky-200/50 text-xs text-slate-500 italic">
-                            Prix indicatif. Le tarif final peut varier selon la distance, les contraintes d'accès et les options.
-                        </p>
+                        <p class="price-estimate-note">Prix indicatif. Tarif final selon distance et options.</p>
                     </div>
                     <div class="form-row">
-                        <div>
+                        <div class="form-field">
                             <label for="name">👤 Votre nom *</label>
                             <input type="text" id="name" name="name" placeholder="Votre nom complet" autocomplete="name" required>
                         </div>
-                        <div>
+                        <div class="form-field">
                             <label for="email">📧 Votre email *</label>
                             <input type="email" id="email" name="email" placeholder="votre@email.fr" autocomplete="email" required>
                         </div>
                     </div>
                     <div class="form-row">
-                        <div>
+                        <div class="form-field">
                             <label for="phone">📞 Votre téléphone *</label>
                             <input type="tel" id="phone" name="phone" placeholder="06 12 34 56 78" autocomplete="tel" required>
                         </div>
                     </div>
                 </div>
-                <div class="form-footer flex flex-col gap-3">
-                    <a href="tel:+33751213255" id="cta-call-booking" onclick="trackBookingCall()" class="btn-primary w-full py-4 rounded-xl text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; text-decoration: none; color: white; text-align: center;">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+                <div class="form-footer">
+                    <a href="tel:+33751213255" id="cta-call-booking" onclick="trackBookingCall()" class="btn-primary btn-cta">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
                         Obtenir mon devis gratuit
                     </a>
-                    <a href="#" id="cta-whatsapp-booking" onclick="redirectToWhatsAppBooking(); trackBookingWhatsApp(); return false;" class="w-full py-3 rounded-xl text-base font-semibold shadow-md hover:shadow-lg transition-all duration-300" style="display: flex; align-items: center; justify-content: center; gap: 0.5rem; text-decoration: none; color: white; text-align: center; background: #25d366; border: none; cursor: pointer;">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/></svg>
+                    <a href="#" id="cta-whatsapp-booking" onclick="redirectToWhatsAppBooking(); trackBookingWhatsApp(); return false;" class="btn-whatsapp">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/></svg>
                         Demander par WhatsApp
                     </a>
-                    <p style="margin: 0.25rem 0 0; font-size: 0.85rem; color: #64748b; text-align: center;">Réponse immédiate par téléphone 24h/7j</p>
+                    <p class="form-footer-note">Réponse immédiate 24h/7j</p>
                 </div>
                 <div id="formError" class="error-message" style="display:none;" role="alert" aria-live="polite"></div>
             </form>
@@ -260,12 +249,14 @@ export default function BookingPage() {
         </div>
     </section>
 
-    <section class="container cta-strip">
-        <h3>Prêt à réserver votre chauffeur ?</h3>
-        <p>Choisissez la solution la plus pratique pour vous, nous intervenons en moins de 2 heures sur Paris et sa région.</p>
-        <div class="cta-strip-actions">
-            <a class="btn-primary" href="https://wa.me/33751213255" target="_blank" rel="noopener noreferrer">Démarrer la discussion WhatsApp</a>
-            <a class="btn-outline" href="tel:+33751213255">Appeler Moove City</a>
+    <section class="cta-strip" aria-label="Réserver ou nous contacter">
+        <div class="cta-strip-inner container">
+            <h3>Prêt à réserver votre chauffeur ?</h3>
+            <p>Choisissez la solution la plus pratique pour vous, nous intervenons en moins de 2 heures sur Paris et sa région.</p>
+            <div class="cta-strip-actions">
+                <a class="cta-strip-btn cta-strip-btn-whatsapp" href="https://wa.me/33751213255" target="_blank" rel="noopener noreferrer">Démarrer la discussion WhatsApp</a>
+                <a class="cta-strip-btn cta-strip-btn-phone" href="tel:+33751213255">Appeler Moove City</a>
+            </div>
         </div>
     </section>
 
@@ -274,62 +265,62 @@ export default function BookingPage() {
             <div class="footer-content">
                 <div class="footer-section">
                     <h3>Moove City</h3>
-                    <p style="font-size: 0.95rem;">Votre partenaire de confiance pour tous vos besoins de transport avec chauffeur.</p>
+                    <p class="footer-desc">Votre partenaire de confiance pour tous vos besoins de transport avec chauffeur.</p>
                 </div>
                 <div class="footer-section">
                     <h4>Liens rapides</h4>
                     <ul>
-                        <li><a href="booking.html">Réserver maintenant</a></li>
-                        <li><a href="demenagement-paris.html">Déménagement Paris</a></li>
-                        <li><a href="livraison-express.html">Livraison express</a></li>
-                        <li><a href="transport-entreprises.html">Transport entreprises</a></li>
-                        <li><a href="index.html#contact">Contact</a></li>
-                        <li><a href="seo/villes-idf.html">Villes desservies</a></li>
+                        <li><a href="/booking">Réserver maintenant</a></li>
+                        <li><a href="/demenagement-paris.html">Déménagement Paris</a></li>
+                        <li><a href="/livraison-express.html">Livraison express</a></li>
+                        <li><a href="/transport-entreprises.html">Transport entreprises</a></li>
+                        <li><a href="/#contact">Contact</a></li>
+                        <li><a href="/seo/villes-idf.html">Villes desservies</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
                     <h4>Nos Véhicules</h4>
                     <ul>
-                        <li><a href="urban.html">URBAN — 6 m³</a></li>
-                        <li><a href="express.html">EXPRESS — 9 m³</a></li>
-                        <li><a href="premium.html">PREMIUM — 12 m³</a></li>
-                        <li><a href="titan.html">TITAN — 20 m³</a></li>
+                        <li><a href="/urban.html">URBAN — 6 m³</a></li>
+                        <li><a href="/express.html">EXPRESS — 9 m³</a></li>
+                        <li><a href="/premium.html">PREMIUM — 12 m³</a></li>
+                        <li><a href="/titan.html">TITAN — 20 m³</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
                     <h4>Services</h4>
                     <ul>
-                        <li><a href="demenagement-paris.html">Déménagements</a></li>
-                        <li><a href="livraison-express.html">Livraisons express</a></li>
-                        <li><a href="transport-entreprises.html">Transport entreprises</a></li>
-                        <li><a href="index.html#galerie">Galerie terrain</a></li>
-                        <li><a href="index.html#faq">Questions fréquentes</a></li>
+                        <li><a href="/demenagement-paris.html">Déménagements</a></li>
+                        <li><a href="/livraison-express.html">Livraisons express</a></li>
+                        <li><a href="/transport-entreprises.html">Transport entreprises</a></li>
+                        <li><a href="/#galerie">Galerie terrain</a></li>
+                        <li><a href="/#faq">Questions fréquentes</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
                     <h4>Contact</h4>
                     <p>📞 <a href="tel:+33751213255">+33 7 51 21 32 55</a></p>
-                    <p style="margin-bottom: 0.75rem;">
+                    <p class="footer-contact-line">
                         <a href="https://wa.me/33751213255" target="_blank" rel="noopener noreferrer">
                             💬 WhatsApp
                         </a>
                     </p>
                     <p>📧 <a href="mailto:contact@moovecity.fr">contact@moovecity.fr</a></p>
-                    <div class="social-links" style="margin-top: 1.75rem;">
-                        <h4 style="margin-bottom: 1rem;">Suivez-nous</h4>
-                        <div style="display: flex; gap: 0.75rem; align-items: center;">
-                            <a href="https://www.facebook.com/profile.php?id=61585097790199" target="_blank" rel="noopener noreferrer" aria-label="Facebook" style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: rgba(255, 255, 255, 0.1); border-radius: 50%; transition: all 0.3s ease; text-decoration: none;">
-                                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" style="color: rgba(255, 255, 255, 0.9);">
+                    <div class="social-links">
+                        <h4>Suivez-nous</h4>
+                        <div>
+                            <a href="https://www.facebook.com/profile.php?id=61585097790199" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                                 </svg>
                             </a>
-                            <a href="https://www.instagram.com/moovecity/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: rgba(255, 255, 255, 0.1); border-radius: 50%; transition: all 0.3s ease; text-decoration: none;">
-                                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" style="color: rgba(255, 255, 255, 0.9);">
+                            <a href="https://www.instagram.com/moovecity/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
                                 </svg>
                             </a>
-                            <a href="https://www.linkedin.com/company/moovecity" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: rgba(255, 255, 255, 0.1); border-radius: 50%; transition: all 0.3s ease; text-decoration: none;">
-                                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" style="color: rgba(255, 255, 255, 0.9);">
+                            <a href="https://www.linkedin.com/company/moovecity" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                                 </svg>
                             </a>
@@ -340,12 +331,12 @@ export default function BookingPage() {
             <div class="footer-bottom">
                 <p>© 2026 Moove City. Tous droits réservés.</p>
                 <p>
-                    <a href="mentions-legales.html" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">Mentions légales</a> | 
-                    <a href="politique-de-confidentialite.html" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">Confidentialité</a> | 
-                    <a href="politique-cookies.html" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">Cookies</a> | 
-                    <a href="conditions-generales.html" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">CGU</a>
+<a href="/mentions-legales.html">Mentions légales</a> |
+                    <a href="/politique-de-confidentialite.html">Confidentialité</a> |
+                    <a href="/politique-cookies.html">Cookies</a> |
+                    <a href="/conditions-generales.html">CGU</a>
                 </p>
-                <p><a href="https://phantomdev.fr" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 0.5em; color: rgba(255,255,255,0.8); text-decoration: none; font-weight: 300; font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase;"><svg width="20" height="20" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0" aria-hidden="true"><path d="M16 4c-6 0-10 5-10 10 0 1.8.6 3.5 1.5 4.8v4.2l2.5-2.5 2 2.5 2-2.5 2.5 2.5v-4.2c.9-1.3 1.5-3 1.5-4.8 0-5-4-10-10-10z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="11" cy="10.5" r="1.2" fill="currentColor"/><circle cx="21" cy="10.5" r="1.2" fill="currentColor"/></svg>Design by PhantomDev</a></p>
+                <p><a href="https://phantomdev.fr" target="_blank" rel="noopener" class="footer-credit"><svg width="20" height="20" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M16 4c-6 0-10 5-10 10 0 1.8.6 3.5 1.5 4.8v4.2l2.5-2.5 2 2.5 2-2.5 2.5 2.5v-4.2c.9-1.3 1.5-3 1.5-4.8 0-5-4-10-10-10z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="11" cy="10.5" r="1.2" fill="currentColor"/><circle cx="21" cy="10.5" r="1.2" fill="currentColor"/></svg>Design by PhantomDev</a></p>
             </div>
         </div>
     </footer>
