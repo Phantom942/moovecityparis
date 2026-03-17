@@ -88,7 +88,8 @@ export default function BookingPage() {
         </div>
     </section>
 
-    <section class="container form-wrapper" id="devis">
+    <section class="container booking-grid" id="devis" aria-label="Formulaire et informations">
+        <div class="booking-col-left">
         <div class="card form-card">
             <h2 class="form-title">Votre demande</h2>
             <form id="quoteForm" autocomplete="on" novalidate>
@@ -184,6 +185,19 @@ export default function BookingPage() {
             </form>
         </div>
 
+        <div class="card card-pourquoi-choisir" id="pourquoi-choisir-moove-city">
+            <h3>Pourquoi choisir Moove City ?</h3>
+            <ul class="bullet-list">
+                <li>Chauffeurs expérimentés et assurés pour vos biens.</li>
+                <li>Devis personnalisés en quelques minutes par WhatsApp.</li>
+                <li>Service 24/7 partout en Île-de-France et départs province.</li>
+                <li>Option manutention complète et matériaux de protection.</li>
+                <li>Suivi en temps réel et interlocuteur unique jusqu'à la livraison.</li>
+            </ul>
+        </div>
+        </div>
+
+        <div class="booking-col-right">
         <aside class="card contact-card">
             <div>
                 <h3>Besoin d’un devis express ?</h3>
@@ -208,9 +222,7 @@ export default function BookingPage() {
                 <a class="btn-outline" href="/#faq">Consulter la FAQ</a>
             </div>
         </aside>
-    </section>
 
-    <section class="container info-section">
         <div class="card">
             <h3>🚛 Nos véhicules disponibles</h3>
             <div class="vehicle-grid">
@@ -236,16 +248,6 @@ export default function BookingPage() {
                 </div>
             </div>
         </div>
-
-        <div class="card">
-            <h3>Pourquoi choisir Moove City ?</h3>
-            <ul class="bullet-list">
-                <li>Chauffeurs expérimentés et assurés pour vos biens.</li>
-                <li>Devis personnalisés en quelques minutes par WhatsApp.</li>
-                <li>Service 24/7 partout en Île-de-France et départs province.</li>
-                <li>Option manutention complète et matériaux de protection.</li>
-                <li>Suivi en temps réel et interlocuteur unique jusqu’à la livraison.</li>
-            </ul>
         </div>
     </section>
 

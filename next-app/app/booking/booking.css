@@ -38,18 +38,23 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
+/* Conteneur unique : même largeur partout pour alignement au zoom */
 .container {
     width: 100%;
     max-width: 880px;
-    margin: 0 auto;
+    margin-left: auto;
+    margin-right: auto;
     position: relative;
-    padding: 0 var(--space-md);
+    padding-left: var(--space-md);
+    padding-right: var(--space-md);
+    box-sizing: border-box;
 }
 
 /* Éviter que les grilles dépassent ou se chevauchent */
 main {
     display: block;
     overflow-x: hidden;
+    max-width: 100%;
 }
 
 /* Espace sous le header fixe (global.css) pour éviter que le contenu passe en dessous */
@@ -67,13 +72,52 @@ main .hero {
     overflow: hidden;
 }
 
-main .form-wrapper,
-main .info-section,
+main .booking-grid,
 main .cta-strip {
     position: relative;
     z-index: 0;
     margin-top: 0;
     padding-top: var(--space-xl);
+}
+
+/* Deux colonnes : gauche = formulaire + pourquoi choisir, droite = devis express + nos véhicules (sans trou) */
+main .container.booking-grid {
+    max-width: 880px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: var(--space-xl);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 300px);
+    gap: var(--space-lg);
+    align-items: start;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.booking-col-left,
+.booking-col-right {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+    min-width: 0;
+}
+
+/* Aligner le haut de la carte « Besoin d'un devis express » avec la carte « Votre demande » */
+.booking-col-right .contact-card {
+    margin-top: 0;
+    align-self: start;
+}
+
+/* Légère remontée de la carte devis express pour alignement avec Votre demande */
+.booking-grid .booking-col-right .contact-card {
+    margin-top: -0.4rem;
+}
+
+.booking-col-left .card,
+.booking-col-right .card,
+.booking-col-right aside {
+    min-width: 0;
+    overflow: hidden;
 }
 
  a {
@@ -322,22 +366,7 @@ nav a:hover { color: white; }
 
 .hero-cta svg { width: 20px; height: 20px; flex-shrink: 0; }
 
-/* Section formulaire — pas de chevauchement */
-.form-wrapper {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(260px, 300px);
-    gap: var(--space-lg);
-    margin: 0 auto var(--space-xl);
-    align-items: start;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.form-wrapper > .card,
-.form-wrapper > aside {
-    min-width: 0;
-    overflow: hidden;
-}
+/* (Grille formulaire + infos gérée par .booking-grid ci-dessus) */
 
 .card {
     background: var(--surface);
@@ -648,28 +677,9 @@ textarea {
      color: rgba(148, 163, 184, 0.9);
  }
 
-/* Section véhicules + pourquoi nous — pas de chevauchement */
-.info-section {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(260px, 300px);
-    gap: var(--space-lg);
-    margin: 0 auto var(--space-xl);
-    align-items: start;
-    width: 100%;
-    box-sizing: border-box;
-}
+/* (Section véhicules + pourquoi nous dans .booking-grid) */
 
-.info-section > .card {
-    min-width: 0;
-    overflow: hidden;
-}
-
-/* Remonter la carte « Pourquoi choisir » pour un meilleur alignement visuel */
-.info-section > .card:last-child {
-    margin-top: -24px;
-}
-
-.info-section .card h3 { margin-bottom: var(--space-md); }
+.booking-grid .card h3 { margin-bottom: var(--space-md); }
 
 .vehicle-grid {
     display: grid;
@@ -936,28 +946,16 @@ footer .container { max-width: 880px; }
         gap: var(--space-md);
     }
 
-    .form-wrapper {
+    .booking-grid {
         grid-template-columns: minmax(0, 1fr);
         margin-bottom: var(--space-xl);
     }
 
-    .form-wrapper > .card,
-    .form-wrapper > aside {
+    .booking-col-left,
+    .booking-col-right {
         min-width: 0;
     }
 
-    .info-section {
-        grid-template-columns: minmax(0, 1fr);
-        margin-bottom: var(--space-xl);
-    }
-
-    .info-section > .card {
-        min-width: 0;
-    }
-
-    .info-section > .card:last-child {
-        margin-top: 0;
-    }
 
     .vehicle-grid {
         grid-template-columns: repeat(2, 1fr);
