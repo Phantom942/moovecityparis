@@ -347,7 +347,7 @@ function showErrorMessage(message) {
     setTimeout(() => div.remove(), 5000);
 }
 
-/* ===== Google Places Autocomplete ===== */
+/* ===== Google Places Autocomplete (nouvelle API PlaceAutocompleteElement) ===== */
 
 function setupPlacesAutocomplete() {
     const departInput  = document.getElementById('depart');
@@ -355,33 +355,60 @@ function setupPlacesAutocomplete() {
     if (!departInput || !arriveeInput) return;
     if (departInput.getAttribute('data-autocomplete-initialized') === 'true') return;
 
-    if (!(window.google && google.maps && google.maps.places)) {
+    if (!(window.google && google.maps)) {
         setTimeout(setupPlacesAutocomplete, 500);
         return;
     }
 
-    function attachAutocomplete(input) {
-        const autocomplete = new google.maps.places.Autocomplete(input, {
-            types: ['address'],
-            componentRestrictions: { country: 'fr' }
-        });
+    function attachPlaceAutocompleteElement(input) {
+        if (input.getAttribute('data-autocomplete-initialized') === 'true') return;
+        input.setAttribute('data-autocomplete-initialized', 'true');
 
-        autocomplete.addListener('place_changed', () => {
-            const place = autocomplete.getPlace();
-            if (place && place.formatted_address) {
-                input.value = place.formatted_address;
-                input.setAttribute('data-full-address', place.formatted_address);
-                if (window.calculatePriceWithDistance) {
-                    setTimeout(window.calculatePriceWithDistance, 200);
-                }
+        google.maps.importLibrary('places').then(function () {
+            if (!google.maps.places || !google.maps.places.PlaceAutocompleteElement) {
+                console.warn('PlaceAutocompleteElement non disponible');
+                return;
             }
+            var PlaceAutocompleteElement = google.maps.places.PlaceAutocompleteElement;
+            var el = new PlaceAutocompleteElement({
+                includedRegionCodes: ['fr'],
+                includedPrimaryTypes: ['street_address', 'premise', 'subpremise']
+            });
+            el.classList.add('gmp-place-autocomplete-wrapper');
+            if (!document.getElementById('gmp-place-autocomplete-styles')) {
+                var style = document.createElement('style');
+                style.id = 'gmp-place-autocomplete-styles';
+                style.textContent = '.gmp-place-autocomplete-wrapper { display: block !important; width: 100%; min-height: 40px; }';
+                document.head.appendChild(style);
+            }
+            input.style.display = 'none';
+            input.parentNode.insertBefore(el, input.nextSibling);
+
+            el.addEventListener('gmp-select', function (ev) {
+                var placePrediction = ev.placePrediction;
+                if (!placePrediction || typeof placePrediction.toPlace !== 'function') return;
+                placePrediction.toPlace().then(function (place) {
+                    return place.fetchFields({ fields: ['formattedAddress'] });
+                }).then(function (place) {
+                    if (place && place.formattedAddress) {
+                        input.value = place.formattedAddress;
+                        input.setAttribute('data-full-address', place.formattedAddress);
+                        input.dispatchEvent(new Event('input', { bubbles: true }));
+                        if (window.calculatePriceWithDistance) {
+                            setTimeout(window.calculatePriceWithDistance, 200);
+                        }
+                    }
+                }).catch(function () {});
+            });
+        }).catch(function (err) {
+            console.warn('Places library error', err);
+            input.style.display = '';
+            input.removeAttribute('data-autocomplete-initialized');
         });
     }
 
-    attachAutocomplete(departInput);
-    attachAutocomplete(arriveeInput);
-    departInput.setAttribute('data-autocomplete-initialized', 'true');
-    arriveeInput.setAttribute('data-autocomplete-initialized', 'true');
+    attachPlaceAutocompleteElement(departInput);
+    attachPlaceAutocompleteElement(arriveeInput);
 }
 window.setupPlacesAutocomplete = setupPlacesAutocomplete;
 
@@ -442,7 +469,7 @@ function initHeroVideo() {
 
 let mapsScriptInjected = false;
 function ensureGoogleMaps() {
-    if (mapsScriptInjected || window.google?.maps?.places) return;
+    if (mapsScriptInjected || window.google?.maps) return;
     mapsScriptInjected = true;
 
     window.initGoogleMapsPlaces = function () {
@@ -452,7 +479,7 @@ function ensureGoogleMaps() {
     };
 
     const s = document.createElement('script');
-    s.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBj-30c7SBJUcHHdw_hBT17jtH__NRz0L8&libraries=places,marker&loading=async&callback=initGoogleMapsPlaces';
+    s.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBj-30c7SBJUcHHdw_hBT17jtH__NRz0L8&libraries=marker&loading=async&callback=initGoogleMapsPlaces';
     s.async = true;
     document.head.appendChild(s);
 }

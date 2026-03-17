@@ -291,40 +291,60 @@ function isValidDate(dateStr) {
     return date >= today;
 }
 
-/* ===== Autocomplétion Google Places (booking) ===== */
+/* ===== Autocomplétion Google Places (booking) — nouvelle API PlaceAutocompleteElement ===== */
 
 function initBookingPlacesAutocomplete() {
-    if (!(window.google && google.maps && google.maps.places)) return false;
+    if (!(window.google && google.maps)) return false;
 
     var departureInput = document.getElementById('departure');
     var arrivalInput = document.getElementById('arrival');
     if (!departureInput || !arrivalInput) return false;
     if (departureInput.getAttribute('data-autocomplete-initialized') === 'true') return true;
 
-    function attachAutocomplete(input) {
-        var autocomplete = new google.maps.places.Autocomplete(input, {
-            types: ['address'],
-            componentRestrictions: { country: 'fr' }
-        });
+    departureInput.setAttribute('data-autocomplete-initialized', 'true');
+    arrivalInput.setAttribute('data-autocomplete-initialized', 'true');
 
-        autocomplete.addListener('place_changed', function () {
-            var place = autocomplete.getPlace();
-            if (place && place.formatted_address) {
-                input.value = place.formatted_address;
-                input.setAttribute('data-full-address', place.formatted_address);
+    function attachPlaceAutocompleteElement(input) {
+        if (input.getAttribute('data-autocomplete-initialized') !== 'true') return;
+        google.maps.importLibrary('places').then(function () {
+            if (!google.maps.places || !google.maps.places.PlaceAutocompleteElement) return;
+            var PlaceAutocompleteElement = google.maps.places.PlaceAutocompleteElement;
+            var el = new PlaceAutocompleteElement({
+                includedRegionCodes: ['fr'],
+                includedPrimaryTypes: ['street_address', 'premise', 'subpremise']
+            });
+            el.classList.add('gmp-place-autocomplete-wrapper');
+            if (!document.getElementById('gmp-place-autocomplete-styles')) {
+                var style = document.createElement('style');
+                style.id = 'gmp-place-autocomplete-styles';
+                style.textContent = '.gmp-place-autocomplete-wrapper { display: block !important; width: 100%; min-height: 40px; }';
+                document.head.appendChild(style);
             }
+            input.style.display = 'none';
+            input.parentNode.insertBefore(el, input.nextSibling);
+
+            el.addEventListener('gmp-select', function (ev) {
+                var placePrediction = ev.placePrediction;
+                if (!placePrediction || typeof placePrediction.toPlace !== 'function') return;
+                placePrediction.toPlace().then(function (place) {
+                    return place.fetchFields({ fields: ['formattedAddress'] });
+                }).then(function (place) {
+                    if (place && place.formattedAddress) {
+                        input.value = place.formattedAddress;
+                        input.setAttribute('data-full-address', place.formattedAddress);
+                        input.dispatchEvent(new Event('input', { bubbles: true }));
+                    }
+                }).catch(function () {});
+            });
+        }).catch(function () {
+            input.removeAttribute('data-autocomplete-initialized');
+            input.style.display = '';
         });
     }
 
-    try {
-        attachAutocomplete(departureInput);
-        attachAutocomplete(arrivalInput);
-        departureInput.setAttribute('data-autocomplete-initialized', 'true');
-        arrivalInput.setAttribute('data-autocomplete-initialized', 'true');
-        return true;
-    } catch (e) {
-        return false;
-    }
+    attachPlaceAutocompleteElement(departureInput);
+    attachPlaceAutocompleteElement(arrivalInput);
+    return true;
 }
 
 /* ===== Callback Google Maps ===== */
@@ -373,7 +393,7 @@ setupPriceCalculator();
         var checkCount = 0;
         var checkInterval = setInterval(function () {
             checkCount++;
-            if (window.google && window.google.maps && window.google.maps.places) {
+            if (window.google && window.google.maps) {
                 clearInterval(checkInterval);
                 initBookingPlacesAutocomplete();
             } else if (checkCount >= 25) {
