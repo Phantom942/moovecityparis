@@ -53,17 +53,25 @@ export default function BookingPage() {
     <header class="topbar">
         <div class="container">
             <a class="logo" href="/">
-                <img src="brand/moove-city-logo.svg" alt="Logo Moove City" width="96" height="96">
+                <img src="/brand/moove-city-logo.svg" alt="Logo Moove City" width="96" height="96">
                 Moove City
             </a>
             <nav aria-label="Navigation principale">
                 <ul>
+                    <li><a href="/#vehicules">Nos véhicules</a></li>
                     <li><a href="/#galerie">Galerie</a></li>
                     <li><a href="/#faq">FAQ</a></li>
+                    <li><a href="/seo/articles/">Articles</a></li>
                     <li><a href="/transport-entreprises.html">B2B</a></li>
                     <li><a href="/#contact">Contact</a></li>
                 </ul>
             </nav>
+            <div class="nav-buttons">
+                <a href="https://wa.me/33751213255" class="whatsapp-btn" target="_blank" rel="noopener noreferrer" aria-label="Contacter Moove City sur WhatsApp">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/></svg>
+                    WhatsApp
+                </a>
+            </div>
         </div>
     </header>
 
@@ -239,12 +247,12 @@ export default function BookingPage() {
                 <div class="vehicle-card">
                     <h4>PREMIUM</h4>
                     <p>12 m³<br>Déménagement T2/T3, mobilier volumineux.</p>
-                    <p><strong>À partir de 60€</strong></p>
+                    <p><strong>À partir de 70€</strong></p>
                 </div>
                 <div class="vehicle-card">
                     <h4>TITAN</h4>
                     <p>20 m³ avec hayon<br>Plateaux palettes, matériels lourds.</p>
-                    <p><strong>À partir de 100€</strong></p>
+                    <p><strong>À partir de 110€</strong></p>
                 </div>
             </div>
         </div>
@@ -276,6 +284,7 @@ export default function BookingPage() {
                         <li><a href="/demenagement-paris.html">Déménagement Paris</a></li>
                         <li><a href="/livraison-express.html">Livraison express</a></li>
                         <li><a href="/transport-entreprises.html">Transport entreprises</a></li>
+                        <li><a href="/seo/articles/">Articles & Guides</a></li>
                         <li><a href="/#contact">Contact</a></li>
                         <li><a href="/seo/villes-idf.html">Villes desservies</a></li>
                     </ul>
@@ -338,7 +347,7 @@ export default function BookingPage() {
                     <a href="/politique-cookies.html">Cookies</a> |
                     <a href="/conditions-generales.html">CGU</a>
                 </p>
-                <p><a href="https://phantomdev.fr" target="_blank" rel="noopener" class="footer-credit"><svg width="20" height="20" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M16 4c-6 0-10 5-10 10 0 1.8.6 3.5 1.5 4.8v4.2l2.5-2.5 2 2.5 2-2.5 2.5 2.5v-4.2c.9-1.3 1.5-3 1.5-4.8 0-5-4-10-10-10z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="11" cy="10.5" r="1.2" fill="currentColor"/><circle cx="21" cy="10.5" r="1.2" fill="currentColor"/></svg>Design by PhantomDev</a></p>
+                <p><a href="https://phantomdev.fr" target="_blank" rel="noopener noreferrer" class="footer-credit"><svg width="20" height="20" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M16 4c-6 0-10 5-10 10 0 1.8.6 3.5 1.5 4.8v4.2l2.5-2.5 2 2.5 2-2.5 2.5 2.5v-4.2c.9-1.3 1.5-3 1.5-4.8 0-5-4-10-10-10z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="11" cy="10.5" r="1.2" fill="currentColor"/><circle cx="21" cy="10.5" r="1.2" fill="currentColor"/></svg>Design by PhantomDev</a></p>
             </div>
         </div>
     </footer>

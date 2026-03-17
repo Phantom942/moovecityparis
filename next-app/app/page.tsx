@@ -33,14 +33,14 @@ export default function HomePage() {
     <header>
         <nav class="container">
             <a href="/" class="logo">
-                <img src="brand/moove-city-logo.svg" alt="Moove City - Logo transport urbain Paris, déménagement urgent, livraison gros volumes Île-de-France" width="96" height="96">
+                <img src="/brand/moove-city-logo.svg" alt="Moove City - Logo transport urbain Paris, déménagement urgent, livraison gros volumes Île-de-France" width="96" height="96">
                 Moove City
             </a>
             <ul class="nav-menu">
                 <li><a href="#vehicules">Nos véhicules</a></li>
                 <li><a href="#galerie">Galerie</a></li>
                 <li><a href="#faq">FAQ</a></li>
-                <li><a href="seo/articles/">Articles</a></li>
+                <li><a href="/seo/articles/">Articles</a></li>
                 <li><a href="/transport-entreprises.html">B2B</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
@@ -219,26 +219,26 @@ export default function HomePage() {
             <p class="fade-in stagger-delay-1">Quelques clichés de nos opérations à Paris et en Île-de-France : chargement, manutention sécurisée, livraisons express et déménagements. Transport rapide et professionnel pour vos marchandises.</p>
             <div class="gallery-grid">
                 <figure class="gallery-item fade-in stagger-delay-1">
-                    <img src="images/operation-chariot.jpg" alt="Transport express Paris - Moove City, manutention diable, livraison gros volumes Île-de-France, intervention dans l'heure" loading="lazy" decoding="async" width="1200" height="800">
+                    <img src="/images/operation-chariot.jpg" alt="Transport express Paris - Moove City, manutention diable, livraison gros volumes Île-de-France, intervention dans l'heure" loading="lazy" decoding="async" width="1200" height="800">
                     <span>Manutention sur diable – livraison express rapide</span>
                 </figure>
                 <figure class="gallery-item fade-in stagger-delay-2">
-                    <img src="images/operation-chargement.jpg" alt="Déménagement urgent Paris - Chargement camion 20 m³, transport avec chauffeur, livraison gros volumes Île-de-France" loading="lazy" decoding="async" width="1200" height="800">
+                    <img src="/images/operation-chargement.jpg" alt="Déménagement urgent Paris - Chargement camion 20 m³, transport avec chauffeur, livraison gros volumes Île-de-France" loading="lazy" decoding="async" width="1200" height="800">
                     <span>Chargement des camions 20 m³</span>
                 </figure>
                 <figure class="gallery-item fade-in stagger-delay-3">
-                    <img src="images/camion-interieur.jpg" alt="Livraison express Paris - Transport urbain sécurisé, calage cartons, déménagement et livraison Île-de-France" loading="lazy" decoding="async" width="1200" height="800">
+                    <img src="/images/camion-interieur.jpg" alt="Livraison express Paris - Transport urbain sécurisé, calage cartons, déménagement et livraison Île-de-France" loading="lazy" decoding="async" width="1200" height="800">
                     <span>Protection et calage des cartons fragiles</span>
                 </figure>
                 <figure class="gallery-item fade-in stagger-delay-4">
-                    <img src="images/manutention-equipe.jpg" alt="Déménagement Paris - Équipe Moove City, transport avec chauffeur, livraison gros volumes, manutention professionnelle" loading="lazy" decoding="async" width="1200" height="800">
+                    <img src="/images/manutention-equipe.jpg" alt="Déménagement Paris - Équipe Moove City, transport avec chauffeur, livraison gros volumes, manutention professionnelle" loading="lazy" decoding="async" width="1200" height="800">
                     <span>Équipe dédiée pour vos déménagements et transports</span>
                 </figure>
             </div>
         </div>
     </section>
 
-    <hr style="width: 100%; height: 1px; border: none; background: linear-gradient(to right, transparent, rgba(15, 23, 42, 0.2), transparent); margin: 80px 0;"></div>
+    <hr style="width: 100%; height: 1px; border: none; background: linear-gradient(to right, transparent, rgba(15, 23, 42, 0.2), transparent); margin: 80px 0;">
 
     <section class="cities" id="couverture" style="padding: 60px 0;" aria-labelledby="section-couverture">
         <div class="container">
@@ -309,7 +309,7 @@ export default function HomePage() {
                 </details>
                 <details class="faq-item fade-in stagger-delay-4">
                     <summary>Quels sont vos tarifs ?</summary>
-                    <div>À partir de 40€ pour l'URBAN (6m³), 50€ pour l'EXPRESS (9m³), 60€ pour le PREMIUM (12m³) et 100€ pour le TITAN (20m³). Le prix final dépend de la distance et de la durée.</div>
+                    <div>À partir de 40€ pour l'URBAN (6m³), 50€ pour l'EXPRESS (9m³), 70€ pour le PREMIUM (12m³) et 110€ pour le TITAN (20m³). Le prix final dépend de la distance et de la durée.</div>
                 </details>
                 <details class="faq-item fade-in stagger-delay-5">
                     <summary>Où intervenez-vous ?</summary>
@@ -333,7 +333,7 @@ export default function HomePage() {
                         <li><a href="/demenagement-paris.html">Déménagement Paris</a></li>
                         <li><a href="/livraison-express.html">Livraison express</a></li>
                         <li><a href="/transport-entreprises.html">Transport entreprises</a></li>
-                        <li><a href="seo/articles/">Articles & Guides</a></li>
+                        <li><a href="/seo/articles/">Articles & Guides</a></li>
                         <li><a href="#contact">Contact</a></li>
                         <li><a href="/seo/villes-idf.html">Villes desservies</a></li>
                     </ul>
@@ -397,7 +397,7 @@ export default function HomePage() {
                     <a href="/politique-cookies.html" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">Cookies</a> | 
                     <a href="/conditions-generales.html" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">CGU</a>
                 </p>
-                <p><a href="https://phantomdev.fr" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 0.5em; color: rgba(255,255,255,0.8); text-decoration: none; font-family: 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; font-weight: 300; font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase; transition: opacity 0.2s ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'"><svg width="20" height="20" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0" aria-hidden="true"><path d="M16 4c-6 0-10 5-10 10 0 1.8.6 3.5 1.5 4.8v4.2l2.5-2.5 2 2.5 2-2.5 2.5 2.5v-4.2c.9-1.3 1.5-3 1.5-4.8 0-5-4-10-10-10z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="11" cy="10.5" r="1.2" fill="currentColor"/><circle cx="21" cy="10.5" r="1.2" fill="currentColor"/></svg>Design by PhantomDev</a></p>
+                <p><a href="https://phantomdev.fr" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 0.5em; color: rgba(255,255,255,0.8); text-decoration: none; font-family: 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; font-weight: 300; font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase; transition: opacity 0.2s ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'"><svg width="20" height="20" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0" aria-hidden="true"><path d="M16 4c-6 0-10 5-10 10 0 1.8.6 3.5 1.5 4.8v4.2l2.5-2.5 2 2.5 2-2.5 2.5 2.5v-4.2c.9-1.3 1.5-3 1.5-4.8 0-5-4-10-10-10z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="11" cy="10.5" r="1.2" fill="currentColor"/><circle cx="21" cy="10.5" r="1.2" fill="currentColor"/></svg>Design by PhantomDev</a></p>
             </div>
         </div>
     </footer>

@@ -120,9 +120,9 @@ main .container.booking-grid {
     overflow: hidden;
 }
 
- a {
-     color: inherit;
- }
+main a {
+    color: inherit;
+}
 
 /* Breadcrumb */
 .breadcrumb-nav {
@@ -199,6 +199,28 @@ nav a {
 }
 
 nav a:hover { color: white; }
+
+.nav-buttons {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.whatsapp-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-sm);
+    background: #25d366;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.875rem;
+    transition: background 0.2s ease;
+}
+
+.whatsapp-btn:hover { background: #20bd5a; }
 
 /* Hero booking : même vidéo + overlay vert que la page d’accueil (pas de fond fixe) */
 .booking-hero {
@@ -326,24 +348,6 @@ nav a:hover { color: white; }
     line-height: 1.6;
 }
 
- .hero-badges {
-     display: flex;
-     flex-wrap: wrap;
-     gap: 0.75rem;
-     margin-top: 1.5rem;
- }
-
- .badge {
-     display: inline-flex;
-     align-items: center;
-     gap: 0.5rem;
-     background: rgba(15, 23, 42, 0.05);
-     color: var(--brand-dark);
-     padding: 0.6rem 1rem;
-     border-radius: 999px;
-     font-weight: 500;
-     font-size: 0.95rem;
- }
 
 .hero-cta {
     display: inline-flex;
@@ -575,10 +579,6 @@ textarea {
     color: var(--text-secondary);
 }
 
- .privacy-note {
-     font-size: 0.85rem;
-     color: var(--text-secondary);
- }
 
 .contact-card {
     display: flex;
@@ -643,39 +643,6 @@ textarea {
     color: var(--brand-primary);
 }
 
- .price-box {
-     margin-top: 1.5rem;
-     padding: 1.25rem 1.2rem;
-     border-radius: 14px;
-     background: #0f172a;
-     color: white;
-     display: flex;
-     align-items: center;
-     justify-content: space-between;
-     gap: 1rem;
- }
-
- .price-box-main {
-     display: flex;
-     flex-direction: column;
-     gap: 0.15rem;
- }
-
- .price-box-main span:first-child {
-     font-size: 0.8rem;
-     text-transform: uppercase;
-     letter-spacing: 0.08em;
-     color: rgba(148, 163, 184, 0.9);
- }
-
- .price-box-main strong {
-     font-size: 1.4rem;
- }
-
- .price-box-secondary {
-     font-size: 0.85rem;
-     color: rgba(148, 163, 184, 0.9);
- }
 
 /* (Section véhicules + pourquoi nous dans .booking-grid) */
 

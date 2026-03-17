@@ -50,8 +50,8 @@ window.redirectToWhatsAppBooking = redirectToWhatsAppBooking;
 var VEHICLE_PRICES = {
     'URBAN':   { base: 40,  hourly: 18, perKm: 0.75 },
     'EXPRESS': { base: 50,  hourly: 22, perKm: 1.0  },
-    'PREMIUM': { base: 60,  hourly: 26, perKm: 1.25 },
-    'TITAN':   { base: 100, hourly: 32, perKm: 1.75 }
+    'PREMIUM': { base: 70,  hourly: 26, perKm: 1.25 },
+    'TITAN':   { base: 110, hourly: 32, perKm: 1.75 }
 };
 
 var MANUTENTION_FEE = 25;
@@ -108,13 +108,15 @@ function updateVehicleIcon() {
     var vehicle = vehicleEl.value;
     var iconContainer = document.getElementById('vehicleIcon');
     var priceIconContainer = document.getElementById('priceVehicleIcon');
-    if (!iconContainer) return;
+    if (!iconContainer && !priceIconContainer) return;
 
     var svg = vehicle && VEHICLE_ICONS[vehicle] ? VEHICLE_ICONS[vehicle] : EMPTY_ICON;
-    iconContainer.innerHTML = svg;
-    iconContainer.classList.toggle('opacity-50', !vehicle);
-    iconContainer.classList.toggle('bg-emerald-50', !!vehicle);
-    iconContainer.classList.toggle('bg-slate-100', !vehicle);
+    if (iconContainer) {
+        iconContainer.innerHTML = svg;
+        iconContainer.classList.toggle('opacity-50', !vehicle);
+        iconContainer.classList.toggle('bg-emerald-50', !!vehicle);
+        iconContainer.classList.toggle('bg-slate-100', !vehicle);
+    }
 
     if (priceIconContainer) {
         priceIconContainer.innerHTML = vehicle && VEHICLE_ICONS[vehicle] ? VEHICLE_ICONS[vehicle] : '';
@@ -187,7 +189,7 @@ function updatePriceDisplay() {
     updateVehicleIcon();
 
     if (!vehicle || !duration || duration <= 0) {
-        priceEstimateDiv.classList.add('hidden');
+        if (priceEstimateDiv) priceEstimateDiv.classList.add('hidden');
         return;
     }
 
@@ -218,10 +220,10 @@ function updatePriceDisplay() {
         }
         if (surcharges.length > 0) details += ' | ' + surcharges.join(', ');
 
-        priceDetailsDiv.textContent = details;
-        priceEstimateDiv.classList.remove('hidden');
+        if (priceDetailsDiv) priceDetailsDiv.textContent = details;
+        if (priceEstimateDiv) priceEstimateDiv.classList.remove('hidden');
     } else {
-        priceEstimateDiv.classList.add('hidden');
+        if (priceEstimateDiv) priceEstimateDiv.classList.add('hidden');
     }
 }
 

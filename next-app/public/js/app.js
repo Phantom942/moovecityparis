@@ -172,7 +172,7 @@ function calculatePriceWithDistance() {
             const est = calculatePrice(vehicleKey, 2);
             el.priceResult.textContent = est + '€';
             if (el.priceDetails) el.priceDetails.innerHTML = '<div style="color:#64748b;font-size:0.85rem">Estimation basique (2h)</div>';
-            if (el.priceNote) el.priceNote.textContent = '* ' + v.basePrice + '€ (base) + 2h × 10€/h = ' + est + '€ (estimation)';
+            if (el.priceNote) el.priceNote.textContent = '* ' + v.basePrice + '€ (base) + 2h × ' + v.pricePerHour + '€/h = ' + est + '€ (estimation)';
             return;
         }
 
@@ -249,7 +249,7 @@ function fallbackPrice(vehicleKey, el) {
     const est = calculatePrice(vehicleKey, 2);
     el.priceResult.textContent = est + '€';
     if (el.priceDetails) el.priceDetails.textContent = 'Estimation basée sur 2h de transport';
-    if (el.priceNote) el.priceNote.textContent = '* ' + v.basePrice + '€ (base) + 2h × 10€/h = ' + est + '€ (estimation)';
+    if (el.priceNote) el.priceNote.textContent = '* ' + v.basePrice + '€ (base) + 2h × ' + v.pricePerHour + '€/h = ' + est + '€ (estimation)';
 }
 
 /* ===== Setup calculateur ===== */
