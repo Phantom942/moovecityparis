@@ -404,24 +404,12 @@ function mooveBookingAttachPlacesDataAutocomplete(input) {
     input.setAttribute('data-autocomplete-pending', 'true');
 
     google.maps.importLibrary('places').then(function (lib) {
-        var Pel = (lib && lib.PlaceAutocompleteElement) ||
-            (google.maps.places && google.maps.places.PlaceAutocompleteElement);
-        if (Pel && typeof Pel === 'function') {
-            input.removeAttribute('data-autocomplete-pending');
-            mooveBookingAttachPlaceAutocompleteElementImpl(input, Pel);
-            return;
-        }
-
-        mooveBookingInjectDataDropdownStyles();
+        /* API Data en premier : garde les <input> natifs (fond blanc) + liste custom ; le web component passait souvent en thème sombre sans suggestions. */
         var AutocompleteSessionToken = lib.AutocompleteSessionToken;
         var AutocompleteSuggestion = lib.AutocompleteSuggestion;
-        if (!AutocompleteSessionToken || !AutocompleteSuggestion) {
-            input.removeAttribute('data-autocomplete-pending');
-            console.warn('Moove City booking: Places — PlaceAutocompleteElement et AutocompleteSuggestion indisponibles.');
-            return;
-        }
-
+        if (AutocompleteSessionToken && AutocompleteSuggestion) {
         input.removeAttribute('data-autocomplete-pending');
+        mooveBookingInjectDataDropdownStyles();
         input.setAttribute('data-autocomplete-initialized', 'true');
 
         var wrap = input.parentNode;
@@ -536,6 +524,18 @@ function mooveBookingAttachPlacesDataAutocomplete(input) {
         document.addEventListener('click', onDocClick);
         window.addEventListener('scroll', positionDropdown, true);
         window.addEventListener('resize', positionDropdown);
+        return;
+        }
+
+        var Pel = (lib && lib.PlaceAutocompleteElement) ||
+            (google.maps.places && google.maps.places.PlaceAutocompleteElement);
+        input.removeAttribute('data-autocomplete-pending');
+        if (Pel && typeof Pel === 'function') {
+            mooveBookingAttachPlaceAutocompleteElementImpl(input, Pel);
+            return;
+        }
+
+        console.warn('Moove City booking: Places — API Data et PlaceAutocompleteElement indisponibles.');
     }).catch(function (err) {
         input.removeAttribute('data-autocomplete-pending');
         console.warn('Moove City booking: importLibrary(places)', err);

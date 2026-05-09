@@ -16,7 +16,7 @@ export default function BookingPage() {
 
     const mapsScript = document.createElement("script");
     mapsScript.src =
-      "https://maps.googleapis.com/maps/api/js?key=AIzaSyBj-30c7SBJUcHHdw_hBT17jtH__NRz0L8&loading=async&callback=initBookingAutocomplete";
+      "https://maps.googleapis.com/maps/api/js?key=AIzaSyBj-30c7SBJUcHHdw_hBT17jtH__NRz0L8&libraries=places&loading=async&callback=initBookingAutocomplete";
     mapsScript.async = false;
     mapsScript.defer = true;
 
@@ -28,7 +28,7 @@ export default function BookingPage() {
     return () => {
       sanitizeScript.remove();
       bookingScript.remove();
-      mapsScript.remove();
+      if (mapsScript.parentNode) mapsScript.remove();
     };
   }, []);
 

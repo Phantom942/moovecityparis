@@ -443,7 +443,7 @@ function mooveAttachPlaceAutocompleteElement(input, onResolved) {
     }).catch(function () {});
 }
 
-/** PlaceAutocompleteElement en priorité, puis AutocompleteSuggestion (API Data). Pas d’Autocomplete legacy. */
+/** API Data en priorité (champs natifs + liste blanche) ; repli PlaceAutocompleteElement. */
 function mooveAttachPlacesDataAutocomplete(input, onResolved, formatPlaceFn) {
     formatPlaceFn = formatPlaceFn || legacyPlaceFormattedAddress;
     if (input.getAttribute('data-autocomplete-initialized') === 'true') return;
@@ -451,24 +451,11 @@ function mooveAttachPlacesDataAutocomplete(input, onResolved, formatPlaceFn) {
     input.setAttribute('data-autocomplete-pending', 'true');
 
     google.maps.importLibrary('places').then(function (lib) {
-        var Pel = (lib && lib.PlaceAutocompleteElement) ||
-            (google.maps.places && google.maps.places.PlaceAutocompleteElement);
-        if (Pel && typeof Pel === 'function') {
-            input.removeAttribute('data-autocomplete-pending');
-            mooveAttachPlaceAutocompleteElementImpl(input, onResolved, formatPlaceFn, Pel);
-            return;
-        }
-
-        mooveInjectDataDropdownStyles();
         var AutocompleteSessionToken = lib.AutocompleteSessionToken;
         var AutocompleteSuggestion = lib.AutocompleteSuggestion;
-        if (!AutocompleteSessionToken || !AutocompleteSuggestion) {
-            input.removeAttribute('data-autocomplete-pending');
-            console.warn('Moove City: Places — PlaceAutocompleteElement et AutocompleteSuggestion indisponibles.');
-            return;
-        }
-
+        if (AutocompleteSessionToken && AutocompleteSuggestion) {
         input.removeAttribute('data-autocomplete-pending');
+        mooveInjectDataDropdownStyles();
         input.setAttribute('data-autocomplete-initialized', 'true');
 
         var wrap = input.parentNode;
@@ -583,6 +570,18 @@ function mooveAttachPlacesDataAutocomplete(input, onResolved, formatPlaceFn) {
         document.addEventListener('click', onDocClick);
         window.addEventListener('scroll', positionDropdown, true);
         window.addEventListener('resize', positionDropdown);
+        return;
+        }
+
+        var Pel = (lib && lib.PlaceAutocompleteElement) ||
+            (google.maps.places && google.maps.places.PlaceAutocompleteElement);
+        input.removeAttribute('data-autocomplete-pending');
+        if (Pel && typeof Pel === 'function') {
+            mooveAttachPlaceAutocompleteElementImpl(input, onResolved, formatPlaceFn, Pel);
+            return;
+        }
+
+        console.warn('Moove City: Places — API Data et PlaceAutocompleteElement indisponibles.');
     }).catch(function (err) {
         input.removeAttribute('data-autocomplete-pending');
         console.warn('Moove City: importLibrary(places)', err);
@@ -695,8 +694,7 @@ function ensureGoogleMaps() {
     };
 
     const s = document.createElement('script');
-    /* Pas de libraries=places dans l’URL : Places est chargé via importLibrary('places') uniquement (évite chargement anticipé du bundle legacy). */
-    s.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBj-30c7SBJUcHHdw_hBT17jtH__NRz0L8&loading=async&callback=initGoogleMapsPlaces';
+    s.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBj-30c7SBJUcHHdw_hBT17jtH__NRz0L8&libraries=places,marker&loading=async&callback=initGoogleMapsPlaces';
     s.async = false;
     s.defer = true;
     document.head.appendChild(s);

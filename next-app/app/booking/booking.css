@@ -132,6 +132,7 @@ main .container.booking-grid {
     position: relative;
     z-index: 20;
     overflow: visible !important;
+    color-scheme: light;
 }
 
 /* Google Places (.pac-container) : ne pas rogner sous la carte formulaire */
@@ -490,24 +491,28 @@ textarea:focus {
     box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12);
 }
 
-/* Adresses Google Places : champ toujours lisible sur fond blanc */
+/* Adresses Google Places : champ toujours lisible sur fond blanc (évite thème sombre OS / WebView) */
 input#departure,
 input#arrival,
 input.pac-target-input {
     background-color: #ffffff !important;
-    color: var(--text-primary) !important;
-    -webkit-text-fill-color: var(--text-primary) !important;
+    background: #ffffff !important;
+    color: #0f172a !important;
+    -webkit-text-fill-color: #0f172a !important;
+    caret-color: #0f172a !important;
+    color-scheme: light !important;
 }
 
 gmp-place-autocomplete.gmp-place-autocomplete-moove {
     display: block;
     width: 100%;
     box-sizing: border-box;
+    color-scheme: light;
     --gmp-mat-color-surface: #ffffff;
-    --gmp-mat-color-on-surface: var(--text-primary);
-    --gmp-mat-color-on-surface-variant: var(--text-secondary);
-    --gmp-mat-color-outline-decorative: var(--border);
-    --gmp-mat-color-primary: var(--brand-primary);
+    --gmp-mat-color-on-surface: #0f172a;
+    --gmp-mat-color-on-surface-variant: #64748b;
+    --gmp-mat-color-outline-decorative: #e2e8f0;
+    --gmp-mat-color-primary: #059669;
 }
 
 textarea {
