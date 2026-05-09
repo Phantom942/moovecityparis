@@ -295,7 +295,7 @@ nav {
 .hero {
     position: relative;
     padding: 2.5rem 0 4rem;
-    /* Laisser dépasser la liste Places (gmp-autocomplete) sans la rogner */
+    /* Laisser dépasser la liste Places (PlaceAutocompleteElement) sans la rogner */
     overflow-x: hidden;
     overflow-y: visible;
     min-height: 100vh;
@@ -1028,16 +1028,13 @@ footer a:link, footer a:visited, footer a:active { color: rgba(255, 255, 255, 0.
 }
 .form-group, .booking-form .form-row > div, .form-row > div { position: relative !important; }
 
-/* Autocomplétion adresses (dropdown custom) : éviter overflow:hidden qui masque la liste */
-.gmp-autocomplete-wrapper {
-    overflow: visible;
-    z-index: 1;
+/* PlaceAutocompleteElement Google : éviter overflow:hidden qui masque la liste (shadow DOM / popover) */
+gmp-place-autocomplete.gmp-place-autocomplete-moove {
+    position: relative;
+    z-index: 2;
 }
-.gmp-autocomplete-dropdown {
-    z-index: 100000 !important;
-}
-.booking-form .form-group:has(.gmp-autocomplete-wrapper),
-.booking-form .form-row:has(.gmp-autocomplete-wrapper) {
+.booking-form .form-group:has(gmp-place-autocomplete),
+.booking-form .form-row:has(gmp-place-autocomplete) {
     overflow: visible !important;
 }
 
@@ -1147,14 +1144,14 @@ footer a:link, footer a:visited, footer a:active { color: rgba(255, 255, 255, 0.
         max-width: 100%;
         overflow: hidden;
     }
-    .form-group:has(.gmp-autocomplete-wrapper) {
+    .form-group:has(gmp-place-autocomplete) {
         overflow: visible;
     }
     .form-row {
         max-width: 100%;
         overflow: hidden;
     }
-    .form-row:has(.gmp-autocomplete-wrapper) {
+    .form-row:has(gmp-place-autocomplete) {
         overflow: visible;
     }
     .cta-call { width: 100%; font-size: 0.9rem; padding: 0.75rem 1rem; }

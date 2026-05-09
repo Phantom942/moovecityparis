@@ -354,16 +354,7 @@ function showErrorMessage(message) {
     setTimeout(() => div.remove(), 5000);
 }
 
-/* ===== Google Places Autocomplete (API Data programmatique + dropdown) ===== */
-
-function formatPlacePredictionLabel(pred) {
-    if (!pred || pred.text == null) return '';
-    var t = pred.text;
-    if (typeof t === 'string') return t;
-    if (typeof t.toString === 'function') return String(t.toString());
-    if (t && typeof t.text === 'string') return t.text;
-    return '';
-}
+/* ===== Google Places — PlaceAutocompleteElement (prévisualisation / liste officielle Google) ===== */
 
 function resolvedPlaceAddress(place) {
     if (!place) return '';
@@ -376,9 +367,26 @@ function resolvedPlaceAddress(place) {
     return '';
 }
 
+function injectMoovePlaceAutocompleteStyles() {
+    if (document.getElementById('gmp-place-autocomplete-moove-styles')) return;
+    var style = document.createElement('style');
+    style.id = 'gmp-place-autocomplete-moove-styles';
+    style.textContent =
+        'gmp-place-autocomplete.gmp-place-autocomplete-moove{' +
+        'display:block!important;width:100%;' +
+        '--gmp-mat-color-surface:#ffffff;' +
+        '--gmp-mat-color-on-surface:#0f172a;' +
+        '--gmp-mat-color-on-surface-variant:#64748b;' +
+        '--gmp-mat-color-outline-decorative:#e2e8f0;' +
+        '--gmp-mat-color-primary:#10b981;' +
+        'font-family:var(--font-family,Inter,-apple-system,BlinkMacSystemFont,sans-serif);' +
+        '}';
+    document.head.appendChild(style);
+}
+
 function setupPlacesAutocomplete() {
-    const departInput  = document.getElementById('depart');
-    const arriveeInput = document.getElementById('arrivee');
+    var departInput  = document.getElementById('depart');
+    var arriveeInput = document.getElementById('arrivee');
     if (!departInput || !arriveeInput) return;
     if (departInput.getAttribute('data-autocomplete-initialized') === 'true') return;
 
@@ -387,119 +395,60 @@ function setupPlacesAutocomplete() {
         return;
     }
 
-    if (!document.getElementById('gmp-autocomplete-dropdown-styles')) {
-        var style = document.createElement('style');
-        style.id = 'gmp-autocomplete-dropdown-styles';
-        style.textContent = '.gmp-autocomplete-dropdown{position:absolute;left:0;right:0;top:100%;z-index:100000;background:#fff;border:1px solid #e2e8f0;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.15);max-height:280px;overflow-y:auto;margin-top:4px}.gmp-autocomplete-dropdown[hidden]{display:none!important}.gmp-autocomplete-item{padding:10px 14px;cursor:pointer;font-size:14px;border-bottom:1px solid #f1f5f9}.gmp-autocomplete-item:last-child{border-bottom:none}.gmp-autocomplete-item:hover,.gmp-autocomplete-item:focus{background:#f8fafc}.gmp-autocomplete-wrapper{position:relative}';
-        document.head.appendChild(style);
+    injectMoovePlaceAutocompleteStyles();
+
+    function attachPlaceAutocompleteElement(input) {
+        if (input.getAttribute('data-autocomplete-initialized') === 'true') return;
+        input.setAttribute('data-autocomplete-initialized', 'true');
+
+        google.maps.importLibrary('places').then(function (lib) {
+            var PlaceAutocompleteElement =
+                (lib && lib.PlaceAutocompleteElement) ||
+                (google.maps.places && google.maps.places.PlaceAutocompleteElement);
+            if (!PlaceAutocompleteElement) {
+                console.warn('PlaceAutocompleteElement non disponible');
+                input.removeAttribute('data-autocomplete-initialized');
+                return;
+            }
+            var el = new PlaceAutocompleteElement({
+                includedRegionCodes: ['fr']
+            });
+            el.classList.add('gmp-place-autocomplete-moove');
+            if (input.placeholder) el.setAttribute('placeholder', input.placeholder);
+            try {
+                if (input.value) el.value = input.value;
+            } catch (e) { /* anciennes versions du widget */ }
+
+            input.style.display = 'none';
+            input.parentNode.insertBefore(el, input.nextSibling);
+
+            el.addEventListener('gmp-select', function (ev) {
+                var placePrediction = ev.placePrediction;
+                if (!placePrediction || typeof placePrediction.toPlace !== 'function') return;
+                placePrediction.toPlace().then(function (place) {
+                    return place.fetchFields({ fields: ['formattedAddress', 'displayName'] });
+                }).then(function (place) {
+                    var addr = resolvedPlaceAddress(place);
+                    if (addr) {
+                        input.value = addr;
+                        input.setAttribute('data-full-address', addr);
+                        input.dispatchEvent(new Event('input', { bubbles: true }));
+                        input.dispatchEvent(new Event('change', { bubbles: true }));
+                        if (window.calculatePriceWithDistance) {
+                            setTimeout(window.calculatePriceWithDistance, 200);
+                        }
+                    }
+                }).catch(function () {});
+            });
+        }).catch(function (err) {
+            console.warn('Places library error', err);
+            input.style.display = '';
+            input.removeAttribute('data-autocomplete-initialized');
+        });
     }
 
-    google.maps.importLibrary('places').then(function (lib) {
-        var AutocompleteSessionToken = lib.AutocompleteSessionToken;
-        var AutocompleteSuggestion = lib.AutocompleteSuggestion;
-        if (!AutocompleteSessionToken || !AutocompleteSuggestion) {
-            console.warn('Places Data API non disponible');
-            return;
-        }
-
-        function attachDataAutocomplete(input) {
-            if (input.getAttribute('data-autocomplete-initialized') === 'true') return;
-            input.setAttribute('data-autocomplete-initialized', 'true');
-
-            var wrapper = input.parentNode;
-            if (!wrapper.classList.contains('gmp-autocomplete-wrapper')) {
-                var w = document.createElement('div');
-                w.className = 'gmp-autocomplete-wrapper';
-                input.parentNode.insertBefore(w, input);
-                w.appendChild(input);
-                wrapper = w;
-            }
-            var dropdown = document.createElement('div');
-            dropdown.className = 'gmp-autocomplete-dropdown';
-            dropdown.setAttribute('hidden', '');
-            dropdown.setAttribute('role', 'listbox');
-            wrapper.appendChild(dropdown);
-
-            var sessionToken = new AutocompleteSessionToken();
-            var debounceTimer;
-
-            function refreshToken() { sessionToken = new AutocompleteSessionToken(); }
-
-            function hideDropdown() {
-                dropdown.setAttribute('hidden', '');
-                dropdown.replaceChildren();
-            }
-
-            function showSuggestions(suggestions) {
-                dropdown.replaceChildren();
-                if (!suggestions || suggestions.length === 0) { hideDropdown(); return; }
-                dropdown.removeAttribute('hidden');
-                suggestions.forEach(function (s) {
-                    var pred = s.placePrediction;
-                    if (!pred) return;
-                    var btn = document.createElement('button');
-                    btn.type = 'button';
-                    btn.className = 'gmp-autocomplete-item';
-                    btn.textContent = formatPlacePredictionLabel(pred);
-                    btn.setAttribute('role', 'option');
-                    btn.addEventListener('mousedown', function (e) { e.preventDefault(); });
-                    btn.addEventListener('click', function () {
-                        var placePromise = typeof pred.toPlace === 'function' ? pred.toPlace() : pred.toPlace;
-                        if (!placePromise || typeof placePromise.then !== 'function') return;
-                        placePromise.then(function (place) {
-                            return place.fetchFields({ fields: ['formattedAddress', 'displayName'] });
-                        }).then(function (place) {
-                            var addr = resolvedPlaceAddress(place);
-                            if (addr) {
-                                input.value = addr;
-                                input.setAttribute('data-full-address', addr);
-                                input.dispatchEvent(new Event('input', { bubbles: true }));
-                                if (window.calculatePriceWithDistance) setTimeout(window.calculatePriceWithDistance, 200);
-                            }
-                            refreshToken();
-                            hideDropdown();
-                        }).catch(function () { refreshToken(); hideDropdown(); });
-                    });
-                    dropdown.appendChild(btn);
-                });
-            }
-
-            input.addEventListener('input', function () {
-                clearTimeout(debounceTimer);
-                var q = (input.value || '').trim();
-                if (q.length < 2) { hideDropdown(); return; }
-                debounceTimer = setTimeout(function () {
-                    var request = {
-                        input: q,
-                        sessionToken: sessionToken,
-                        includedRegionCodes: ['fr']
-                    };
-                    AutocompleteSuggestion.fetchAutocompleteSuggestions(request).then(function (res) {
-                        if (res && res.suggestions) showSuggestions(res.suggestions);
-                        else hideDropdown();
-                    }).catch(function () { hideDropdown(); });
-                }, 300);
-            });
-
-            input.addEventListener('blur', function () {
-                setTimeout(hideDropdown, 200);
-            });
-
-            input.addEventListener('focus', function () {
-                var q = (input.value || '').trim();
-                if (q.length >= 2 && dropdown.children.length) dropdown.removeAttribute('hidden');
-            });
-
-            document.addEventListener('click', function (e) {
-                if (!wrapper.contains(e.target)) hideDropdown();
-            });
-        }
-
-        attachDataAutocomplete(departInput);
-        attachDataAutocomplete(arriveeInput);
-    }).catch(function (err) {
-        console.warn('Places library error', err);
-    });
+    attachPlaceAutocompleteElement(departInput);
+    attachPlaceAutocompleteElement(arriveeInput);
 }
 window.setupPlacesAutocomplete = setupPlacesAutocomplete;
 

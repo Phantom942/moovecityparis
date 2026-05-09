@@ -121,13 +121,13 @@ main .container.booking-grid {
     overflow: hidden;
 }
 
-/* Liste d’adresses Google Places : ne pas rogner dans la carte formulaire */
-.booking-col-left .card:has(.gmp-autocomplete-wrapper),
-.booking-col-right .card:has(.gmp-autocomplete-wrapper) {
+/* PlaceAutocompleteElement : ne pas rogner la liste dans la carte formulaire */
+.booking-col-left .card:has(gmp-place-autocomplete),
+.booking-col-right .card:has(gmp-place-autocomplete) {
     overflow: visible;
 }
-.form-row:has(.gmp-autocomplete-wrapper),
-.form-field:has(.gmp-autocomplete-wrapper) {
+.form-row:has(gmp-place-autocomplete),
+.form-field:has(gmp-place-autocomplete) {
     overflow: visible;
 }
 
