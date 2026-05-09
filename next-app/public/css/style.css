@@ -1028,13 +1028,11 @@ footer a:link, footer a:visited, footer a:active { color: rgba(255, 255, 255, 0.
 }
 .form-group, .booking-form .form-row > div, .form-row > div { position: relative !important; }
 
-/* PlaceAutocompleteElement Google : éviter overflow:hidden qui masque la liste (shadow DOM / popover) */
-gmp-place-autocomplete.gmp-place-autocomplete-moove {
-    position: relative;
-    z-index: 2;
-}
-.booking-form .form-group:has(gmp-place-autocomplete),
-.booking-form .form-row:has(gmp-place-autocomplete) {
+/* Google Places Autocomplete (.pac-container) : parents en overflow visible */
+.booking-form .form-group:has(#depart),
+.booking-form .form-group:has(#arrivee),
+.booking-form .form-row:has(#depart),
+.booking-form .form-row:has(#arrivee) {
     overflow: visible !important;
 }
 
@@ -1144,14 +1142,16 @@ gmp-place-autocomplete.gmp-place-autocomplete-moove {
         max-width: 100%;
         overflow: hidden;
     }
-    .form-group:has(gmp-place-autocomplete) {
+    .form-group:has(#depart),
+    .form-group:has(#arrivee) {
         overflow: visible;
     }
     .form-row {
         max-width: 100%;
         overflow: hidden;
     }
-    .form-row:has(gmp-place-autocomplete) {
+    .form-row:has(#depart),
+    .form-row:has(#arrivee) {
         overflow: visible;
     }
     .cta-call { width: 100%; font-size: 0.9rem; padding: 0.75rem 1rem; }

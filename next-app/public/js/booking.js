@@ -293,34 +293,14 @@ function isValidDate(dateStr) {
     return date >= today;
 }
 
-/* ===== Autocomplétion Google Places (booking) — PlaceAutocompleteElement ===== */
+/* ===== Autocomplétion Google Places — Autocomplete classique (.pac-container) ===== */
 
-function resolvedBookingPlaceAddress(place) {
+function bookingLegacyPlaceFormattedAddress(place) {
     if (!place) return '';
-    var a = place.formattedAddress;
-    if (a) return String(a);
-    var d = place.displayName;
-    if (d == null) return '';
-    if (typeof d === 'string') return d;
-    if (typeof d.toString === 'function') return String(d.toString());
+    if (place.formatted_address) return String(place.formatted_address);
+    if (place.formattedAddress) return String(place.formattedAddress);
+    if (place.name) return String(place.name);
     return '';
-}
-
-function injectBookingPlaceAutocompleteStyles() {
-    if (document.getElementById('gmp-place-autocomplete-moove-styles')) return;
-    var style = document.createElement('style');
-    style.id = 'gmp-place-autocomplete-moove-styles';
-    style.textContent =
-        'gmp-place-autocomplete.gmp-place-autocomplete-moove{' +
-        'display:block!important;width:100%;' +
-        '--gmp-mat-color-surface:#ffffff;' +
-        '--gmp-mat-color-on-surface:#0f172a;' +
-        '--gmp-mat-color-on-surface-variant:#64748b;' +
-        '--gmp-mat-color-outline-decorative:#e2e8f0;' +
-        '--gmp-mat-color-primary:#059669;' +
-        'font-family:Inter,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;' +
-        '}';
-    document.head.appendChild(style);
 }
 
 function initBookingPlacesAutocomplete() {
@@ -329,57 +309,52 @@ function initBookingPlacesAutocomplete() {
     var departureInput = document.getElementById('departure');
     var arrivalInput = document.getElementById('arrival');
     if (!departureInput || !arrivalInput) return false;
-    if (departureInput.getAttribute('data-autocomplete-initialized') === 'true') return true;
-
-    injectBookingPlaceAutocompleteStyles();
-
-    function attachPlaceAutocompleteElement(input) {
-        if (input.getAttribute('data-autocomplete-initialized') === 'true') return;
-        input.setAttribute('data-autocomplete-initialized', 'true');
-
-        google.maps.importLibrary('places').then(function (lib) {
-            var PlaceAutocompleteElement =
-                (lib && lib.PlaceAutocompleteElement) ||
-                (google.maps.places && google.maps.places.PlaceAutocompleteElement);
-            if (!PlaceAutocompleteElement) {
-                input.removeAttribute('data-autocomplete-initialized');
-                return;
-            }
-            var el = new PlaceAutocompleteElement({
-                includedRegionCodes: ['fr']
-            });
-            el.classList.add('gmp-place-autocomplete-moove');
-            if (input.placeholder) el.setAttribute('placeholder', input.placeholder);
-            try {
-                if (input.value) el.value = input.value;
-            } catch (e) { /* anciennes versions du widget */ }
-
-            input.style.display = 'none';
-            input.parentNode.insertBefore(el, input.nextSibling);
-
-            el.addEventListener('gmp-select', function (ev) {
-                var placePrediction = ev.placePrediction;
-                if (!placePrediction || typeof placePrediction.toPlace !== 'function') return;
-                placePrediction.toPlace().then(function (place) {
-                    return place.fetchFields({ fields: ['formattedAddress', 'displayName'] });
-                }).then(function (place) {
-                    var addr = resolvedBookingPlaceAddress(place);
-                    if (addr) {
-                        input.value = addr;
-                        input.setAttribute('data-full-address', addr);
-                        input.dispatchEvent(new Event('input', { bubbles: true }));
-                        input.dispatchEvent(new Event('change', { bubbles: true }));
-                    }
-                }).catch(function () {});
-            });
-        }).catch(function () {
-            input.style.display = '';
-            input.removeAttribute('data-autocomplete-initialized');
-        });
+    if (departureInput.getAttribute('data-autocomplete-initialized') === 'true' &&
+        arrivalInput.getAttribute('data-autocomplete-initialized') === 'true') {
+        return true;
     }
 
-    attachPlaceAutocompleteElement(departureInput);
-    attachPlaceAutocompleteElement(arrivalInput);
+    google.maps.importLibrary('places').then(function (placesLib) {
+        var AutocompleteCtor =
+            (placesLib && placesLib.Autocomplete) ||
+            (google.maps.places && google.maps.places.Autocomplete);
+        if (!AutocompleteCtor) {
+            console.warn('google.maps.places.Autocomplete indisponible (libraries=places sur le script Maps).');
+            return;
+        }
+
+        function bindAutocomplete(input) {
+            if (input.getAttribute('data-autocomplete-initialized') === 'true') return;
+            input.setAttribute('data-autocomplete-initialized', 'true');
+            try {
+                var ac = new AutocompleteCtor(input, {
+                    componentRestrictions: { country: 'fr' },
+                    fields: ['formatted_address', 'geometry', 'name']
+                });
+                ac.addListener('place_changed', function () {
+                    var place = ac.getPlace();
+                    var addr = bookingLegacyPlaceFormattedAddress(place);
+                    if (!addr) {
+                        input.removeAttribute('data-full-address');
+                        return;
+                    }
+                    input.value = addr;
+                    input.setAttribute('data-full-address', addr);
+                    input.dispatchEvent(new Event('input', { bubbles: true }));
+                    input.dispatchEvent(new Event('change', { bubbles: true }));
+                });
+            } catch (err) {
+                console.warn('Autocomplete booking bind error', err);
+                input.removeAttribute('data-autocomplete-initialized');
+            }
+        }
+
+        bindAutocomplete(departureInput);
+        bindAutocomplete(arrivalInput);
+    }).catch(function (err) {
+        console.warn('Places library error', err);
+    });
+
     return true;
 }
 
@@ -423,21 +398,3 @@ function showErrorMessage(message, success) {
 /* ===== Bootstrap ===== */
 
 setupPriceCalculator();
-
-(function () {
-    function pollGoogleMaps() {
-        var checkCount = 0;
-        var checkInterval = setInterval(function () {
-            checkCount++;
-            if (window.google && window.google.maps) {
-                clearInterval(checkInterval);
-                initBookingPlacesAutocomplete();
-            } else if (checkCount >= 25) {
-                clearInterval(checkInterval);
-            }
-        }, 200);
-    }
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', pollGoogleMaps);
-    } else { pollGoogleMaps(); }
-})();

@@ -50,8 +50,8 @@ window.redirectToWhatsAppBooking = redirectToWhatsAppBooking;
 var VEHICLE_PRICES = {
     'URBAN':   { base: 40,  hourly: 18, perKm: 0.75 },
     'EXPRESS': { base: 50,  hourly: 22, perKm: 1.0  },
-    'PREMIUM': { base: 60,  hourly: 26, perKm: 1.25 },
-    'TITAN':   { base: 100, hourly: 32, perKm: 1.75 }
+    'PREMIUM': { base: 70,  hourly: 26, perKm: 1.25 },
+    'TITAN':   { base: 110, hourly: 32, perKm: 1.75 }
 };
 
 var MANUTENTION_FEE = 25;
@@ -108,13 +108,15 @@ function updateVehicleIcon() {
     var vehicle = vehicleEl.value;
     var iconContainer = document.getElementById('vehicleIcon');
     var priceIconContainer = document.getElementById('priceVehicleIcon');
-    if (!iconContainer) return;
+    if (!iconContainer && !priceIconContainer) return;
 
     var svg = vehicle && VEHICLE_ICONS[vehicle] ? VEHICLE_ICONS[vehicle] : EMPTY_ICON;
-    iconContainer.innerHTML = svg;
-    iconContainer.classList.toggle('opacity-50', !vehicle);
-    iconContainer.classList.toggle('bg-emerald-50', !!vehicle);
-    iconContainer.classList.toggle('bg-slate-100', !vehicle);
+    if (iconContainer) {
+        iconContainer.innerHTML = svg;
+        iconContainer.classList.toggle('opacity-50', !vehicle);
+        iconContainer.classList.toggle('bg-emerald-50', !!vehicle);
+        iconContainer.classList.toggle('bg-slate-100', !vehicle);
+    }
 
     if (priceIconContainer) {
         priceIconContainer.innerHTML = vehicle && VEHICLE_ICONS[vehicle] ? VEHICLE_ICONS[vehicle] : '';
@@ -187,7 +189,7 @@ function updatePriceDisplay() {
     updateVehicleIcon();
 
     if (!vehicle || !duration || duration <= 0) {
-        priceEstimateDiv.classList.add('hidden');
+        if (priceEstimateDiv) priceEstimateDiv.classList.add('hidden');
         return;
     }
 
@@ -218,10 +220,10 @@ function updatePriceDisplay() {
         }
         if (surcharges.length > 0) details += ' | ' + surcharges.join(', ');
 
-        priceDetailsDiv.textContent = details;
-        priceEstimateDiv.classList.remove('hidden');
+        if (priceDetailsDiv) priceDetailsDiv.textContent = details;
+        if (priceEstimateDiv) priceEstimateDiv.classList.remove('hidden');
     } else {
-        priceEstimateDiv.classList.add('hidden');
+        if (priceEstimateDiv) priceEstimateDiv.classList.add('hidden');
     }
 }
 
@@ -291,7 +293,15 @@ function isValidDate(dateStr) {
     return date >= today;
 }
 
-/* ===== Autocomplétion Google Places (booking) — API Data programmatique + dropdown ===== */
+/* ===== Autocomplétion Google Places — Autocomplete classique (.pac-container) ===== */
+
+function bookingLegacyPlaceFormattedAddress(place) {
+    if (!place) return '';
+    if (place.formatted_address) return String(place.formatted_address);
+    if (place.formattedAddress) return String(place.formattedAddress);
+    if (place.name) return String(place.name);
+    return '';
+}
 
 function initBookingPlacesAutocomplete() {
     if (!(window.google && google.maps)) return false;
@@ -299,109 +309,51 @@ function initBookingPlacesAutocomplete() {
     var departureInput = document.getElementById('departure');
     var arrivalInput = document.getElementById('arrival');
     if (!departureInput || !arrivalInput) return false;
-    if (departureInput.getAttribute('data-autocomplete-initialized') === 'true') return true;
-
-    if (!document.getElementById('gmp-autocomplete-dropdown-styles')) {
-        var style = document.createElement('style');
-        style.id = 'gmp-autocomplete-dropdown-styles';
-        style.textContent = '.gmp-autocomplete-dropdown{position:absolute;left:0;right:0;top:100%;z-index:9999;background:#fff;border:1px solid #e2e8f0;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.15);max-height:280px;overflow-y:auto;margin-top:4px}.gmp-autocomplete-dropdown[hidden]{display:none!important}.gmp-autocomplete-item{padding:10px 14px;cursor:pointer;font-size:14px;border-bottom:1px solid #f1f5f9}.gmp-autocomplete-item:last-child{border-bottom:none}.gmp-autocomplete-item:hover,.gmp-autocomplete-item:focus{background:#f8fafc}.gmp-autocomplete-wrapper{position:relative}';
-        document.head.appendChild(style);
+    if (departureInput.getAttribute('data-autocomplete-initialized') === 'true' &&
+        arrivalInput.getAttribute('data-autocomplete-initialized') === 'true') {
+        return true;
     }
 
-    google.maps.importLibrary('places').then(function (lib) {
-        var AutocompleteSessionToken = lib.AutocompleteSessionToken;
-        var AutocompleteSuggestion = lib.AutocompleteSuggestion;
-        if (!AutocompleteSessionToken || !AutocompleteSuggestion) return;
-
-        function attachDataAutocomplete(input) {
-            if (input.getAttribute('data-autocomplete-initialized') === 'true') return;
-            input.setAttribute('data-autocomplete-initialized', 'true');
-
-            var wrapper = input.parentNode;
-            if (!wrapper.classList.contains('gmp-autocomplete-wrapper')) {
-                var w = document.createElement('div');
-                w.className = 'gmp-autocomplete-wrapper';
-                input.parentNode.insertBefore(w, input);
-                w.appendChild(input);
-                wrapper = w;
-            }
-            var dropdown = document.createElement('div');
-            dropdown.className = 'gmp-autocomplete-dropdown';
-            dropdown.setAttribute('hidden', '');
-            dropdown.setAttribute('role', 'listbox');
-            wrapper.appendChild(dropdown);
-
-            var sessionToken = new AutocompleteSessionToken();
-            var debounceTimer;
-
-            function refreshToken() { sessionToken = new AutocompleteSessionToken(); }
-            function hideDropdown() {
-                dropdown.setAttribute('hidden', '');
-                dropdown.replaceChildren();
-            }
-
-            function showSuggestions(suggestions) {
-                dropdown.replaceChildren();
-                if (!suggestions || suggestions.length === 0) { hideDropdown(); return; }
-                dropdown.removeAttribute('hidden');
-                suggestions.forEach(function (s) {
-                    var pred = s.placePrediction;
-                    if (!pred) return;
-                    var btn = document.createElement('button');
-                    btn.type = 'button';
-                    btn.className = 'gmp-autocomplete-item';
-                    btn.textContent = (pred.text && pred.text.toString) ? pred.text.toString() : (pred.text || '');
-                    btn.setAttribute('role', 'option');
-                    btn.addEventListener('click', function () {
-                        var placePromise = typeof pred.toPlace === 'function' ? pred.toPlace() : pred.toPlace;
-                        if (!placePromise || typeof placePromise.then !== 'function') return;
-                        placePromise.then(function (place) {
-                            return place.fetchFields({ fields: ['formattedAddress'] });
-                        }).then(function (place) {
-                            if (place && place.formattedAddress) {
-                                input.value = place.formattedAddress;
-                                input.setAttribute('data-full-address', place.formattedAddress);
-                                input.dispatchEvent(new Event('input', { bubbles: true }));
-                            }
-                            refreshToken();
-                            hideDropdown();
-                        }).catch(function () { refreshToken(); hideDropdown(); });
-                    });
-                    dropdown.appendChild(btn);
-                });
-            }
-
-            input.addEventListener('input', function () {
-                clearTimeout(debounceTimer);
-                var q = (input.value || '').trim();
-                if (q.length < 2) { hideDropdown(); return; }
-                debounceTimer = setTimeout(function () {
-                    var request = {
-                        input: q,
-                        sessionToken: sessionToken,
-                        includedRegionCodes: ['fr'],
-                        includedPrimaryTypes: ['street_address', 'premise', 'subpremise', 'establishment']
-                    };
-                    AutocompleteSuggestion.fetchAutocompleteSuggestions(request).then(function (res) {
-                        if (res && res.suggestions) showSuggestions(res.suggestions);
-                        else hideDropdown();
-                    }).catch(function () { hideDropdown(); });
-                }, 300);
-            });
-
-            input.addEventListener('blur', function () { setTimeout(hideDropdown, 200); });
-            input.addEventListener('focus', function () {
-                var q = (input.value || '').trim();
-                if (q.length >= 2 && dropdown.children.length) dropdown.removeAttribute('hidden');
-            });
-            document.addEventListener('click', function (e) {
-                if (!wrapper.contains(e.target)) hideDropdown();
-            });
+    google.maps.importLibrary('places').then(function (placesLib) {
+        var AutocompleteCtor =
+            (placesLib && placesLib.Autocomplete) ||
+            (google.maps.places && google.maps.places.Autocomplete);
+        if (!AutocompleteCtor) {
+            console.warn('google.maps.places.Autocomplete indisponible (libraries=places sur le script Maps).');
+            return;
         }
 
-        attachDataAutocomplete(departureInput);
-        attachDataAutocomplete(arrivalInput);
-    }).catch(function () {});
+        function bindAutocomplete(input) {
+            if (input.getAttribute('data-autocomplete-initialized') === 'true') return;
+            input.setAttribute('data-autocomplete-initialized', 'true');
+            try {
+                var ac = new AutocompleteCtor(input, {
+                    componentRestrictions: { country: 'fr' },
+                    fields: ['formatted_address', 'geometry', 'name']
+                });
+                ac.addListener('place_changed', function () {
+                    var place = ac.getPlace();
+                    var addr = bookingLegacyPlaceFormattedAddress(place);
+                    if (!addr) {
+                        input.removeAttribute('data-full-address');
+                        return;
+                    }
+                    input.value = addr;
+                    input.setAttribute('data-full-address', addr);
+                    input.dispatchEvent(new Event('input', { bubbles: true }));
+                    input.dispatchEvent(new Event('change', { bubbles: true }));
+                });
+            } catch (err) {
+                console.warn('Autocomplete booking bind error', err);
+                input.removeAttribute('data-autocomplete-initialized');
+            }
+        }
+
+        bindAutocomplete(departureInput);
+        bindAutocomplete(arrivalInput);
+    }).catch(function (err) {
+        console.warn('Places library error', err);
+    });
 
     return true;
 }
@@ -446,21 +398,3 @@ function showErrorMessage(message, success) {
 /* ===== Bootstrap ===== */
 
 setupPriceCalculator();
-
-(function () {
-    function pollGoogleMaps() {
-        var checkCount = 0;
-        var checkInterval = setInterval(function () {
-            checkCount++;
-            if (window.google && window.google.maps) {
-                clearInterval(checkInterval);
-                initBookingPlacesAutocomplete();
-            } else if (checkCount >= 25) {
-                clearInterval(checkInterval);
-            }
-        }, 200);
-    }
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', pollGoogleMaps);
-    } else { pollGoogleMaps(); }
-})();

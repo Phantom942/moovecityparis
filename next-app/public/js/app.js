@@ -354,101 +354,73 @@ function showErrorMessage(message) {
     setTimeout(() => div.remove(), 5000);
 }
 
-/* ===== Google Places — PlaceAutocompleteElement (prévisualisation / liste officielle Google) ===== */
+/* ===== Google Places — Autocomplete classique (.pac-container, API stable) ===== */
 
-function resolvedPlaceAddress(place) {
+function legacyPlaceFormattedAddress(place) {
     if (!place) return '';
-    var a = place.formattedAddress;
-    if (a) return String(a);
-    var d = place.displayName;
-    if (d == null) return '';
-    if (typeof d === 'string') return d;
-    if (typeof d.toString === 'function') return String(d.toString());
+    if (place.formatted_address) return String(place.formatted_address);
+    if (place.formattedAddress) return String(place.formattedAddress);
+    if (place.name) return String(place.name);
     return '';
-}
-
-function injectMoovePlaceAutocompleteStyles() {
-    if (document.getElementById('gmp-place-autocomplete-moove-styles')) return;
-    var style = document.createElement('style');
-    style.id = 'gmp-place-autocomplete-moove-styles';
-    style.textContent =
-        'gmp-place-autocomplete.gmp-place-autocomplete-moove{' +
-        'display:block!important;width:100%;' +
-        '--gmp-mat-color-surface:#ffffff;' +
-        '--gmp-mat-color-on-surface:#0f172a;' +
-        '--gmp-mat-color-on-surface-variant:#64748b;' +
-        '--gmp-mat-color-outline-decorative:#e2e8f0;' +
-        '--gmp-mat-color-primary:#10b981;' +
-        'font-family:var(--font-family,Inter,-apple-system,BlinkMacSystemFont,sans-serif);' +
-        '}';
-    document.head.appendChild(style);
 }
 
 function setupPlacesAutocomplete() {
     var departInput  = document.getElementById('depart');
     var arriveeInput = document.getElementById('arrivee');
     if (!departInput || !arriveeInput) return;
-    if (departInput.getAttribute('data-autocomplete-initialized') === 'true') return;
+    if (departInput.getAttribute('data-autocomplete-initialized') === 'true' &&
+        arriveeInput.getAttribute('data-autocomplete-initialized') === 'true') {
+        return;
+    }
 
     if (!(window.google && google.maps)) {
         setTimeout(setupPlacesAutocomplete, 500);
         return;
     }
 
-    injectMoovePlaceAutocompleteStyles();
+    google.maps.importLibrary('places').then(function (placesLib) {
+        var AutocompleteCtor =
+            (placesLib && placesLib.Autocomplete) ||
+            (google.maps.places && google.maps.places.Autocomplete);
+        if (!AutocompleteCtor) {
+            console.warn('google.maps.places.Autocomplete indisponible (vérifiez libraries=places sur le script Maps).');
+            return;
+        }
 
-    function attachPlaceAutocompleteElement(input) {
-        if (input.getAttribute('data-autocomplete-initialized') === 'true') return;
-        input.setAttribute('data-autocomplete-initialized', 'true');
-
-        google.maps.importLibrary('places').then(function (lib) {
-            var PlaceAutocompleteElement =
-                (lib && lib.PlaceAutocompleteElement) ||
-                (google.maps.places && google.maps.places.PlaceAutocompleteElement);
-            if (!PlaceAutocompleteElement) {
-                console.warn('PlaceAutocompleteElement non disponible');
-                input.removeAttribute('data-autocomplete-initialized');
-                return;
-            }
-            var el = new PlaceAutocompleteElement({
-                includedRegionCodes: ['fr']
-            });
-            el.classList.add('gmp-place-autocomplete-moove');
-            if (input.placeholder) el.setAttribute('placeholder', input.placeholder);
+        function bindAutocomplete(input) {
+            if (input.getAttribute('data-autocomplete-initialized') === 'true') return;
+            input.setAttribute('data-autocomplete-initialized', 'true');
             try {
-                if (input.value) el.value = input.value;
-            } catch (e) { /* anciennes versions du widget */ }
-
-            input.style.display = 'none';
-            input.parentNode.insertBefore(el, input.nextSibling);
-
-            el.addEventListener('gmp-select', function (ev) {
-                var placePrediction = ev.placePrediction;
-                if (!placePrediction || typeof placePrediction.toPlace !== 'function') return;
-                placePrediction.toPlace().then(function (place) {
-                    return place.fetchFields({ fields: ['formattedAddress', 'displayName'] });
-                }).then(function (place) {
-                    var addr = resolvedPlaceAddress(place);
-                    if (addr) {
-                        input.value = addr;
-                        input.setAttribute('data-full-address', addr);
-                        input.dispatchEvent(new Event('input', { bubbles: true }));
-                        input.dispatchEvent(new Event('change', { bubbles: true }));
-                        if (window.calculatePriceWithDistance) {
-                            setTimeout(window.calculatePriceWithDistance, 200);
-                        }
+                var ac = new AutocompleteCtor(input, {
+                    componentRestrictions: { country: 'fr' },
+                    fields: ['formatted_address', 'geometry', 'name']
+                });
+                ac.addListener('place_changed', function () {
+                    var place = ac.getPlace();
+                    var addr = legacyPlaceFormattedAddress(place);
+                    if (!addr) {
+                        input.removeAttribute('data-full-address');
+                        return;
                     }
-                }).catch(function () {});
-            });
-        }).catch(function (err) {
-            console.warn('Places library error', err);
-            input.style.display = '';
-            input.removeAttribute('data-autocomplete-initialized');
-        });
-    }
+                    input.value = addr;
+                    input.setAttribute('data-full-address', addr);
+                    input.dispatchEvent(new Event('input', { bubbles: true }));
+                    input.dispatchEvent(new Event('change', { bubbles: true }));
+                    if (window.calculatePriceWithDistance) {
+                        setTimeout(window.calculatePriceWithDistance, 200);
+                    }
+                });
+            } catch (err) {
+                console.warn('Autocomplete bind error', err);
+                input.removeAttribute('data-autocomplete-initialized');
+            }
+        }
 
-    attachPlaceAutocompleteElement(departInput);
-    attachPlaceAutocompleteElement(arriveeInput);
+        bindAutocomplete(departInput);
+        bindAutocomplete(arriveeInput);
+    }).catch(function (err) {
+        console.warn('Places library error', err);
+    });
 }
 window.setupPlacesAutocomplete = setupPlacesAutocomplete;
 
@@ -522,7 +494,7 @@ function ensureGoogleMaps() {
     };
 
     const s = document.createElement('script');
-    s.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBj-30c7SBJUcHHdw_hBT17jtH__NRz0L8&libraries=marker&loading=async&callback=initGoogleMapsPlaces';
+    s.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBj-30c7SBJUcHHdw_hBT17jtH__NRz0L8&libraries=places,marker&loading=async&callback=initGoogleMapsPlaces';
     s.async = true;
     document.head.appendChild(s);
 }
@@ -572,7 +544,7 @@ function runPageInit() {
     if (departInput) departInput.addEventListener('focus', ensureGoogleMaps, { once: true });
     if (arriveeInput) arriveeInput.addEventListener('focus', ensureGoogleMaps, { once: true });
 
-    if (window.google && window.google.maps && window.google.maps.places) {
+    if (window.google && window.google.maps) {
         setupPlacesAutocomplete();
     }
 

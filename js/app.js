@@ -172,7 +172,7 @@ function calculatePriceWithDistance() {
             const est = calculatePrice(vehicleKey, 2);
             el.priceResult.textContent = est + '€';
             if (el.priceDetails) el.priceDetails.innerHTML = '<div style="color:#64748b;font-size:0.85rem">Estimation basique (2h)</div>';
-            if (el.priceNote) el.priceNote.textContent = '* ' + v.basePrice + '€ (base) + 2h × 10€/h = ' + est + '€ (estimation)';
+            if (el.priceNote) el.priceNote.textContent = '* ' + v.basePrice + '€ (base) + 2h × ' + v.pricePerHour + '€/h = ' + est + '€ (estimation)';
             return;
         }
 
@@ -249,7 +249,7 @@ function fallbackPrice(vehicleKey, el) {
     const est = calculatePrice(vehicleKey, 2);
     el.priceResult.textContent = est + '€';
     if (el.priceDetails) el.priceDetails.textContent = 'Estimation basée sur 2h de transport';
-    if (el.priceNote) el.priceNote.textContent = '* ' + v.basePrice + '€ (base) + 2h × 10€/h = ' + est + '€ (estimation)';
+    if (el.priceNote) el.priceNote.textContent = '* ' + v.basePrice + '€ (base) + 2h × ' + v.pricePerHour + '€/h = ' + est + '€ (estimation)';
 }
 
 /* ===== Setup calculateur ===== */
@@ -354,128 +354,70 @@ function showErrorMessage(message) {
     setTimeout(() => div.remove(), 5000);
 }
 
-/* ===== Google Places Autocomplete (API Data programmatique + dropdown) ===== */
+/* ===== Google Places — Autocomplete classique (.pac-container, API stable) ===== */
+
+function legacyPlaceFormattedAddress(place) {
+    if (!place) return '';
+    if (place.formatted_address) return String(place.formatted_address);
+    if (place.formattedAddress) return String(place.formattedAddress);
+    if (place.name) return String(place.name);
+    return '';
+}
 
 function setupPlacesAutocomplete() {
-    const departInput  = document.getElementById('depart');
-    const arriveeInput = document.getElementById('arrivee');
+    var departInput  = document.getElementById('depart');
+    var arriveeInput = document.getElementById('arrivee');
     if (!departInput || !arriveeInput) return;
-    if (departInput.getAttribute('data-autocomplete-initialized') === 'true') return;
+    if (departInput.getAttribute('data-autocomplete-initialized') === 'true' &&
+        arriveeInput.getAttribute('data-autocomplete-initialized') === 'true') {
+        return;
+    }
 
     if (!(window.google && google.maps)) {
         setTimeout(setupPlacesAutocomplete, 500);
         return;
     }
 
-    if (!document.getElementById('gmp-autocomplete-dropdown-styles')) {
-        var style = document.createElement('style');
-        style.id = 'gmp-autocomplete-dropdown-styles';
-        style.textContent = '.gmp-autocomplete-dropdown{position:absolute;left:0;right:0;top:100%;z-index:9999;background:#fff;border:1px solid #e2e8f0;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.15);max-height:280px;overflow-y:auto;margin-top:4px}.gmp-autocomplete-dropdown[hidden]{display:none!important}.gmp-autocomplete-item{padding:10px 14px;cursor:pointer;font-size:14px;border-bottom:1px solid #f1f5f9}.gmp-autocomplete-item:last-child{border-bottom:none}.gmp-autocomplete-item:hover,.gmp-autocomplete-item:focus{background:#f8fafc}.gmp-autocomplete-wrapper{position:relative}';
-        document.head.appendChild(style);
-    }
-
-    google.maps.importLibrary('places').then(function (lib) {
-        var AutocompleteSessionToken = lib.AutocompleteSessionToken;
-        var AutocompleteSuggestion = lib.AutocompleteSuggestion;
-        if (!AutocompleteSessionToken || !AutocompleteSuggestion) {
-            console.warn('Places Data API non disponible');
+    google.maps.importLibrary('places').then(function (placesLib) {
+        var AutocompleteCtor =
+            (placesLib && placesLib.Autocomplete) ||
+            (google.maps.places && google.maps.places.Autocomplete);
+        if (!AutocompleteCtor) {
+            console.warn('google.maps.places.Autocomplete indisponible (vérifiez libraries=places sur le script Maps).');
             return;
         }
 
-        function attachDataAutocomplete(input) {
+        function bindAutocomplete(input) {
             if (input.getAttribute('data-autocomplete-initialized') === 'true') return;
             input.setAttribute('data-autocomplete-initialized', 'true');
-
-            var wrapper = input.parentNode;
-            if (!wrapper.classList.contains('gmp-autocomplete-wrapper')) {
-                var w = document.createElement('div');
-                w.className = 'gmp-autocomplete-wrapper';
-                input.parentNode.insertBefore(w, input);
-                w.appendChild(input);
-                wrapper = w;
-            }
-            var dropdown = document.createElement('div');
-            dropdown.className = 'gmp-autocomplete-dropdown';
-            dropdown.setAttribute('hidden', '');
-            dropdown.setAttribute('role', 'listbox');
-            wrapper.appendChild(dropdown);
-
-            var sessionToken = new AutocompleteSessionToken();
-            var debounceTimer;
-
-            function refreshToken() { sessionToken = new AutocompleteSessionToken(); }
-
-            function hideDropdown() {
-                dropdown.setAttribute('hidden', '');
-                dropdown.replaceChildren();
-            }
-
-            function showSuggestions(suggestions) {
-                dropdown.replaceChildren();
-                if (!suggestions || suggestions.length === 0) { hideDropdown(); return; }
-                dropdown.removeAttribute('hidden');
-                suggestions.forEach(function (s) {
-                    var pred = s.placePrediction;
-                    if (!pred) return;
-                    var btn = document.createElement('button');
-                    btn.type = 'button';
-                    btn.className = 'gmp-autocomplete-item';
-                    btn.textContent = (pred.text && pred.text.toString) ? pred.text.toString() : (pred.text || '');
-                    btn.setAttribute('role', 'option');
-                    btn.addEventListener('click', function () {
-                        var placePromise = typeof pred.toPlace === 'function' ? pred.toPlace() : pred.toPlace;
-                        if (!placePromise || typeof placePromise.then !== 'function') return;
-                        placePromise.then(function (place) {
-                            return place.fetchFields({ fields: ['formattedAddress'] });
-                        }).then(function (place) {
-                            if (place && place.formattedAddress) {
-                                input.value = place.formattedAddress;
-                                input.setAttribute('data-full-address', place.formattedAddress);
-                                input.dispatchEvent(new Event('input', { bubbles: true }));
-                                if (window.calculatePriceWithDistance) setTimeout(window.calculatePriceWithDistance, 200);
-                            }
-                            refreshToken();
-                            hideDropdown();
-                        }).catch(function () { refreshToken(); hideDropdown(); });
-                    });
-                    dropdown.appendChild(btn);
+            try {
+                var ac = new AutocompleteCtor(input, {
+                    componentRestrictions: { country: 'fr' },
+                    fields: ['formatted_address', 'geometry', 'name']
                 });
+                ac.addListener('place_changed', function () {
+                    var place = ac.getPlace();
+                    var addr = legacyPlaceFormattedAddress(place);
+                    if (!addr) {
+                        input.removeAttribute('data-full-address');
+                        return;
+                    }
+                    input.value = addr;
+                    input.setAttribute('data-full-address', addr);
+                    input.dispatchEvent(new Event('input', { bubbles: true }));
+                    input.dispatchEvent(new Event('change', { bubbles: true }));
+                    if (window.calculatePriceWithDistance) {
+                        setTimeout(window.calculatePriceWithDistance, 200);
+                    }
+                });
+            } catch (err) {
+                console.warn('Autocomplete bind error', err);
+                input.removeAttribute('data-autocomplete-initialized');
             }
-
-            input.addEventListener('input', function () {
-                clearTimeout(debounceTimer);
-                var q = (input.value || '').trim();
-                if (q.length < 2) { hideDropdown(); return; }
-                debounceTimer = setTimeout(function () {
-                    var request = {
-                        input: q,
-                        sessionToken: sessionToken,
-                        includedRegionCodes: ['fr'],
-                        includedPrimaryTypes: ['street_address', 'premise', 'subpremise', 'establishment']
-                    };
-                    AutocompleteSuggestion.fetchAutocompleteSuggestions(request).then(function (res) {
-                        if (res && res.suggestions) showSuggestions(res.suggestions);
-                        else hideDropdown();
-                    }).catch(function () { hideDropdown(); });
-                }, 300);
-            });
-
-            input.addEventListener('blur', function () {
-                setTimeout(hideDropdown, 200);
-            });
-
-            input.addEventListener('focus', function () {
-                var q = (input.value || '').trim();
-                if (q.length >= 2 && dropdown.children.length) dropdown.removeAttribute('hidden');
-            });
-
-            document.addEventListener('click', function (e) {
-                if (!wrapper.contains(e.target)) hideDropdown();
-            });
         }
 
-        attachDataAutocomplete(departInput);
-        attachDataAutocomplete(arriveeInput);
+        bindAutocomplete(departInput);
+        bindAutocomplete(arriveeInput);
     }).catch(function (err) {
         console.warn('Places library error', err);
     });
@@ -535,6 +477,9 @@ function initHeroVideo() {
     else window.addEventListener('load', () => setTimeout(loadAndPlay, 200));
 }
 
+/* Permet d’appeler depuis React/Next si le script charge après DOMContentLoaded */
+window.initHeroVideo = initHeroVideo;
+
 /* ===== Google Maps — lazy-loaded on form focus ===== */
 
 let mapsScriptInjected = false;
@@ -549,7 +494,7 @@ function ensureGoogleMaps() {
     };
 
     const s = document.createElement('script');
-    s.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBj-30c7SBJUcHHdw_hBT17jtH__NRz0L8&libraries=marker&loading=async&callback=initGoogleMapsPlaces';
+    s.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBj-30c7SBJUcHHdw_hBT17jtH__NRz0L8&libraries=places,marker&loading=async&callback=initGoogleMapsPlaces';
     s.async = true;
     document.head.appendChild(s);
 }
@@ -583,31 +528,35 @@ function prefillCityFromURL() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', runPageInit);
+/* Si le script charge après que le DOM est prêt (ex. Next.js avec script injecté en defer) */
+if (document.readyState !== 'loading') runPageInit();
+
+function runPageInit() {
     prefillCityFromURL();
     enhanceServiceCards();
     setDefaultBookingDate();
     initStickyMobileFooter();
     initHeroVideo();
 
-    const departInput = document.getElementById('depart');
-    const arriveeInput = document.getElementById('arrivee');
+    var departInput = document.getElementById('depart');
+    var arriveeInput = document.getElementById('arrivee');
     if (departInput) departInput.addEventListener('focus', ensureGoogleMaps, { once: true });
     if (arriveeInput) arriveeInput.addEventListener('focus', ensureGoogleMaps, { once: true });
 
-    if (window.google?.maps?.places) {
+    if (window.google && window.google.maps) {
         setupPlacesAutocomplete();
     }
 
-    document.querySelectorAll('.whatsapp-btn, a[href*="wa.me"]').forEach((btn) => {
+    document.querySelectorAll('.whatsapp-btn, a[href*="wa.me"]').forEach(function(btn) {
         btn.addEventListener('click', trackWhatsAppClick);
     });
 
-    window.addEventListener('load', () => {
-        const twemojiScript = document.createElement('script');
+    window.addEventListener('load', function() {
+        var twemojiScript = document.createElement('script');
         twemojiScript.src = 'https://unpkg.com/twemoji@14.0.2/dist/twemoji.min.js';
         twemojiScript.crossOrigin = 'anonymous';
-        twemojiScript.onload = () => { twemoji.parse(document.body, { folder: 'svg', ext: '.svg' }); };
+        twemojiScript.onload = function() { if (window.twemoji) twemoji.parse(document.body, { folder: 'svg', ext: '.svg' }); };
         document.head.appendChild(twemojiScript);
     });
-});
+}

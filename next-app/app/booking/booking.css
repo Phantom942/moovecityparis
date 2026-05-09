@@ -121,13 +121,15 @@ main .container.booking-grid {
     overflow: hidden;
 }
 
-/* PlaceAutocompleteElement : ne pas rogner la liste dans la carte formulaire */
-.booking-col-left .card:has(gmp-place-autocomplete),
-.booking-col-right .card:has(gmp-place-autocomplete) {
+/* Google Places (.pac-container) : ne pas rogner sous la carte formulaire */
+.booking-col-left .card:has(#departure),
+.booking-col-right .card:has(#departure) {
     overflow: visible;
 }
-.form-row:has(gmp-place-autocomplete),
-.form-field:has(gmp-place-autocomplete) {
+.form-row:has(#departure),
+.form-row:has(#arrival),
+.form-field:has(#departure),
+.form-field:has(#arrival) {
     overflow: visible;
 }
 
