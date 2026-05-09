@@ -15,6 +15,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="fr">
       <head>
+        {/* Google Maps JS peut nécessiter eval ; sans 'unsafe-eval' la CSP bloque l’API (onglet Problèmes Chrome). */}
+        <meta
+          httpEquiv="Content-Security-Policy"
+          content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://maps.googleapis.com https://maps.gstatic.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://maps.googleapis.com https://maps.gstatic.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://maps.googleapis.com https://maps.gstatic.com https://www.googletagmanager.com https://*.google-analytics.com https://region1.google-analytics.com; frame-ancestors 'self';"
+        />
         <meta name="theme-color" content="#0f172a" />
         <link rel="icon" type="image/svg+xml" href="/brand/moove-city-logo.svg" />
         <link rel="shortcut icon" href="/brand/moove-city-logo.svg" />

@@ -295,7 +295,9 @@ nav {
 .hero {
     position: relative;
     padding: 2.5rem 0 4rem;
-    overflow: hidden;
+    /* Laisser dépasser la liste Places (PlaceAutocompleteElement) sans la rogner */
+    overflow-x: hidden;
+    overflow-y: visible;
     min-height: 100vh;
     display: flex;
     align-items: flex-start;
@@ -1004,29 +1006,31 @@ footer a:link, footer a:visited, footer a:active { color: rgba(255, 255, 255, 0.
 .scroll-to-top:hover { transform: translateY(-5px); box-shadow: 0 6px 20px rgba(15, 23, 42, 0.5); background: linear-gradient(135deg, #1e293b 0%, #334155 100%); }
 .scroll-to-top svg { width: 24px; height: 24px; fill: currentColor; }
 
-/* Google Maps Autocomplete - Thème Slate-900 */
+/* Google Maps Autocomplete — thème seulement : ne pas forcer top/left/width (sinon la liste disparaît, Google les pose en inline) */
 .pac-container {
-    z-index: 999999 !important;
-    position: absolute !important;
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
+    z-index: 2147483647 !important;
     background: #0f172a !important;
     border: 1px solid #1e293b !important;
     border-radius: var(--border-radius) !important;
     box-shadow: var(--shadow-heavy) !important;
-    margin-top: 5px !important;
     font-family: var(--font-family) !important;
-    max-width: none !important;
-    width: 100% !important;
-    min-width: 300px !important;
     overflow: visible !important;
-    top: 100% !important;
-    left: 0 !important;
 }
 .form-group, .booking-form .form-row > div, .form-row > div { position: relative !important; }
-.pac-container::after { display: none !important; content: none !important; }
-.pac-logo, .pac-logo:after, .pac-container .pac-logo, .pac-container::after {
+
+/* Google Places Autocomplete (.pac-container) : parents en overflow visible */
+.booking-form .form-group:has(#depart),
+.booking-form .form-group:has(#arrivee),
+.booking-form .form-row:has(#depart),
+.booking-form .form-row:has(#arrivee),
+.booking-form .form-group:has(gmp-place-autocomplete),
+.booking-form .form-row:has(gmp-place-autocomplete) {
+    overflow: visible !important;
+}
+
+/* Ne masquer que le logo Google (pas tout le ::after du conteneur, selon versions API) */
+.pac-logo,
+.pac-container .pac-logo {
     display: none !important;
     visibility: hidden !important;
     opacity: 0 !important;
@@ -1035,10 +1039,35 @@ footer a:link, footer a:visited, footer a:active { color: rgba(255, 255, 255, 0.
     margin: 0 !important;
     padding: 0 !important;
 }
+
+/* Repli PlaceAutocompleteElement (web component) */
+gmp-place-autocomplete.gmp-place-autocomplete-moove {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    --gmp-mat-color-surface: #ffffff;
+    --gmp-mat-color-on-surface: #0f172a;
+    --gmp-mat-color-on-surface-variant: #64748b;
+    --gmp-mat-color-outline-decorative: #e2e8f0;
+    --gmp-mat-color-primary: #10b981;
+}
 .pac-item { padding: 10px 15px; border-bottom: 1px solid #1e293b; cursor: pointer; transition: var(--transition); color: #f8fafc; }
 .pac-item:hover { background: #1e293b; }
 .pac-item-query { font-weight: 600; color: #f8fafc; }
 .pac-matched { font-weight: 600; }
+
+/* Saisie d'adresse : fond blanc (évite le style sombre de .pac-target-input / navigateur) */
+input#depart,
+input#arrivee,
+input#departure,
+input#arrival,
+.booking-form input#depart,
+.booking-form input#arrivee,
+input.pac-target-input {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    -webkit-text-fill-color: #0f172a !important;
+}
 
 /* Animations */
 .fade-in { opacity: 1; transform: translateY(0); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
@@ -1101,7 +1130,8 @@ footer a:link, footer a:visited, footer a:active { color: rgba(255, 255, 255, 0.
         border-radius: 16px;
         max-width: 100%;
         margin: 0.5rem auto 0;
-        overflow: hidden;
+        overflow-x: hidden;
+        overflow-y: visible;
         box-sizing: border-box;
     }
     .form-row {
@@ -1130,9 +1160,19 @@ footer a:link, footer a:visited, footer a:active { color: rgba(255, 255, 255, 0.
         max-width: 100%;
         overflow: hidden;
     }
+    .form-group:has(#depart),
+    .form-group:has(#arrivee),
+    .form-group:has(gmp-place-autocomplete) {
+        overflow: visible;
+    }
     .form-row {
         max-width: 100%;
         overflow: hidden;
+    }
+    .form-row:has(#depart),
+    .form-row:has(#arrivee),
+    .form-row:has(gmp-place-autocomplete) {
+        overflow: visible;
     }
     .cta-call { width: 100%; font-size: 0.9rem; padding: 0.75rem 1rem; }
     .cta-whatsapp { width: 100%; font-size: 0.85rem; padding: 0.65rem 1rem; }
@@ -1198,7 +1238,7 @@ footer a:link, footer a:visited, footer a:active { color: rgba(255, 255, 255, 0.
     .hero { padding: 90px 0 40px; }
     .hero h1 { font-size: 1.5rem; }
     .hero p { font-size: 0.9rem; }
-    .booking-form { padding: 1rem 0.75rem 1.25rem; border-radius: 14px; overflow: hidden; }
+    .booking-form { padding: 1rem 0.75rem 1.25rem; border-radius: 14px; overflow-x: hidden; overflow-y: visible; }
     .service-card { padding: 1.5rem 1rem; }
     .feature-card { padding: 1rem 0.75rem; }
     .gallery-grid { gap: 0.5rem; }

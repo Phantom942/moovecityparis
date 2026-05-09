@@ -365,7 +365,7 @@ function showErrorMessage(message) {
     setTimeout(() => div.remove(), 5000);
 }
 
-/* ===== Google Places — Autocomplete classique (.pac-container, API stable) ===== */
+/* ===== Google Places — widget legacy + API Data (liste .moove-places-dd) + repli web component ===== */
 
 function legacyPlaceFormattedAddress(place) {
     if (!place) return '';
@@ -380,68 +380,213 @@ function legacyPlaceFormattedAddress(place) {
     return '';
 }
 
-function mooveGetPlacesAutocompleteCtor(done, attempt) {
-    attempt = attempt || 0;
-    if (!(window.google && google.maps)) {
-        done(null);
-        return;
+/** Libellé affiché pour une PlacePrediction (formats string, LocalizedText, mainText/secondaryText). */
+function moovePlacesPredictionLabel(pred) {
+    if (!pred) return '';
+    function loc(x) {
+        if (x == null) return '';
+        if (typeof x === 'string') return x;
+        if (typeof x === 'object' && x.text != null) return String(x.text);
+        if (typeof x.toString === 'function') return String(x.toString());
+        return '';
     }
-    var Ctor = google.maps.places && google.maps.places.Autocomplete;
-    if (Ctor) {
-        done(Ctor);
-        return;
-    }
-    google.maps.importLibrary('places').then(function () {
-        Ctor = google.maps.places && google.maps.places.Autocomplete;
-        if (Ctor) {
-            done(Ctor);
-            return;
-        }
-        if (attempt < 40) {
-            setTimeout(function () { mooveGetPlacesAutocompleteCtor(done, attempt + 1); }, 120);
-        } else {
-            console.warn('Moove City: google.maps.places.Autocomplete introuvable après chargement Places.');
-            done(null);
-        }
-    }).catch(function (err) {
-        console.warn('Moove City: importLibrary(places)', err);
-        if (attempt < 40) {
-            setTimeout(function () { mooveGetPlacesAutocompleteCtor(done, attempt + 1); }, 120);
-        } else {
-            done(null);
-        }
+    var full = loc(pred.text);
+    if (full) return full;
+    var main = loc(pred.mainText);
+    var sec = loc(pred.secondaryText);
+    if (main && sec) return main + ', ' + sec;
+    return main || sec;
+}
+
+function mooveInjectDataDropdownStyles() {
+    if (document.getElementById('moove-places-data-dd-styles')) return;
+    var style = document.createElement('style');
+    style.id = 'moove-places-data-dd-styles';
+    style.textContent = '.moove-places-wrap{position:relative;z-index:50}.moove-places-dd{position:fixed;z-index:2147483647;background:#fff;border:1px solid #e2e8f0;border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.12);max-height:min(280px,40vh);overflow-y:auto;margin:0;min-width:200px}.moove-places-dd[hidden]{display:none!important}.moove-places-dd-item{display:block;width:100%;text-align:left;padding:10px 14px;border:none;border-bottom:1px solid #f1f5f9;background:#fff;cursor:pointer;font-size:14px;color:#0f172a;font-family:inherit}.moove-places-dd-item:last-child{border-bottom:none}.moove-places-dd-item:hover{background:#f8fafc}';
+    document.head.appendChild(style);
+}
+
+/** Web component recommandé par Google pour les comptes créés après mars 2025 (évite Autocomplete legacy). */
+function mooveAttachPlaceAutocompleteElementImpl(input, onResolved, formatPlaceFn, Pel) {
+    if (input.getAttribute('data-autocomplete-initialized') === 'true') return;
+    if (!Pel || typeof Pel !== 'function') return;
+    input.setAttribute('data-autocomplete-initialized', 'true');
+    var el = new Pel({ includedRegionCodes: ['fr'] });
+    el.classList.add('gmp-place-autocomplete-moove');
+    if (input.placeholder) el.setAttribute('placeholder', input.placeholder);
+    input.style.display = 'none';
+    input.parentNode.insertBefore(el, input.nextSibling);
+    el.addEventListener('gmp-select', function (ev) {
+        var pp = ev.placePrediction;
+        if (!pp || typeof pp.toPlace !== 'function') return;
+        pp.toPlace().then(function (place) {
+            return place.fetchFields({ fields: ['formattedAddress', 'displayName'] });
+        }).then(function (place) {
+            var addr = formatPlaceFn(place);
+            if (addr) {
+                input.value = addr;
+                input.setAttribute('data-full-address', addr);
+                input.dispatchEvent(new Event('input', { bubbles: true }));
+                input.dispatchEvent(new Event('change', { bubbles: true }));
+                if (onResolved) onResolved();
+            }
+        }).catch(function () {});
     });
 }
 
 function mooveAttachPlaceAutocompleteElement(input, onResolved) {
+    if (input.getAttribute('data-autocomplete-initialized') === 'true') return;
     google.maps.importLibrary('places').then(function (lib) {
         var Pel = (lib && lib.PlaceAutocompleteElement) ||
             (google.maps.places && google.maps.places.PlaceAutocompleteElement);
-        if (!Pel) return;
-        if (input.getAttribute('data-autocomplete-initialized') === 'true') return;
-        input.setAttribute('data-autocomplete-initialized', 'true');
-        var el = new Pel({ includedRegionCodes: ['fr'] });
-        el.classList.add('gmp-place-autocomplete-moove');
-        if (input.placeholder) el.setAttribute('placeholder', input.placeholder);
-        input.style.display = 'none';
-        input.parentNode.insertBefore(el, input.nextSibling);
-        el.addEventListener('gmp-select', function (ev) {
-            var pp = ev.placePrediction;
-            if (!pp || typeof pp.toPlace !== 'function') return;
-            pp.toPlace().then(function (place) {
-                return place.fetchFields({ fields: ['formattedAddress', 'displayName'] });
-            }).then(function (place) {
-                var addr = legacyPlaceFormattedAddress(place);
-                if (addr) {
-                    input.value = addr;
-                    input.setAttribute('data-full-address', addr);
-                    input.dispatchEvent(new Event('input', { bubbles: true }));
-                    input.dispatchEvent(new Event('change', { bubbles: true }));
-                    if (onResolved) onResolved();
-                }
-            }).catch(function () {});
-        });
+        mooveAttachPlaceAutocompleteElementImpl(input, onResolved, legacyPlaceFormattedAddress, Pel);
     }).catch(function () {});
+}
+
+/** PlaceAutocompleteElement en priorité, puis AutocompleteSuggestion (API Data). Pas d’Autocomplete legacy. */
+function mooveAttachPlacesDataAutocomplete(input, onResolved, formatPlaceFn) {
+    formatPlaceFn = formatPlaceFn || legacyPlaceFormattedAddress;
+    if (input.getAttribute('data-autocomplete-initialized') === 'true') return;
+    if (input.getAttribute('data-autocomplete-pending') === 'true') return;
+    input.setAttribute('data-autocomplete-pending', 'true');
+
+    google.maps.importLibrary('places').then(function (lib) {
+        var Pel = (lib && lib.PlaceAutocompleteElement) ||
+            (google.maps.places && google.maps.places.PlaceAutocompleteElement);
+        if (Pel && typeof Pel === 'function') {
+            input.removeAttribute('data-autocomplete-pending');
+            mooveAttachPlaceAutocompleteElementImpl(input, onResolved, formatPlaceFn, Pel);
+            return;
+        }
+
+        mooveInjectDataDropdownStyles();
+        var AutocompleteSessionToken = lib.AutocompleteSessionToken;
+        var AutocompleteSuggestion = lib.AutocompleteSuggestion;
+        if (!AutocompleteSessionToken || !AutocompleteSuggestion) {
+            input.removeAttribute('data-autocomplete-pending');
+            console.warn('Moove City: Places — PlaceAutocompleteElement et AutocompleteSuggestion indisponibles.');
+            return;
+        }
+
+        input.removeAttribute('data-autocomplete-pending');
+        input.setAttribute('data-autocomplete-initialized', 'true');
+
+        var wrap = input.parentNode;
+        if (!wrap.classList.contains('moove-places-wrap')) {
+            var w = document.createElement('div');
+            w.className = 'moove-places-wrap';
+            input.parentNode.insertBefore(w, input);
+            w.appendChild(input);
+            wrap = w;
+        }
+
+        var dropdown = document.createElement('div');
+        dropdown.className = 'moove-places-dd';
+        dropdown.setAttribute('hidden', '');
+        dropdown.setAttribute('role', 'listbox');
+        document.body.appendChild(dropdown);
+
+        var sessionToken = new AutocompleteSessionToken();
+        var debounceTimer;
+
+        function refreshToken() {
+            sessionToken = new AutocompleteSessionToken();
+        }
+
+        function positionDropdown() {
+            if (dropdown.hasAttribute('hidden')) return;
+            var r = input.getBoundingClientRect();
+            dropdown.style.left = Math.max(8, r.left) + 'px';
+            dropdown.style.top = (r.bottom + 4) + 'px';
+            dropdown.style.width = r.width + 'px';
+        }
+
+        function hideDropdown() {
+            dropdown.setAttribute('hidden', '');
+            dropdown.replaceChildren();
+        }
+
+        function showSuggestions(suggestions) {
+            dropdown.replaceChildren();
+            if (!suggestions || suggestions.length === 0) {
+                hideDropdown();
+                return;
+            }
+            dropdown.removeAttribute('hidden');
+            positionDropdown();
+            suggestions.forEach(function (s) {
+                var pred = s.placePrediction;
+                if (!pred && s && typeof s.toPlace === 'function') pred = s;
+                if (!pred) return;
+                var btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'moove-places-dd-item';
+                btn.textContent = moovePlacesPredictionLabel(pred);
+                btn.setAttribute('role', 'option');
+                btn.addEventListener('mousedown', function (e) {
+                    e.preventDefault();
+                });
+                btn.addEventListener('click', function () {
+                    var placePromise = typeof pred.toPlace === 'function' ? pred.toPlace() : null;
+                    if (!placePromise || typeof placePromise.then !== 'function') return;
+                    placePromise.then(function (place) {
+                        return place.fetchFields({ fields: ['formattedAddress', 'displayName'] });
+                    }).then(function (place) {
+                        var addr = formatPlaceFn(place);
+                        if (addr) {
+                            input.value = addr;
+                            input.setAttribute('data-full-address', addr);
+                            input.dispatchEvent(new Event('input', { bubbles: true }));
+                            input.dispatchEvent(new Event('change', { bubbles: true }));
+                            if (onResolved) onResolved();
+                        }
+                        refreshToken();
+                        hideDropdown();
+                    }).catch(function () {
+                        refreshToken();
+                        hideDropdown();
+                    });
+                });
+                dropdown.appendChild(btn);
+            });
+        }
+
+        input.addEventListener('input', function () {
+            clearTimeout(debounceTimer);
+            var q = (input.value || '').trim();
+            if (q.length < 2) {
+                hideDropdown();
+                return;
+            }
+            debounceTimer = setTimeout(function () {
+                AutocompleteSuggestion.fetchAutocompleteSuggestions({
+                    input: q,
+                    sessionToken: sessionToken,
+                    includedRegionCodes: ['fr']
+                }).then(function (res) {
+                    var list = res && res.suggestions ? res.suggestions : (Array.isArray(res) ? res : null);
+                    if (list && list.length) showSuggestions(list);
+                    else hideDropdown();
+                }).catch(function () {
+                    hideDropdown();
+                });
+            }, 250);
+        });
+
+        input.addEventListener('blur', function () {
+            setTimeout(hideDropdown, 200);
+        });
+
+        function onDocClick(e) {
+            if (e.target !== input && !dropdown.contains(e.target)) hideDropdown();
+        }
+        document.addEventListener('click', onDocClick);
+        window.addEventListener('scroll', positionDropdown, true);
+        window.addEventListener('resize', positionDropdown);
+    }).catch(function (err) {
+        input.removeAttribute('data-autocomplete-pending');
+        console.warn('Moove City: importLibrary(places)', err);
+    });
 }
 
 function setupPlacesAutocomplete() {
@@ -458,52 +603,19 @@ function setupPlacesAutocomplete() {
         return;
     }
 
-    mooveGetPlacesAutocompleteCtor(function (AutocompleteCtor) {
-        function bindAutocomplete(input) {
-            if (input.getAttribute('data-autocomplete-initialized') === 'true') return;
-            if (!AutocompleteCtor) {
-                mooveAttachPlaceAutocompleteElement(input, function () {
-                    if (window.calculatePriceWithDistance) {
-                        setTimeout(window.calculatePriceWithDistance, 200);
-                    }
-                });
-                return;
-            }
-            input.setAttribute('data-autocomplete-initialized', 'true');
-            try {
-                /* Pas d'option `fields` ici : sur certaines versions elle casse les suggestions */
-                var ac = new AutocompleteCtor(input, {
-                    componentRestrictions: { country: 'fr' }
-                });
-                ac.addListener('place_changed', function () {
-                    var place = ac.getPlace();
-                    var addr = legacyPlaceFormattedAddress(place);
-                    if (!addr) {
-                        input.removeAttribute('data-full-address');
-                        return;
-                    }
-                    input.value = addr;
-                    input.setAttribute('data-full-address', addr);
-                    input.dispatchEvent(new Event('input', { bubbles: true }));
-                    input.dispatchEvent(new Event('change', { bubbles: true }));
-                    if (window.calculatePriceWithDistance) {
-                        setTimeout(window.calculatePriceWithDistance, 200);
-                    }
-                });
-            } catch (err) {
-                console.warn('Autocomplete bind error', err);
-                input.removeAttribute('data-autocomplete-initialized');
-                mooveAttachPlaceAutocompleteElement(input, function () {
-                    if (window.calculatePriceWithDistance) {
-                        setTimeout(window.calculatePriceWithDistance, 200);
-                    }
-                });
-            }
+    function onPick() {
+        if (window.calculatePriceWithDistance) {
+            setTimeout(window.calculatePriceWithDistance, 200);
         }
+    }
 
-        bindAutocomplete(departInput);
-        bindAutocomplete(arriveeInput);
-    });
+    function bindAutocomplete(input) {
+        if (input.getAttribute('data-autocomplete-initialized') === 'true') return;
+        mooveAttachPlacesDataAutocomplete(input, onPick, legacyPlaceFormattedAddress);
+    }
+
+    bindAutocomplete(departInput);
+    bindAutocomplete(arriveeInput);
 }
 window.setupPlacesAutocomplete = setupPlacesAutocomplete;
 
@@ -567,7 +679,13 @@ window.initHeroVideo = initHeroVideo;
 
 let mapsScriptInjected = false;
 function ensureGoogleMaps() {
-    if (mapsScriptInjected || window.google?.maps) return;
+    if (window.google && window.google.maps) {
+        mapsScriptInjected = true;
+        if (window.setupPlacesAutocomplete) setupPlacesAutocomplete();
+        setTimeout(setupPriceCalculator, 200);
+        return;
+    }
+    if (mapsScriptInjected) return;
     mapsScriptInjected = true;
 
     window.initGoogleMapsPlaces = function () {
@@ -577,8 +695,10 @@ function ensureGoogleMaps() {
     };
 
     const s = document.createElement('script');
-    s.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBj-30c7SBJUcHHdw_hBT17jtH__NRz0L8&libraries=places,marker&loading=async&callback=initGoogleMapsPlaces';
-    s.async = true;
+    /* Pas de libraries=places dans l’URL : Places est chargé via importLibrary('places') uniquement (évite chargement anticipé du bundle legacy). */
+    s.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBj-30c7SBJUcHHdw_hBT17jtH__NRz0L8&loading=async&callback=initGoogleMapsPlaces';
+    s.async = false;
+    s.defer = true;
     document.head.appendChild(s);
 }
 

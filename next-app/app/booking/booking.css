@@ -121,6 +121,19 @@ main .container.booking-grid {
     overflow: hidden;
 }
 
+/* Prévisualisation adresses (liste custom + pac) : pas de rognage */
+.card.form-card,
+#quoteForm,
+.form-grid {
+    overflow: visible !important;
+}
+
+.booking-col-left .card.form-card {
+    position: relative;
+    z-index: 20;
+    overflow: visible !important;
+}
+
 /* Google Places (.pac-container) : ne pas rogner sous la carte formulaire */
 .booking-col-left .card:has(#departure),
 .booking-col-right .card:has(#departure),
