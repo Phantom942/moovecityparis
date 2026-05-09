@@ -1051,6 +1051,19 @@ footer a:link, footer a:visited, footer a:active { color: rgba(255, 255, 255, 0.
 .pac-item-query { font-weight: 600; color: #f8fafc; }
 .pac-matched { font-weight: 600; }
 
+/* Saisie d'adresse : fond blanc (évite le style sombre de .pac-target-input / navigateur) */
+input#depart,
+input#arrivee,
+input#departure,
+input#arrival,
+.booking-form input#depart,
+.booking-form input#arrivee,
+input.pac-target-input {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    -webkit-text-fill-color: #0f172a !important;
+}
+
 /* Animations */
 .fade-in { opacity: 1; transform: translateY(0); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
 .fade-in.visible { opacity: 1; transform: translateY(0); }

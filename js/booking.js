@@ -163,12 +163,15 @@ function calculateDistanceBetweenAddresses(departure, arrival, callback) {
         unitSystem: google.maps.UnitSystem.METRIC
     }, function (response, status) {
         if (status === 'OK' && response.rows[0] && response.rows[0].elements[0]) {
-            var el = response.rows[0].elements[0];
-            if (el.status === 'OK') {
-                calculatedDistance = el.distance.value / 1000;
-                callback(calculatedDistance);
-            } else { callback(null); }
-        } else { callback(null); }
+            var rowEl = response.rows[0].elements[0];
+            if (rowEl.status === 'OK') {
+                calculatedDistance = rowEl.distance.value / 1000;
+                if (callback) callback(calculatedDistance);
+                return;
+            }
+        }
+        calculatedDistance = null;
+        if (callback) callback(null);
     });
 }
 
@@ -251,16 +254,37 @@ function setupPriceCalculator() {
         distanceTimeout = setTimeout(function () {
             var dep = departureInput ? departureInput.value.trim() : '';
             var arr = arrivalInput ? arrivalInput.value.trim() : '';
-            if (dep && arr && dep.length > 5 && arr.length > 5) {
+            if (dep && arr && dep.length > 3 && arr.length > 3) {
                 if (window.google && window.google.maps && window.google.maps.DistanceMatrixService) {
                     calculateDistanceBetweenAddresses(dep, arr, function () { updatePriceDisplay(); });
                 } else { calculatedDistance = null; updatePriceDisplay(); }
             } else { calculatedDistance = null; updatePriceDisplay(); }
-        }, 800);
+        }, 500);
     }
 
-    if (departureInput) { departureInput.addEventListener('blur', updateDistance); departureInput.addEventListener('change', updateDistance); }
-    if (arrivalInput) { arrivalInput.addEventListener('blur', updateDistance); arrivalInput.addEventListener('change', updateDistance); }
+    function clearStaleFullAddressBooking(input) {
+        if (!input) return;
+        input.addEventListener('input', function () {
+            var full = input.getAttribute('data-full-address');
+            if (full != null && input.value.trim() !== full) {
+                input.removeAttribute('data-full-address');
+            }
+            updateDistance();
+        }, { passive: true });
+    }
+
+    if (departureInput) {
+        departureInput.addEventListener('blur', updateDistance);
+        departureInput.addEventListener('change', updateDistance);
+        clearStaleFullAddressBooking(departureInput);
+    }
+    if (arrivalInput) {
+        arrivalInput.addEventListener('blur', updateDistance);
+        arrivalInput.addEventListener('change', updateDistance);
+        clearStaleFullAddressBooking(arrivalInput);
+    }
+
+    window.mooveBookingRecalcDistance = updateDistance;
 
     updateVehicleIcon();
     setTimeout(updatePriceDisplay, 500);
@@ -336,12 +360,18 @@ function initBookingPlacesAutocomplete() {
                     var addr = bookingLegacyPlaceFormattedAddress(place);
                     if (!addr) {
                         input.removeAttribute('data-full-address');
+                        updatePriceDisplay();
                         return;
                     }
                     input.value = addr;
                     input.setAttribute('data-full-address', addr);
                     input.dispatchEvent(new Event('input', { bubbles: true }));
                     input.dispatchEvent(new Event('change', { bubbles: true }));
+                    if (window.mooveBookingRecalcDistance) {
+                        window.mooveBookingRecalcDistance();
+                    } else {
+                        setTimeout(updatePriceDisplay, 150);
+                    }
                 });
             } catch (err) {
                 console.warn('Autocomplete booking bind error', err);

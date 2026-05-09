@@ -143,8 +143,9 @@ function calculatePriceWithDistance() {
         const el = priceCalculatorCache.init();
         if (!el.depart || !el.arrivee || !el.vehicle || !el.calculator || !el.priceResult) return;
 
-        const departAddr  = el.depart.getAttribute('data-full-address') || el.depart.value.trim();
-        const arriveeAddr = el.arrivee.getAttribute('data-full-address') || el.arrivee.value.trim();
+        /* Toujours la valeur du champ : data-full-address ne doit pas masquer une saisie modifiée */
+        const departAddr  = el.depart.value.trim() || el.depart.getAttribute('data-full-address') || '';
+        const arriveeAddr = el.arrivee.value.trim() || el.arrivee.getAttribute('data-full-address') || '';
         const vehicleVal  = el.vehicle.value;
         const selectedDate = document.getElementById('date')?.value || null;
         const selectedTime = document.getElementById('heure')?.value || null;
@@ -272,6 +273,16 @@ function setupPriceCalculator() {
     }
 
     if (el.depart && el.arrivee) {
+        function clearStaleFullAddress(input) {
+            input.addEventListener('input', function () {
+                var full = input.getAttribute('data-full-address');
+                if (full != null && input.value.trim() !== full) {
+                    input.removeAttribute('data-full-address');
+                }
+            }, { passive: true });
+        }
+        clearStaleFullAddress(el.depart);
+        clearStaleFullAddress(el.arrivee);
         new MutationObserver((mutations) => {
             mutations.forEach((m) => { if (m.attributeName === 'data-full-address') calculatePriceWithDistance(); });
         }).observe(el.depart,  { attributes: true, attributeFilter: ['data-full-address'] });
@@ -310,8 +321,8 @@ function redirectToWhatsApp() {
 
     const departInput  = document.getElementById('depart');
     const arriveeInput = document.getElementById('arrivee');
-    const rawDepart  = departInput?.getAttribute('data-full-address') || departInput?.value.trim() || '';
-    const rawArrivee = arriveeInput?.getAttribute('data-full-address') || arriveeInput?.value.trim() || '';
+    const rawDepart  = departInput?.value.trim() || departInput?.getAttribute('data-full-address') || '';
+    const rawArrivee = arriveeInput?.value.trim() || arriveeInput?.getAttribute('data-full-address') || '';
     const startAddress = typeof Sanitize !== 'undefined' ? Sanitize.sanitizeAddress(rawDepart) : rawDepart;
     const endAddress   = typeof Sanitize !== 'undefined' ? Sanitize.sanitizeAddress(rawArrivee) : rawArrivee;
     const date    = document.getElementById('date')?.value;

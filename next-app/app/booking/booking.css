@@ -474,6 +474,15 @@ textarea:focus {
     box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12);
 }
 
+/* Adresses Google Places : champ toujours lisible sur fond blanc */
+input#departure,
+input#arrival,
+input.pac-target-input {
+    background-color: #ffffff !important;
+    color: var(--text-primary) !important;
+    -webkit-text-fill-color: var(--text-primary) !important;
+}
+
 textarea {
     min-height: 80px;
     resize: vertical;
