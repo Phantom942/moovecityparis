@@ -295,7 +295,9 @@ nav {
 .hero {
     position: relative;
     padding: 2.5rem 0 4rem;
-    overflow: hidden;
+    /* Laisser dépasser la liste Places (gmp-autocomplete) sans la rogner */
+    overflow-x: hidden;
+    overflow-y: visible;
     min-height: 100vh;
     display: flex;
     align-items: flex-start;
@@ -1025,6 +1027,20 @@ footer a:link, footer a:visited, footer a:active { color: rgba(255, 255, 255, 0.
     left: 0 !important;
 }
 .form-group, .booking-form .form-row > div, .form-row > div { position: relative !important; }
+
+/* Autocomplétion adresses (dropdown custom) : éviter overflow:hidden qui masque la liste */
+.gmp-autocomplete-wrapper {
+    overflow: visible;
+    z-index: 1;
+}
+.gmp-autocomplete-dropdown {
+    z-index: 100000 !important;
+}
+.booking-form .form-group:has(.gmp-autocomplete-wrapper),
+.booking-form .form-row:has(.gmp-autocomplete-wrapper) {
+    overflow: visible !important;
+}
+
 .pac-container::after { display: none !important; content: none !important; }
 .pac-logo, .pac-logo:after, .pac-container .pac-logo, .pac-container::after {
     display: none !important;
@@ -1101,7 +1117,8 @@ footer a:link, footer a:visited, footer a:active { color: rgba(255, 255, 255, 0.
         border-radius: 16px;
         max-width: 100%;
         margin: 0.5rem auto 0;
-        overflow: hidden;
+        overflow-x: hidden;
+        overflow-y: visible;
         box-sizing: border-box;
     }
     .form-row {
@@ -1130,9 +1147,15 @@ footer a:link, footer a:visited, footer a:active { color: rgba(255, 255, 255, 0.
         max-width: 100%;
         overflow: hidden;
     }
+    .form-group:has(.gmp-autocomplete-wrapper) {
+        overflow: visible;
+    }
     .form-row {
         max-width: 100%;
         overflow: hidden;
+    }
+    .form-row:has(.gmp-autocomplete-wrapper) {
+        overflow: visible;
     }
     .cta-call { width: 100%; font-size: 0.9rem; padding: 0.75rem 1rem; }
     .cta-whatsapp { width: 100%; font-size: 0.85rem; padding: 0.65rem 1rem; }
@@ -1198,7 +1221,7 @@ footer a:link, footer a:visited, footer a:active { color: rgba(255, 255, 255, 0.
     .hero { padding: 90px 0 40px; }
     .hero h1 { font-size: 1.5rem; }
     .hero p { font-size: 0.9rem; }
-    .booking-form { padding: 1rem 0.75rem 1.25rem; border-radius: 14px; overflow: hidden; }
+    .booking-form { padding: 1rem 0.75rem 1.25rem; border-radius: 14px; overflow-x: hidden; overflow-y: visible; }
     .service-card { padding: 1.5rem 1rem; }
     .feature-card { padding: 1rem 0.75rem; }
     .gallery-grid { gap: 0.5rem; }

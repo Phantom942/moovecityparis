@@ -295,6 +295,26 @@ function isValidDate(dateStr) {
 
 /* ===== Autocomplétion Google Places (booking) — API Data programmatique + dropdown ===== */
 
+function formatBookingPlacePredictionLabel(pred) {
+    if (!pred || pred.text == null) return '';
+    var t = pred.text;
+    if (typeof t === 'string') return t;
+    if (typeof t.toString === 'function') return String(t.toString());
+    if (t && typeof t.text === 'string') return t.text;
+    return '';
+}
+
+function resolvedBookingPlaceAddress(place) {
+    if (!place) return '';
+    var a = place.formattedAddress;
+    if (a) return String(a);
+    var d = place.displayName;
+    if (d == null) return '';
+    if (typeof d === 'string') return d;
+    if (typeof d.toString === 'function') return String(d.toString());
+    return '';
+}
+
 function initBookingPlacesAutocomplete() {
     if (!(window.google && google.maps)) return false;
 
@@ -306,7 +326,7 @@ function initBookingPlacesAutocomplete() {
     if (!document.getElementById('gmp-autocomplete-dropdown-styles')) {
         var style = document.createElement('style');
         style.id = 'gmp-autocomplete-dropdown-styles';
-        style.textContent = '.gmp-autocomplete-dropdown{position:absolute;left:0;right:0;top:100%;z-index:9999;background:#fff;border:1px solid #e2e8f0;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.15);max-height:280px;overflow-y:auto;margin-top:4px}.gmp-autocomplete-dropdown[hidden]{display:none!important}.gmp-autocomplete-item{padding:10px 14px;cursor:pointer;font-size:14px;border-bottom:1px solid #f1f5f9}.gmp-autocomplete-item:last-child{border-bottom:none}.gmp-autocomplete-item:hover,.gmp-autocomplete-item:focus{background:#f8fafc}.gmp-autocomplete-wrapper{position:relative}';
+        style.textContent = '.gmp-autocomplete-dropdown{position:absolute;left:0;right:0;top:100%;z-index:100000;background:#fff;border:1px solid #e2e8f0;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.15);max-height:280px;overflow-y:auto;margin-top:4px}.gmp-autocomplete-dropdown[hidden]{display:none!important}.gmp-autocomplete-item{padding:10px 14px;cursor:pointer;font-size:14px;border-bottom:1px solid #f1f5f9}.gmp-autocomplete-item:last-child{border-bottom:none}.gmp-autocomplete-item:hover,.gmp-autocomplete-item:focus{background:#f8fafc}.gmp-autocomplete-wrapper{position:relative}';
         document.head.appendChild(style);
     }
 
@@ -352,17 +372,19 @@ function initBookingPlacesAutocomplete() {
                     var btn = document.createElement('button');
                     btn.type = 'button';
                     btn.className = 'gmp-autocomplete-item';
-                    btn.textContent = (pred.text && pred.text.toString) ? pred.text.toString() : (pred.text || '');
+                    btn.textContent = formatBookingPlacePredictionLabel(pred);
                     btn.setAttribute('role', 'option');
+                    btn.addEventListener('mousedown', function (e) { e.preventDefault(); });
                     btn.addEventListener('click', function () {
                         var placePromise = typeof pred.toPlace === 'function' ? pred.toPlace() : pred.toPlace;
                         if (!placePromise || typeof placePromise.then !== 'function') return;
                         placePromise.then(function (place) {
-                            return place.fetchFields({ fields: ['formattedAddress'] });
+                            return place.fetchFields({ fields: ['formattedAddress', 'displayName'] });
                         }).then(function (place) {
-                            if (place && place.formattedAddress) {
-                                input.value = place.formattedAddress;
-                                input.setAttribute('data-full-address', place.formattedAddress);
+                            var addr = resolvedBookingPlaceAddress(place);
+                            if (addr) {
+                                input.value = addr;
+                                input.setAttribute('data-full-address', addr);
                                 input.dispatchEvent(new Event('input', { bubbles: true }));
                             }
                             refreshToken();
@@ -381,8 +403,7 @@ function initBookingPlacesAutocomplete() {
                     var request = {
                         input: q,
                         sessionToken: sessionToken,
-                        includedRegionCodes: ['fr'],
-                        includedPrimaryTypes: ['street_address', 'premise', 'subpremise', 'establishment']
+                        includedRegionCodes: ['fr']
                     };
                     AutocompleteSuggestion.fetchAutocompleteSuggestions(request).then(function (res) {
                         if (res && res.suggestions) showSuggestions(res.suggestions);
