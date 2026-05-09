@@ -1006,25 +1006,15 @@ footer a:link, footer a:visited, footer a:active { color: rgba(255, 255, 255, 0.
 .scroll-to-top:hover { transform: translateY(-5px); box-shadow: 0 6px 20px rgba(15, 23, 42, 0.5); background: linear-gradient(135deg, #1e293b 0%, #334155 100%); }
 .scroll-to-top svg { width: 24px; height: 24px; fill: currentColor; }
 
-/* Google Maps Autocomplete - Thème Slate-900 */
+/* Google Maps Autocomplete — thème seulement : ne pas forcer top/left/width (sinon la liste disparaît, Google les pose en inline) */
 .pac-container {
-    z-index: 999999 !important;
-    position: absolute !important;
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
+    z-index: 2147483647 !important;
     background: #0f172a !important;
     border: 1px solid #1e293b !important;
     border-radius: var(--border-radius) !important;
     box-shadow: var(--shadow-heavy) !important;
-    margin-top: 5px !important;
     font-family: var(--font-family) !important;
-    max-width: none !important;
-    width: 100% !important;
-    min-width: 300px !important;
     overflow: visible !important;
-    top: 100% !important;
-    left: 0 !important;
 }
 .form-group, .booking-form .form-row > div, .form-row > div { position: relative !important; }
 
