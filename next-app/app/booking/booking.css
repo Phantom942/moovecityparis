@@ -123,13 +123,16 @@ main .container.booking-grid {
 
 /* Google Places (.pac-container) : ne pas rogner sous la carte formulaire */
 .booking-col-left .card:has(#departure),
-.booking-col-right .card:has(#departure) {
+.booking-col-right .card:has(#departure),
+.booking-col-left .card:has(gmp-place-autocomplete) {
     overflow: visible;
 }
 .form-row:has(#departure),
 .form-row:has(#arrival),
 .form-field:has(#departure),
-.form-field:has(#arrival) {
+.form-field:has(#arrival),
+.form-field:has(gmp-place-autocomplete),
+.form-row:has(gmp-place-autocomplete) {
     overflow: visible;
 }
 
@@ -481,6 +484,17 @@ input.pac-target-input {
     background-color: #ffffff !important;
     color: var(--text-primary) !important;
     -webkit-text-fill-color: var(--text-primary) !important;
+}
+
+gmp-place-autocomplete.gmp-place-autocomplete-moove {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    --gmp-mat-color-surface: #ffffff;
+    --gmp-mat-color-on-surface: var(--text-primary);
+    --gmp-mat-color-on-surface-variant: var(--text-secondary);
+    --gmp-mat-color-outline-decorative: var(--border);
+    --gmp-mat-color-primary: var(--brand-primary);
 }
 
 textarea {
