@@ -367,12 +367,6 @@ export default function HomePage() {
                 <div class="footer-section">
                     <h3>Moove City</h3>
                     <p style="font-size: 0.95rem;">Votre partenaire de confiance pour tous vos besoins de transport avec chauffeur.</p>
-                    <div style="margin-top: 1rem; font-size: 0.8rem; color: rgba(255,255,255,0.6); line-height: 1.6;">
-                        <p style="margin: 0;">MOOVE CITY SAS</p>
-                        <p style="margin: 0;">SIRET : [INSÉRER SIRET]</p>
-                        <p style="margin: 0;">Licence Transport Intérieur : [INSÉRER N° DRE/DRIE]</p>
-                        <p style="margin: 0;">TVA intracommunautaire : [INSÉRER N° TVA]</p>
-                    </div>
                 </div>
                 <div class="footer-section">
                     <h4>Liens rapides</h4>
@@ -438,7 +432,7 @@ export default function HomePage() {
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>© 2026 MOOVE CITY SAS — Tous droits réservés — SIRET : [INSÉRER SIRET] — Licence Transport n° [INSÉRER N° DRE/DRIE]</p>
+                <p>© 2026 Moove City. Tous droits réservés.</p>
                 <p>
                     <a href="/mentions-legales.html" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">Mentions légales</a> | 
                     <a href="/politique-de-confidentialite.html" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">Confidentialité</a> | 
