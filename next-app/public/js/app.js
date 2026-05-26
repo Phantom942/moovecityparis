@@ -59,6 +59,67 @@ function calculatePrice(vehicleKey, durationHours) {
 }
 window.calculatePrice = calculatePrice;
 
+/* ===== Rendu UI prix : 0€ -> fourchette réaliste ===== */
+
+var PRICE_RANGES = {
+    urban: { min: 39, max: 69 },
+    express: { min: 59, max: 99 },
+    premium: { min: 69, max: 129 },
+    titan: { min: 99, max: 189 }
+};
+
+function getIndicativeRange(vehicleKey) {
+    var key = (vehicleKey || "").toLowerCase();
+    return PRICE_RANGES[key] || { min: 49, max: 99 };
+}
+
+function renderPriceSection(calculatedPrice, vehicleKey, el, breakdownText) {
+    var range = getIndicativeRange(vehicleKey);
+    var hasValidPrice = calculatedPrice && calculatedPrice > 0;
+
+    if (el.priceResult) {
+        el.priceResult.textContent = hasValidPrice
+            ? calculatedPrice + "€"
+            : "De " + range.min + "€ à " + range.max + "€";
+    }
+
+    if (el.priceNote) {
+        el.priceNote.textContent = hasValidPrice
+            ? "TTC · Tarif Ferme"
+            : "TTC (Selon distance exacte et manutention)";
+    }
+
+    if (el.priceDetails) {
+        var phone = "33751213255";
+        var waText = hasValidPrice
+            ? "Bonjour, je souhaite valider mon devis Moove City. Tarif estimé : " + calculatedPrice + "€"
+            : "Bonjour, je souhaite valider mon devis Moove City. Tarif estimé : de " + range.min + "€ à " + range.max + "€";
+        var waUrl = "https://wa.me/" + phone + "?text=" + encodeURIComponent(waText);
+
+        var breakdownHtml = breakdownText
+            ? '<div style="margin-top:8px;color:#64748b;font-size:0.82rem;text-align:center;">' + breakdownText + "</div>"
+            : "";
+
+        // WhatsApp uniquement “question / échange” (pas un CTA principal).
+        el.priceDetails.innerHTML =
+            '<div style="margin-top:12px;display:flex;flex-direction:column;gap:10px;align-items:center;">' +
+                '<button type="button" onclick="if (window.handleCheckout) window.handleCheckout();" ' +
+                    'style="width:100%;max-width:320px;background:#2563eb;color:#fff;font-weight:800;padding:12px 16px;border:none;border-radius:12px;cursor:pointer;box-shadow:0 8px 22px rgba(37,99,235,0.18);">' +
+                    "Valider et Réserver ma course" +
+                "</button>" +
+                '<a href="' + waUrl + '" target="_blank" rel="noopener noreferrer" ' +
+                    'style="width:100%;max-width:320px;display:flex;justify-content:center;align-items:center;gap:8px;background:#ecfdf5;color:#047857;border:1px solid rgba(5,150,105,0.25);font-weight:800;padding:10px 14px;border-radius:12px;text-decoration:none;font-size:0.85rem;">' +
+                    "Une question ? Échanger sur WhatsApp" +
+                "</a>" +
+                breakdownHtml +
+            "</div>";
+    }
+}
+
+window.handleCheckout = function () {
+    window.location.href = "/booking";
+};
+
 function calculatePriceWithDistanceImproved(vehicleKey, distanceKm, durationMinutes, selectedDate, selectedTime) {
     const v = SERVICE_PRICES[vehicleKey];
     if (!v) return null;
@@ -169,11 +230,7 @@ function calculatePriceWithDistance() {
         if (el.priceDetails) el.priceDetails.textContent = '';
 
         if (!hasDepart || !hasArrivee) {
-            const v = SERVICE_PRICES[vehicleKey];
-            const est = calculatePrice(vehicleKey, 2);
-            el.priceResult.textContent = est + '€';
-            if (el.priceDetails) el.priceDetails.innerHTML = '<div style="color:#64748b;font-size:0.85rem">Estimation basique (2h)</div>';
-            if (el.priceNote) el.priceNote.textContent = '* ' + v.basePrice + '€ (base) + 2h × ' + v.pricePerHour + '€/h = ' + est + '€ (estimation)';
+            renderPriceSection(null, vehicleKey, el);
             return;
         }
 
@@ -207,23 +264,7 @@ function calculatePriceWithDistance() {
                     if (calc.isWeekend) detail += ' + majoration weekend';
                     detail += ' = ' + calc.total + '€';
 
-                    el.priceResult.textContent = calc.total + '€';
-                    if (el.priceDetails) {
-                        el.priceDetails.innerHTML =
-                            '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.5rem;margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid rgba(15,23,42,0.2)">' +
-                            '<div style="text-align:center"><div style="color:#64748b;font-size:0.7rem;margin-bottom:0.25rem">Distance</div><div style="color:#0f172a;font-weight:600;font-size:0.9rem">' + calc.distanceKm + ' km</div></div>' +
-                            '<div style="text-align:center"><div style="color:#64748b;font-size:0.7rem;margin-bottom:0.25rem">Durée</div><div style="color:#0f172a;font-weight:600;font-size:0.9rem">' + calc.durationMinutes + ' min</div></div>' +
-                            '<div style="text-align:center"><div style="color:#64748b;font-size:0.7rem;margin-bottom:0.25rem">Base</div><div style="color:#0f172a;font-weight:600;font-size:0.9rem">' + calc.base + '€</div></div>' +
-                            '<div style="text-align:center"><div style="color:#64748b;font-size:0.7rem;margin-bottom:0.25rem">Total</div><div style="color:#10b981;font-weight:700;font-size:0.9rem">' + calc.total + '€</div></div>' +
-                            '</div>' +
-                            ((calc.isPeakHours || calc.isWeekend) ?
-                                '<div style="margin-top:0.5rem;padding:0.5rem;background:rgba(255,193,7,0.1);border-radius:6px;text-align:center"><div style="color:#856404;font-size:0.75rem">' +
-                                (calc.isPeakHours ? '⏰ Majoration heures de pointe (+15%)' : '') +
-                                (calc.isPeakHours && calc.isWeekend ? ' • ' : '') +
-                                (calc.isWeekend ? '📅 Majoration weekend (+10%)' : '') +
-                                '</div></div>' : '');
-                    }
-                    if (el.priceNote) el.priceNote.textContent = '* ' + detail;
+                    renderPriceSection(calc.total, vehicleKey, el, detail);
 
                     try {
                         sessionStorage.setItem(cacheId, JSON.stringify({
@@ -246,11 +287,7 @@ window.calculatePriceWithDistance = calculatePriceWithDistance;
 
 function fallbackPrice(vehicleKey, el) {
     if (el.priceLoading) el.priceLoading.style.display = 'none';
-    const v = SERVICE_PRICES[vehicleKey];
-    const est = calculatePrice(vehicleKey, 2);
-    el.priceResult.textContent = est + '€';
-    if (el.priceDetails) el.priceDetails.textContent = 'Estimation basée sur 2h de transport';
-    if (el.priceNote) el.priceNote.textContent = '* ' + v.basePrice + '€ (base) + 2h × ' + v.pricePerHour + '€/h = ' + est + '€ (estimation)';
+    renderPriceSection(null, vehicleKey, el);
 }
 
 /* ===== Setup calculateur ===== */
@@ -739,6 +776,10 @@ function runPageInit() {
     setDefaultBookingDate();
     initStickyMobileFooter();
     initHeroVideo();
+
+    // Le bloc “prix” contient déjà le bouton de validation : on évite les doublons.
+    var externalPayBtn = document.getElementById('cta-pay-confirm');
+    if (externalPayBtn) externalPayBtn.style.display = 'none';
 
     var departInput = document.getElementById('depart');
     var arriveeInput = document.getElementById('arrivee');

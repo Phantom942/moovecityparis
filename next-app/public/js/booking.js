@@ -68,6 +68,75 @@ var EMPTY_ICON = '<svg class="w-8 h-8 text-slate-400" fill="none" stroke="curren
 var calculatedDistance = null;
 var distanceService = null;
 
+/* ===== Rendu UI prix : 0€ -> fourchette réaliste ===== */
+
+var PRICE_RANGES_BOOKING = {
+    urban: { min: 39, max: 69 },
+    express: { min: 59, max: 99 },
+    premium: { min: 69, max: 129 },
+    titan: { min: 99, max: 189 }
+};
+
+function getIndicativeRangeBooking(vehicleValue) {
+    var key = (vehicleValue || "").toLowerCase();
+    // booking.js reçoit URBAN/EXPRESS/PREMIUM/TITAN
+    if (key === "urban") return PRICE_RANGES_BOOKING.urban;
+    if (key === "express") return PRICE_RANGES_BOOKING.express;
+    if (key === "premium") return PRICE_RANGES_BOOKING.premium;
+    if (key === "titan") return PRICE_RANGES_BOOKING.titan;
+    // fallback générique
+    return { min: 49, max: 99 };
+}
+
+// Checkout placeholder : on déclenche le submit du formulaire.
+window.handleCheckout = function () {
+    var form = document.getElementById("quoteForm");
+    if (form && typeof form.requestSubmit === "function") {
+        form.requestSubmit();
+        return;
+    }
+    if (form && typeof form.submit === "function") {
+        form.submit();
+        return;
+    }
+    window.location.href = "/booking";
+};
+
+function renderPriceSectionBooking(priceEstimateDiv, priceValueSpan, priceDetailsDiv, calculatedPrice, vehicleValue) {
+    if (!priceEstimateDiv || !priceValueSpan || !priceDetailsDiv) return;
+
+    var range = getIndicativeRangeBooking(vehicleValue);
+    var hasValidPrice = calculatedPrice && calculatedPrice > 0;
+
+    // IMPORTANT : on laisse le signe "€" dans le HTML, donc ici on met une valeur “texte” sans “€”.
+    priceEstimateDiv.classList.remove("hidden");
+    priceValueSpan.textContent = hasValidPrice
+        ? String(calculatedPrice)
+        : ("De " + range.min + " à " + range.max);
+
+    var waText = hasValidPrice
+        ? ("Bonjour, je souhaite valider mon devis Moove City. Tarif estimé : " + calculatedPrice + "€")
+        : ("Bonjour, je souhaite valider mon devis Moove City. Tarif estimé : de " + range.min + "€ à " + range.max + "€");
+    var waUrl = "https://wa.me/33751213255?text=" + encodeURIComponent(waText);
+
+    var detailsText = hasValidPrice
+        ? ("TTC · Tarif Ferme")
+        : ("TTC (Selon distance exacte et manutention)");
+
+    priceDetailsDiv.innerHTML =
+        '<div style="margin-top:10px;display:flex;flex-direction:column;gap:10px;align-items:center;">' +
+            '<button type="button" onclick="if (window.handleCheckout) window.handleCheckout();" ' +
+                'style="width:100%;background:#2563eb;color:#fff;font-weight:800;padding:12px 14px;border:none;border-radius:12px;cursor:pointer;box-shadow:0 8px 22px rgba(37,99,235,0.18);">' +
+                "Valider et Réserver ma course" +
+            "</button>" +
+            '<a href="' + waUrl + '" target="_blank" rel="noopener noreferrer" ' +
+                'style="width:100%;display:flex;justify-content:center;align-items:center;gap:8px;background:#ecfdf5;color:#047857;border:1px solid rgba(5,150,105,0.25);font-weight:800;padding:10px 14px;border-radius:12px;text-decoration:none;font-size:0.85rem;">' +
+                "Une question ? Échanger sur WhatsApp" +
+            "</a>" +
+            '<div style="width:100%;text-align:center;color:#64748b;font-size:0.8rem;margin-top:2px;">' + detailsText + "</div>" +
+        "</div>";
+}
+
 /* ===== Calcul du prix ===== */
 
 function calculatePrice(vehicle, duration, distance, manutention) {
@@ -191,25 +260,30 @@ function updatePriceDisplay() {
 
     updateVehicleIcon();
 
-    if (!vehicle || !duration || duration <= 0) {
+    // Si aucun véhicule choisi => on cache.
+    if (!vehicle) {
         if (priceEstimateDiv) priceEstimateDiv.classList.add('hidden');
+        return;
+    }
+
+    // Si durée non calculée => fourchette réaliste (évite 0€ / frustration).
+    if (!duration || duration <= 0) {
+        renderPriceSectionBooking(priceEstimateDiv, priceValueSpan, priceDetailsDiv, null, vehicle);
         return;
     }
 
     var price = calculatePrice(vehicle, duration, calculatedDistance, manutention);
 
-    if (price) {
-        animateCounter(priceValueSpan, price, 450);
-
+    if (price && price > 0) {
         var vehicleData = VEHICLE_PRICES[vehicle];
         var details = 'Prix de base : ' + vehicleData.base + '\u20AC + ' + duration + 'h \u00D7 ' + vehicleData.hourly + '\u20AC/h';
-
         if (manutention) details += ' + manutention (' + MANUTENTION_FEE + '\u20AC)';
         if (calculatedDistance) {
             var distanceCost = Math.round(calculatedDistance * vehicleData.perKm);
             details += ' + ' + calculatedDistance.toFixed(1) + 'km (' + distanceCost + '\u20AC)';
         }
 
+        // Surcharges éventuelles
         var dateInput = document.getElementById('date');
         var timeInput = document.getElementById('time');
         var surcharges = [];
@@ -223,11 +297,13 @@ function updatePriceDisplay() {
         }
         if (surcharges.length > 0) details += ' | ' + surcharges.join(', ');
 
-        if (priceDetailsDiv) priceDetailsDiv.textContent = details;
-        if (priceEstimateDiv) priceEstimateDiv.classList.remove('hidden');
-    } else {
-        if (priceEstimateDiv) priceEstimateDiv.classList.add('hidden');
+        renderPriceSectionBooking(priceEstimateDiv, priceValueSpan, priceDetailsDiv, price, vehicle);
+        animateCounter(priceValueSpan, price, 450);
+        return;
     }
+
+    // fallback si calculatePrice renvoie un résultat falsy (évite 0€)
+    renderPriceSectionBooking(priceEstimateDiv, priceValueSpan, priceDetailsDiv, null, vehicle);
 }
 
 /* ===== Setup calculateur de prix ===== */
@@ -287,6 +363,26 @@ function setupPriceCalculator() {
     window.mooveBookingRecalcDistance = updateDistance;
 
     updateVehicleIcon();
+    // Sur certaines pages statiques, le bouton WhatsApp était le CTA principal.
+    // On le rétrograde automatiquement : WhatsApp devient uniquement “question / échange”.
+    var whatsappMain = document.getElementById('cta-whatsapp-booking');
+    if (whatsappMain) whatsappMain.style.display = 'none';
+
+    // Si aucune “vraie” action de paiement n'existe (page statique booking.html),
+    // on transforme le bouton téléphone en action de validation (submit).
+    var payCta = document.getElementById('cta-pay-booking');
+    var callCta = document.getElementById('cta-call-booking');
+    if (callCta && !payCta) {
+        callCta.setAttribute('href', '#');
+        callCta.onclick = function (e) {
+            e.preventDefault();
+            if (window.trackBookingCall) window.trackBookingCall();
+            if (window.handleCheckout) window.handleCheckout();
+        };
+
+        var svg = callCta.querySelector('svg');
+        callCta.innerHTML = svg ? (svg.outerHTML + 'Valider et Réserver ma course') : 'Valider et Réserver ma course';
+    }
     setTimeout(updatePriceDisplay, 500);
 }
 
