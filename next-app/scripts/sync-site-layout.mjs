@@ -20,12 +20,6 @@ const PUBLIC = path.join(__dirname, '..', 'public');
 
 const SKIP_FILES = new Set(['google513b44e9f973aad0.html']);
 const SKIP_DIRS = new Set(['seo']); // doublons — redirects vercel.json
-const LEGAL_FILES = new Set([
-  'mentions-legales.html',
-  'politique-de-confidentialite.html',
-  'politique-cookies.html',
-  'conditions-generales.html',
-]);
 
 function walkHtml(dir, list = []) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -59,9 +53,9 @@ function normalizeLinks(html) {
     .replace(/href="index\.html#/g, 'href="/#')
     .replace(/href="\.\.\/index\.html#/g, 'href="/#')
     .replace(/href="\.\.\/\.\.\/index\.html#/g, 'href="/#')
-    .replace(/href="(urban|express|premium|titan|demenagement-paris|livraison-express|transport-entreprises|services|transport-paris|transport-ivry-sur-seine|merci|mentions-legales|politique-de-confidentialite|politique-cookies|conditions-generales)\.html"/g, 'href="/$1.html"')
-    .replace(/href="\.\.\/(urban|express|premium|titan|demenagement-paris|livraison-express|transport-entreprises|services|transport-paris|transport-ivry-sur-seine|merci|mentions-legales|politique-de-confidentialite|politique-cookies|conditions-generales)\.html"/g, 'href="/$1.html"')
-    .replace(/href="\.\.\/\.\.\/(urban|express|premium|titan|demenagement-paris|livraison-express|transport-entreprises|services|transport-paris|transport-ivry-sur-seine|merci|mentions-legales|politique-de-confidentialite|politique-cookies|conditions-generales)\.html"/g, 'href="/$1.html"')
+    .replace(/href="(urban|express|premium|titan|demenagement-paris|livraison-express|transport-entreprises|services|transport-paris|transport-ivry-sur-seine|merci)\.html"/g, 'href="/$1.html"')
+    .replace(/href="\.\.\/(urban|express|premium|titan|demenagement-paris|livraison-express|transport-entreprises|services|transport-paris|transport-ivry-sur-seine|merci)\.html"/g, 'href="/$1.html"')
+    .replace(/href="\.\.\/\.\.\/(urban|express|premium|titan|demenagement-paris|livraison-express|transport-entreprises|services|transport-paris|transport-ivry-sur-seine|merci)\.html"/g, 'href="/$1.html"')
     .replace(/src="brand\//g, 'src="/brand/')
     .replace(/src="css\//g, 'src="/css/')
     .replace(/href="css\//g, 'href="/css/')
@@ -141,35 +135,7 @@ function replaceFooter(html) {
   return html;
 }
 
-function transformLegal(html, basename) {
-  html = html.replace(/<style>[\s\S]*?<\/style>\s*/i, '');
-  html = ensureStyles(html);
-
-  const bodyMatch = html.match(/<body[^>]*>([\s\S]*)<\/body>/i);
-  if (!bodyMatch) return html;
-  let inner = bodyMatch[1].trim();
-  inner = inner.replace(/^<div class="container">/i, '').replace(/<\/div>\s*$/i, '');
-  inner = inner.replace(/<header>\s*<h1>/i, '<div class="legal-page__title"><h1>');
-  inner = inner.replace(/<\/header>\s*(?=<section)/i, '</div>\n        ');
-  inner = inner.replace(/class="intro"/g, 'class="legal-page__intro"');
-  inner = inner.replace(/class="back-link"/g, 'class="legal-page__back"');
-  inner = inner.replace(/<p style="background: #fffbeb[^"]*"[^>]*>/i, '<p class="legal-page__alert">');
-
-  const wrapped = `${SITE_HEADER}
-    <main class="legal-page">
-        <div class="container legal-page__card">
-            ${inner}
-        </div>
-    </main>
-    ${SITE_FOOTER}
-    ${MOBILE_WIDGETS}
-    ${SITE_SCRIPTS}`;
-
-  return html.replace(/<body[\s\S]*<\/body>/i, `<body class="site-page">\n    ${wrapped}\n</body>`);
-}
-
-function ensurePromoBanner(html, basename) {
-  if (LEGAL_FILES.has(basename)) return html;
+function ensurePromoBanner(html) {
   html = html.replace(/<aside class="promo-ad promo-ad--compact"[\s\S]*?<\/aside>\s*/gi, '');
   return html.replace(/<\/header>/i, `</header>\n    ${SITE_PROMO_BANNER_COMPACT}\n    `);
 }
@@ -182,19 +148,17 @@ function processFile(filePath) {
   html = normalizeLinks(html);
   html = normalizeContactInfo(html);
 
-  if (LEGAL_FILES.has(basename) || (basename === 'mentions-legales.html')) {
-    html = transformLegal(html, basename);
-  } else if (basename === 'booking.html') {
+  if (basename === 'booking.html') {
     // legacy booking — minimal sync, page Next.js est la référence
     html = ensureStyles(html);
     html = replaceSiteHeader(html);
-    html = ensurePromoBanner(html, basename);
+    html = ensurePromoBanner(html);
     html = replaceFooter(html);
     html = ensureWidgets(html);
   } else {
     html = ensureStyles(html);
     html = replaceSiteHeader(html);
-    html = ensurePromoBanner(html, basename);
+    html = ensurePromoBanner(html);
     html = replaceFooter(html);
     html = ensureWidgets(html);
   }

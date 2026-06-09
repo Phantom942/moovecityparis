@@ -468,12 +468,6 @@ export default function HomePage() {
             </div>
             <div class="footer-bottom">
                 <p>© 2026 Moove City. Tous droits réservés.</p>
-                <p>
-                    <a href="/mentions-legales.html" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">Mentions légales</a> | 
-                    <a href="/politique-de-confidentialite.html" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">Confidentialité</a> | 
-                    <a href="/politique-cookies.html" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">Cookies</a> | 
-                    <a href="/conditions-generales.html" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">CGU</a>
-                </p>
                 <p><a href="https://phantomdev.fr" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 0.5em; color: rgba(255,255,255,0.8); text-decoration: none; font-family: 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; font-weight: 300; font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase; transition: opacity 0.2s ease;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'"><svg width="20" height="20" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0" aria-hidden="true"><path d="M16 4c-6 0-10 5-10 10 0 1.8.6 3.5 1.5 4.8v4.2l2.5-2.5 2 2.5 2-2.5 2.5 2.5v-4.2c.9-1.3 1.5-3 1.5-4.8 0-5-4-10-10-10z" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="11" cy="10.5" r="1.2" fill="currentColor"/><circle cx="21" cy="10.5" r="1.2" fill="currentColor"/></svg>Design by PhantomDev</a></p>
             </div>
         </div>

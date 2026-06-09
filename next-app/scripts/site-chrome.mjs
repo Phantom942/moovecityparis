@@ -88,12 +88,6 @@ export const SITE_FOOTER = `<footer role="contentinfo" id="contact">
             </div>
             <div class="footer-bottom">
                 <p>© 2026 Moove City. Tous droits réservés.</p>
-                <p>
-                    <a href="/mentions-legales.html" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">Mentions légales</a> |
-                    <a href="/politique-de-confidentialite.html" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">Confidentialité</a> |
-                    <a href="/politique-cookies.html" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">Cookies</a> |
-                    <a href="/conditions-generales.html" style="color: rgba(255, 255, 255, 0.8); text-decoration: none;">CGU</a>
-                </p>
                 <p><a href="https://phantomdev.fr" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 0.5em; color: rgba(255,255,255,0.8); text-decoration: none; font-weight: 300; font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase;">Design by PhantomDev</a></p>
             </div>
         </div>
