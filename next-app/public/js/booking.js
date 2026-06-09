@@ -298,7 +298,7 @@ function updatePriceDisplay() {
         if (surcharges.length > 0) details += ' | ' + surcharges.join(', ');
 
         renderPriceSectionBooking(priceEstimateDiv, priceValueSpan, priceDetailsDiv, price, vehicle);
-        animateCounter(priceValueSpan, price, 450);
+        if (price > 0) animateCounter(priceValueSpan, price, 450);
         return;
     }
 
@@ -638,6 +638,18 @@ function mooveBookingAttachPlacesDataAutocomplete(input) {
     });
 }
 
+function initBookingAddressAutocomplete() {
+    if (!window.mooveSetupAddressFields) return false;
+    var departureInput = document.getElementById('departure');
+    var arrivalInput = document.getElementById('arrival');
+    if (!departureInput || !arrivalInput) return false;
+    window.mooveSetupAddressFields([
+        { id: 'departure', onSelect: mooveBookingAfterAddressPick },
+        { id: 'arrival', onSelect: mooveBookingAfterAddressPick }
+    ]);
+    return true;
+}
+
 function initBookingPlacesAutocomplete() {
     if (!(window.google && google.maps)) return false;
 
@@ -651,6 +663,7 @@ function initBookingPlacesAutocomplete() {
 
     function bindAutocomplete(input) {
         if (input.getAttribute('data-autocomplete-initialized') === 'true') return;
+        if (input.getAttribute('data-address-autocomplete') === 'true') return;
         mooveBookingAttachPlacesDataAutocomplete(input);
     }
 
@@ -664,6 +677,7 @@ function initBookingPlacesAutocomplete() {
 
 window.initBookingAutocomplete = function () {
     function tryInit() {
+        initBookingAddressAutocomplete();
         if (initBookingPlacesAutocomplete()) {
             var departure = document.getElementById('departure');
             var arrival = document.getElementById('arrival');
@@ -699,4 +713,13 @@ function showErrorMessage(message, success) {
 
 /* ===== Bootstrap ===== */
 
-setupPriceCalculator();
+function initBookingPageScripts() {
+    initBookingAddressAutocomplete();
+    setupPriceCalculator();
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBookingPageScripts);
+} else {
+    initBookingPageScripts();
+}

@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/seo/:path*",
+      "destination": "/zones-intervention/:path*",
+      "permanent": true
+    }
+  ]
+}

@@ -240,11 +240,9 @@ function calculatePriceWithDistance() {
             const cacheId = 'priceCalc_' + btoa(cacheKey).substring(0, 50);
             try {
                 const cached = JSON.parse(sessionStorage.getItem(cacheId));
-                if (cached && Date.now() - cached.timestamp < 300000) {
+                if (cached && cached.price > 0 && Date.now() - cached.timestamp < 300000) {
                     if (el.priceLoading) el.priceLoading.style.display = 'none';
-                    el.priceResult.textContent = cached.price + '€';
-                    if (el.priceDetails) el.priceDetails.innerHTML = cached.details;
-                    if (el.priceNote) el.priceNote.textContent = cached.note;
+                    renderPriceSection(cached.price, vehicleKey, el);
                     return;
                 }
             } catch (_) { /* no valid cache */ }
@@ -259,6 +257,10 @@ function calculatePriceWithDistance() {
                 if (status === 'OK' && response.rows[0]?.elements[0]?.distance) {
                     const r = response.rows[0].elements[0];
                     const calc = calculatePriceWithDistanceImproved(vehicleKey, r.distance.value / 1000, r.duration.value / 60, selectedDate, selectedTime);
+                    if (!calc || !calc.total || calc.total <= 0) {
+                        fallbackPrice(vehicleKey, el);
+                        return;
+                    }
                     let detail = calc.base + '€ (base) + ' + calc.distance.toFixed(2) + '€ (distance) + ' + calc.duration.toFixed(2) + '€ (durée)';
                     if (calc.isPeakHours) detail += ' + majoration heures de pointe';
                     if (calc.isWeekend) detail += ' + majoration weekend';
@@ -625,6 +627,25 @@ function mooveAttachPlacesDataAutocomplete(input, onResolved, formatPlaceFn) {
     });
 }
 
+function setupAddressAutocompleteHome() {
+    if (!window.mooveSetupAddressFields) return;
+    window.mooveSetupAddressFields([
+        {
+            id: 'depart',
+            onSelect: function () {
+                if (window.calculatePriceWithDistance) setTimeout(window.calculatePriceWithDistance, 200);
+            }
+        },
+        {
+            id: 'arrivee',
+            onSelect: function () {
+                if (window.calculatePriceWithDistance) setTimeout(window.calculatePriceWithDistance, 200);
+            }
+        }
+    ]);
+}
+window.setupAddressAutocompleteHome = setupAddressAutocompleteHome;
+
 function setupPlacesAutocomplete() {
     var departInput  = document.getElementById('depart');
     var arriveeInput = document.getElementById('arrivee');
@@ -647,6 +668,7 @@ function setupPlacesAutocomplete() {
 
     function bindAutocomplete(input) {
         if (input.getAttribute('data-autocomplete-initialized') === 'true') return;
+        if (input.getAttribute('data-address-autocomplete') === 'true') return;
         mooveAttachPlacesDataAutocomplete(input, onPick, legacyPlaceFormattedAddress);
     }
 
@@ -776,6 +798,7 @@ function runPageInit() {
     setDefaultBookingDate();
     initStickyMobileFooter();
     initHeroVideo();
+    setupAddressAutocompleteHome();
 
     // Le bloc “prix” contient déjà le bouton de validation : on évite les doublons.
     var externalPayBtn = document.getElementById('cta-pay-confirm');

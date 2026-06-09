@@ -20,13 +20,17 @@ export default function BookingPage() {
     mapsScript.async = false;
     mapsScript.defer = true;
 
-    bookingScript.onload = () => {
-      document.body.appendChild(mapsScript);
+    const addressScript = document.createElement("script");
+    addressScript.src = "/js/address-autocomplete.js";
+    addressScript.onload = () => {
+      document.body.appendChild(bookingScript);
+      bookingScript.onload = () => document.body.appendChild(mapsScript);
     };
-    document.body.appendChild(bookingScript);
+    document.body.appendChild(addressScript);
 
     return () => {
       sanitizeScript.remove();
+      addressScript.remove();
       bookingScript.remove();
       if (mapsScript.parentNode) mapsScript.remove();
     };
@@ -64,7 +68,7 @@ export default function BookingPage() {
                     <li><a href="/#vehicules">Nos véhicules</a></li>
                     <li><a href="/#galerie">Galerie</a></li>
                     <li><a href="/#faq">FAQ</a></li>
-                    <li><a href="/seo/articles/">Articles</a></li>
+                    <li><a href="/zones-intervention/articles/">Articles</a></li>
                     <li><a href="/transport-entreprises.html">B2B</a></li>
                     <li><a href="/#contact">Contact</a></li>
                 </ul>
@@ -293,9 +297,9 @@ export default function BookingPage() {
                         <li><a href="/demenagement-paris.html">Déménagement Paris</a></li>
                         <li><a href="/livraison-express.html">Livraison express</a></li>
                         <li><a href="/transport-entreprises.html">Transport entreprises</a></li>
-                        <li><a href="/seo/articles/">Articles & Guides</a></li>
+                        <li><a href="/zones-intervention/articles/">Articles & Guides</a></li>
                         <li><a href="/#contact">Contact</a></li>
-                        <li><a href="/seo/villes-idf.html">Villes desservies</a></li>
+                        <li><a href="/zones-intervention/villes-idf.html">Villes desservies</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">

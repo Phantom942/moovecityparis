@@ -12,7 +12,11 @@ export default function HomePage() {
     const appScript = document.createElement("script");
     appScript.src = "/js/app.js";
     appScript.defer = true;
-    document.body.appendChild(appScript);
+
+    const addressScript = document.createElement("script");
+    addressScript.src = "/js/address-autocomplete.js";
+    addressScript.onload = () => document.body.appendChild(appScript);
+    document.body.appendChild(addressScript);
 
     const sanitizeScript = document.createElement("script");
     sanitizeScript.src = "/js/sanitize.js";
@@ -21,6 +25,7 @@ export default function HomePage() {
 
     return () => {
       mainScript.remove();
+      addressScript.remove();
       appScript.remove();
       sanitizeScript.remove();
     };
@@ -40,7 +45,7 @@ export default function HomePage() {
                 <li><a href="#vehicules">Nos véhicules</a></li>
                 <li><a href="#galerie">Galerie</a></li>
                 <li><a href="#faq">FAQ</a></li>
-                <li><a href="/seo/articles/">Articles</a></li>
+                <li><a href="/zones-intervention/articles/">Articles</a></li>
                 <li><a href="/transport-entreprises.html">B2B</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
@@ -149,6 +154,43 @@ export default function HomePage() {
         </div>
     </section>
 
+    <section id="offres" style="padding: 64px 0; background: #fff; border-top: 1px solid #f3f4f6;" aria-labelledby="section-offres">
+        <div class="container">
+            <div style="text-align: center; max-width: 640px; margin: 0 auto 3rem;">
+                <h2 class="fade-in" id="section-offres" style="font-size: clamp(1.75rem, 4vw, 2.25rem); font-weight: 800; color: #111827; letter-spacing: -0.02em; margin-bottom: 1rem;">Un service sur-mesure pour chaque besoin</h2>
+                <p class="fade-in" style="font-size: 1.125rem; color: #6b7280; line-height: 1.6;">Que vous soyez un professionnel exigeant ou un particulier pressé.</p>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; max-width: 960px; margin: 0 auto;">
+                <div class="fade-in" style="border: 1px solid #dbeafe; background: linear-gradient(135deg, rgba(239,246,255,0.5) 0%, #fff 100%); padding: 2rem; border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <span style="display: inline-block; background: #dbeafe; color: #1e40af; font-size: 0.75rem; font-weight: 700; padding: 0.35rem 0.75rem; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.05em;">Espace Entreprises</span>
+                        <h3 style="font-size: 1.5rem; font-weight: 800; color: #111827; margin: 1rem 0 0.5rem;">Logistique &amp; Transport B2B</h3>
+                        <p style="color: #4b5563; font-size: 0.875rem; line-height: 1.65;">Externalisez vos livraisons urbaines, réassorts de boutiques et tournées régulières à Paris &amp; Île-de-France.</p>
+                        <ul style="list-style: none; padding: 0; margin: 1.5rem 0 0;">
+                            <li style="padding: 0.35rem 0; font-size: 0.875rem; color: #374151;">✅ Facturation mensuelle centralisée (Reporting CSV)</li>
+                            <li style="padding: 0.35rem 0; font-size: 0.875rem; color: #374151;">✅ Chauffeurs professionnels formés au protocole retail</li>
+                            <li style="padding: 0.35rem 0; font-size: 0.875rem; color: #374151;">✅ Assurance Transport de Marchandises incluse</li>
+                        </ul>
+                    </div>
+                    <a href="/transport-entreprises.html" style="display: block; margin-top: 2rem; width: 100%; background: #111827; color: #fff; font-weight: 600; padding: 0.65rem 1rem; border-radius: 8px; text-align: center; text-decoration: none; font-size: 0.875rem;">Ouvrir un compte Pro</a>
+                </div>
+                <div class="fade-in stagger-delay-1" style="border: 1px solid #f3f4f6; background: #fff; padding: 2rem; border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <span style="display: inline-block; background: #f3f4f6; color: #1f2937; font-size: 0.75rem; font-weight: 700; padding: 0.35rem 0.75rem; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.05em;">Espace Particuliers</span>
+                        <h3 style="font-size: 1.5rem; font-weight: 800; color: #111827; margin: 1rem 0 0.5rem;">Déménagements &amp; Courses</h3>
+                        <p style="color: #4b5563; font-size: 0.875rem; line-height: 1.65;">Un besoin urgent d'acheminer des cartons, un meuble volumineux ou un déménagement étudiant ?</p>
+                        <ul style="list-style: none; padding: 0; margin: 1.5rem 0 0;">
+                            <li style="padding: 0.35rem 0; font-size: 0.875rem; color: #374151;">⚡ Tarifs transparents dès 39€ TTC</li>
+                            <li style="padding: 0.35rem 0; font-size: 0.875rem; color: #374151;">⚡ Options d'aide à la manutention disponibles</li>
+                            <li style="padding: 0.35rem 0; font-size: 0.875rem; color: #374151;">⚡ Flexibilité totale de paiement (CB, Espèces)</li>
+                        </ul>
+                    </div>
+                    <a href="/booking" style="display: block; margin-top: 2rem; width: 100%; background: #2563eb; color: #fff; font-weight: 600; padding: 0.65rem 1rem; border-radius: 8px; text-align: center; text-decoration: none; font-size: 0.875rem;">Simuler un tarif particulier</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <div class="fade-in" style="background: rgba(5, 150, 105, 0.08); padding: 1rem 1.5rem; text-align: center; border-top: 1px solid rgba(5, 150, 105, 0.2); border-bottom: 1px solid rgba(5, 150, 105, 0.2);">
         <p style="margin: 0 0 0.5rem; font-size: 0.95rem; color: var(--text-primary);">
             <strong>Devis gratuit, sans engagement.</strong> Réponse sous 5 minutes · Intervention dans l’heure sur Paris et IDF · <a href="tel:+33751213255" style="color: #059669; font-weight: 600;">07 51 21 32 55</a> · <a href="https://wa.me/33751213255" style="color: #059669; font-weight: 600;">WhatsApp</a>
@@ -217,43 +259,6 @@ export default function HomePage() {
         </div>
     </section>
     </div>
-
-    <section id="offres" style="padding: 60px 0; background: #fff;" aria-labelledby="section-offres">
-        <div class="container">
-            <h2 class="fade-in" id="section-offres" style="text-align: center; margin-bottom: 0.75rem;">Une offre adaptée à chaque besoin</h2>
-            <p class="fade-in" style="text-align: center; max-width: 600px; margin: 0 auto 3rem; color: var(--text-secondary); font-size: 1.05rem;">
-                Que vous soyez un particulier ou une entreprise, Moove City s'adapte.
-            </p>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; max-width: 900px; margin: 0 auto;">
-
-                <div class="fade-in" style="background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%); border-radius: 16px; padding: 2rem; border: 1px solid rgba(5, 150, 105, 0.15);">
-                    <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(5,150,105,0.1); color: #059669; padding: 0.35rem 0.75rem; border-radius: 999px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem;">Particuliers</div>
-                    <h3 style="font-size: 1.25rem; font-weight: 700; color: #0f172a; margin-bottom: 0.75rem;">Déménagement, livraison, course urgente</h3>
-                    <ul style="list-style: none; padding: 0; margin: 0 0 1.5rem;">
-                        <li style="padding: 0.4rem 0; font-size: 0.95rem; color: #475569; display: flex; align-items: flex-start; gap: 0.5rem;"><span style="color: #059669; font-weight: 700;">✓</span> À partir de 40€ seulement</li>
-                        <li style="padding: 0.4rem 0; font-size: 0.95rem; color: #475569; display: flex; align-items: flex-start; gap: 0.5rem;"><span style="color: #059669; font-weight: 700;">✓</span> Intervention dans l'heure</li>
-                        <li style="padding: 0.4rem 0; font-size: 0.95rem; color: #475569; display: flex; align-items: flex-start; gap: 0.5rem;"><span style="color: #059669; font-weight: 700;">✓</span> Devis ferme instantané en ligne</li>
-                        <li style="padding: 0.4rem 0; font-size: 0.95rem; color: #475569; display: flex; align-items: flex-start; gap: 0.5rem;"><span style="color: #059669; font-weight: 700;">✓</span> Paiement flexible : CB, espèces, crypto</li>
-                        <li style="padding: 0.4rem 0; font-size: 0.95rem; color: #475569; display: flex; align-items: flex-start; gap: 0.5rem;"><span style="color: #059669; font-weight: 700;">✓</span> Chauffeur expérimenté et assuré</li>
-                    </ul>
-                    <a href="/booking" style="display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; background: #059669; color: white; padding: 0.7rem 1.5rem; border-radius: 10px; font-weight: 600; font-size: 0.95rem; text-decoration: none; transition: background 0.2s ease;" aria-label="Réserver un transport particulier">Réserver maintenant</a>
-                </div>
-
-                <div class="fade-in stagger-delay-1" style="background: linear-gradient(135deg, #eff6ff 0%, #f0f9ff 100%); border-radius: 16px; padding: 2rem; border: 1px solid rgba(2, 132, 199, 0.15);">
-                    <div style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(2,132,199,0.1); color: #0284c7; padding: 0.35rem 0.75rem; border-radius: 999px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem;">Entreprises · B2B</div>
-                    <h3 style="font-size: 1.25rem; font-weight: 700; color: #0f172a; margin-bottom: 0.75rem;">Tournées, logistique, événementiel</h3>
-                    <ul style="list-style: none; padding: 0; margin: 0 0 1.5rem;">
-                        <li style="padding: 0.4rem 0; font-size: 0.95rem; color: #475569; display: flex; align-items: flex-start; gap: 0.5rem;"><span style="color: #0284c7; font-weight: 700;">✓</span> Facturation à 30 jours, facture conforme</li>
-                        <li style="padding: 0.4rem 0; font-size: 0.95rem; color: #475569; display: flex; align-items: flex-start; gap: 0.5rem;"><span style="color: #0284c7; font-weight: 700;">✓</span> Assurance responsabilité professionnelle</li>
-                        <li style="padding: 0.4rem 0; font-size: 0.95rem; color: #475569; display: flex; align-items: flex-start; gap: 0.5rem;"><span style="color: #0284c7; font-weight: 700;">✓</span> Chauffeur dédié et interlocuteur unique</li>
-                        <li style="padding: 0.4rem 0; font-size: 0.95rem; color: #475569; display: flex; align-items: flex-start; gap: 0.5rem;"><span style="color: #0284c7; font-weight: 700;">✓</span> Contrats récurrents et tarifs négociés</li>
-                        <li style="padding: 0.4rem 0; font-size: 0.95rem; color: #475569; display: flex; align-items: flex-start; gap: 0.5rem;"><span style="color: #0284c7; font-weight: 700;">✓</span> Licence de transport intérieur</li>
-                    </ul>
-                    <a href="/transport-entreprises.html" style="display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; background: #0284c7; color: white; padding: 0.7rem 1.5rem; border-radius: 10px; font-weight: 600; font-size: 0.95rem; text-decoration: none; transition: background 0.2s ease;" aria-label="Demander une offre entreprise personnalisée">Demander une offre Entreprise</a>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <section class="gallery" id="galerie">
         <div class="container">
@@ -375,9 +380,9 @@ export default function HomePage() {
                         <li><a href="/demenagement-paris.html">Déménagement Paris</a></li>
                         <li><a href="/livraison-express.html">Livraison express</a></li>
                         <li><a href="/transport-entreprises.html">Transport entreprises</a></li>
-                        <li><a href="/seo/articles/">Articles & Guides</a></li>
+                        <li><a href="/zones-intervention/articles/">Articles & Guides</a></li>
                         <li><a href="#contact">Contact</a></li>
-                        <li><a href="/seo/villes-idf.html">Villes desservies</a></li>
+                        <li><a href="/zones-intervention/villes-idf.html">Villes desservies</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
