@@ -1,0 +1,36 @@
+# Moove City — Transport avec chauffeur Paris & Île-de-France
+# https://www.moovecity.fr
+
+> Moove City est une entreprise de transport avec chauffeur basée à Paris. Services : déménagement, livraison express, courses urgentes, transport B2B. Véhicules de 6 à 20 m³. Disponible 24h/24.
+
+## Offre phare
+- Transport Paris intramuros (75) sans manutention : **50€ TTC forfait fixe**, quelle que soit la distance dans Paris
+- Camion + chauffeur uniquement (pas de chargement/déchargement par Moove City)
+
+## Tarifs indicatifs (autres prestations)
+- URBAN 6 m³ : dès 40€
+- EXPRESS 9 m³ : dès 50€
+- PREMIUM 12 m³ : dès 70€
+- TITAN 20 m³ : dès 110€
+
+## Contact
+- Téléphone : 06 48 74 56 68
+- WhatsApp : 07 51 21 32 55
+- Email : contact@moovecity.fr
+- Devis en ligne : https://www.moovecity.fr/booking
+
+## Pages utiles
+- Accueil : https://www.moovecity.fr/
+- Offre Paris 50€ : https://www.moovecity.fr/#offre-paris
+- Véhicules : https://www.moovecity.fr/urban.html
+- Déménagement Paris : https://www.moovecity.fr/demenagement-paris.html
+- Livraison express : https://www.moovecity.fr/livraison-express.html
+- Transport entreprises : https://www.moovecity.fr/transport-entreprises.html
+- Articles & guides : https://www.moovecity.fr/zones-intervention/articles/
+- Villes desservies IDF : https://www.moovecity.fr/zones-intervention/villes-idf.html
+
+## Zone d'intervention
+Paris, Île-de-France (75, 91, 92, 93, 94, 95), France entière, Europe via partenaires.
+
+## Paiement
+Espèces et carte bancaire.

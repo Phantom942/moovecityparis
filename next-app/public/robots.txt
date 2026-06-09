@@ -46,3 +46,6 @@ Allow: /
 
 # Sitemap
 Sitemap: https://www.moovecity.fr/sitemap.xml
+
+# Fiche entreprise pour assistants IA
+# https://www.moovecity.fr/llms.txt

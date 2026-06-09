@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { HOME_JSON_LD } from "../lib/seo";
 
 export default function HomePage() {
   useEffect(() => {
@@ -35,6 +36,7 @@ export default function HomePage() {
     <main
       dangerouslySetInnerHTML={{
         __html: `
+    <script type="application/ld+json">${HOME_JSON_LD}</script>
     <header>
         <nav class="container">
             <a href="/" class="logo">
@@ -375,18 +377,22 @@ export default function HomePage() {
                     <div>Dans l'heure sur Paris et Île-de-France. Réponse garantie en moins de 5 minutes.</div>
                 </details>
                 <details class="faq-item fade-in stagger-delay-2">
+                    <summary>Quelle est l'offre transport à 50€ sur Paris ?</summary>
+                    <div>Forfait <strong>50€ TTC</strong> pour un transport simple (camion + chauffeur, sans manutention) avec départ et arrivée dans Paris intramuros — quelle que soit la distance. <a href="#offre-paris">Voir l'offre</a>.</div>
+                </details>
+                <details class="faq-item fade-in stagger-delay-3">
                     <summary>Quels moyens de paiement acceptez-vous ?</summary>
                     <div>Espèces et carte bancaire.</div>
                 </details>
-                <details class="faq-item fade-in stagger-delay-3">
+                <details class="faq-item fade-in stagger-delay-4">
                     <summary>Comment obtenir un devis ?</summary>
                     <div>Remplissez le formulaire ci-dessus ou contactez-nous par WhatsApp. Devis gratuit en quelques minutes.</div>
                 </details>
-                <details class="faq-item fade-in stagger-delay-4">
-                    <summary>Quels sont vos tarifs ?</summary>
-                    <div>À partir de 40€ pour l'URBAN (6m³), 50€ pour l'EXPRESS (9m³), 70€ pour le PREMIUM (12m³) et 110€ pour le TITAN (20m³). Le prix final dépend de la distance et de la durée.</div>
-                </details>
                 <details class="faq-item fade-in stagger-delay-5">
+                    <summary>Quels sont vos tarifs ?</summary>
+                    <div>Offre Paris intramuros sans manutention : <strong>50€ TTC</strong>. Autres véhicules : dès 40€ (URBAN 6m³), 50€ (EXPRESS 9m³), 70€ (PREMIUM 12m³), 110€ (TITAN 20m³). Le prix final dépend de la distance et de la durée hors forfait Paris.</div>
+                </details>
+                <details class="faq-item fade-in stagger-delay-6">
                     <summary>Où intervenez-vous ?</summary>
                     <div>Île-de-France, France entière et Europe via notre réseau de partenaires.</div>
                 </details>
