@@ -89,6 +89,14 @@ export default function BookingPage() {
         </div>
     </nav>
 
+    <aside class="promo-ad promo-ad--compact" role="complementary" aria-label="Offre transport Paris 50 euros">
+        <div class="container promo-ad__strip">
+            <span class="promo-ad__strip-badge" aria-hidden="true">Promo Paris</span>
+            <p class="promo-ad__strip-text"><strong>50€ TTC</strong> — transport intramuros sans manutention · forfait fixe, quelle que soit la distance dans Paris</p>
+            <a href="/booking" class="promo-ad__strip-cta">En profiter</a>
+        </div>
+    </aside>
+
     <section class="hero booking-hero" id="hero" role="banner">
         <video class="hero-video" muted loop playsinline autoplay
                poster="/images/hero-moove-city.jpg" width="1920" height="1080"
@@ -301,6 +309,7 @@ export default function BookingPage() {
                     <h4>Liens rapides</h4>
                     <ul>
                         <li><a href="/booking">Réserver maintenant</a></li>
+                        <li><a href="/#offre-paris">Offre Paris 50€</a></li>
                         <li><a href="/demenagement-paris.html">Déménagement Paris</a></li>
                         <li><a href="/livraison-express.html">Livraison express</a></li>
                         <li><a href="/transport-entreprises.html">Transport entreprises</a></li>

@@ -154,6 +154,35 @@ export default function HomePage() {
         </div>
     </section>
 
+    <section class="promo-ad promo-ad--featured" id="offre-paris" aria-labelledby="promo-paris-title">
+        <div class="container">
+            <div class="promo-ad__inner">
+                <div class="promo-ad__ribbon" aria-hidden="true">Offre spéciale</div>
+                <div class="promo-ad__grid">
+                    <div class="promo-ad__copy">
+                        <p class="promo-ad__eyebrow">Paris intramuros · sans manutention</p>
+                        <h2 class="promo-ad__title" id="promo-paris-title">Votre transport à Paris, <span class="promo-ad__highlight">forfait 50€</span></h2>
+                        <p class="promo-ad__tagline">Camion avec chauffeur · départ &amp; arrivée dans Paris (75) · distance illimitée dans la capitale</p>
+                        <ul class="promo-ad__checks">
+                            <li>Prix fixe <strong>50€ TTC</strong>, sans surprise au kilomètre</li>
+                            <li>Transport simple : véhicule + chauffeur (manutention non incluse)</li>
+                            <li>Intervention rapide · réservation en ligne ou WhatsApp</li>
+                        </ul>
+                    </div>
+                    <div class="promo-ad__price-block">
+                        <div class="promo-ad__price-wrap">
+                            <span class="promo-ad__price">50€</span>
+                            <span class="promo-ad__price-label">TTC · forfait unique</span>
+                        </div>
+                        <a href="/booking" class="promo-ad__cta">Réserver à 50€</a>
+                        <a href="https://wa.me/33751213255?text=Bonjour%2C%20je%20souhaite%20l%27offre%20transport%20Paris%2050%E2%82%AC%20(sans%20manutention)." class="promo-ad__cta-secondary" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+                        <p class="promo-ad__fineprint">Paris intramuros uniquement. Sans chargement/déchargement par Moove City. Sous réserve de disponibilité.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section id="offres" style="padding: 64px 0; background: #fff; border-top: 1px solid #f3f4f6;" aria-labelledby="section-offres">
         <div class="container">
             <div style="text-align: center; max-width: 640px; margin: 0 auto 3rem;">
@@ -376,6 +405,7 @@ export default function HomePage() {
                     <h4>Liens rapides</h4>
                     <ul>
                         <li><a href="/booking">Réserver maintenant</a></li>
+                        <li><a href="/#offre-paris">Offre Paris 50€</a></li>
                         <li><a href="/demenagement-paris.html">Déménagement Paris</a></li>
                         <li><a href="/livraison-express.html">Livraison express</a></li>
                         <li><a href="/transport-entreprises.html">Transport entreprises</a></li>

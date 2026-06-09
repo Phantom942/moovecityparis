@@ -12,6 +12,7 @@ import {
   MOBILE_WIDGETS,
   SITE_STYLES,
   SITE_SCRIPTS,
+  SITE_PROMO_BANNER_COMPACT,
 } from './site-chrome.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -167,6 +168,12 @@ function transformLegal(html, basename) {
   return html.replace(/<body[\s\S]*<\/body>/i, `<body class="site-page">\n    ${wrapped}\n</body>`);
 }
 
+function ensurePromoBanner(html, basename) {
+  if (LEGAL_FILES.has(basename)) return html;
+  html = html.replace(/<aside class="promo-ad promo-ad--compact"[\s\S]*?<\/aside>\s*/gi, '');
+  return html.replace(/<\/header>/i, `</header>\n    ${SITE_PROMO_BANNER_COMPACT}\n    `);
+}
+
 function processFile(filePath) {
   const basename = path.basename(filePath);
   let html = fs.readFileSync(filePath, 'utf8');
@@ -181,11 +188,13 @@ function processFile(filePath) {
     // legacy booking — minimal sync, page Next.js est la référence
     html = ensureStyles(html);
     html = replaceSiteHeader(html);
+    html = ensurePromoBanner(html, basename);
     html = replaceFooter(html);
     html = ensureWidgets(html);
   } else {
     html = ensureStyles(html);
     html = replaceSiteHeader(html);
+    html = ensurePromoBanner(html, basename);
     html = replaceFooter(html);
     html = ensureWidgets(html);
   }
