@@ -726,6 +726,17 @@ nav {
     font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 .feature-icon img { width: 1.5rem !important; height: 1.5rem !important; max-width: 1.5rem !important; max-height: 1.5rem !important; }
+/* Twemoji — évite les SVG emoji en pleine largeur dans le texte */
+img.emoji {
+    height: 1em !important;
+    width: 1em !important;
+    max-width: 1em !important;
+    max-height: 1em !important;
+    min-width: 0 !important;
+    display: inline !important;
+    vertical-align: -0.12em;
+    margin-right: 0.2em;
+}
 footer img, .whatsapp-btn img { width: 1rem !important; height: 1rem !important; max-width: 1rem !important; max-height: 1rem !important; }
 .whatsapp-btn img { width: 1.2rem !important; height: 1.2rem !important; max-width: 1.2rem !important; max-height: 1.2rem !important; }
 

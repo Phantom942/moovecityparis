@@ -167,9 +167,9 @@ export default function HomePage() {
                         <h3 style="font-size: 1.5rem; font-weight: 800; color: #111827; margin: 1rem 0 0.5rem;">Logistique &amp; Transport B2B</h3>
                         <p style="color: #4b5563; font-size: 0.875rem; line-height: 1.65;">Externalisez vos livraisons urbaines, réassorts de boutiques et tournées régulières à Paris &amp; Île-de-France.</p>
                         <ul style="list-style: none; padding: 0; margin: 1.5rem 0 0;">
-                            <li style="padding: 0.35rem 0; font-size: 0.875rem; color: #374151;">✅ Facturation mensuelle centralisée (Reporting CSV)</li>
-                            <li style="padding: 0.35rem 0; font-size: 0.875rem; color: #374151;">✅ Chauffeurs professionnels formés au protocole retail</li>
-                            <li style="padding: 0.35rem 0; font-size: 0.875rem; color: #374151;">✅ Assurance Transport de Marchandises incluse</li>
+                            <li style="padding: 0.4rem 0; font-size: 0.875rem; color: #374151; display: flex; align-items: flex-start; gap: 0.5rem;"><span style="color: #0284c7; font-weight: 700; flex-shrink: 0; line-height: 1.4;">✓</span><span>Facturation mensuelle centralisée (Reporting CSV)</span></li>
+                            <li style="padding: 0.4rem 0; font-size: 0.875rem; color: #374151; display: flex; align-items: flex-start; gap: 0.5rem;"><span style="color: #0284c7; font-weight: 700; flex-shrink: 0; line-height: 1.4;">✓</span><span>Chauffeurs professionnels formés au protocole retail</span></li>
+                            <li style="padding: 0.4rem 0; font-size: 0.875rem; color: #374151; display: flex; align-items: flex-start; gap: 0.5rem;"><span style="color: #0284c7; font-weight: 700; flex-shrink: 0; line-height: 1.4;">✓</span><span>Assurance Transport de Marchandises incluse</span></li>
                         </ul>
                     </div>
                     <a href="/transport-entreprises.html" style="display: block; margin-top: 2rem; width: 100%; background: #111827; color: #fff; font-weight: 600; padding: 0.65rem 1rem; border-radius: 8px; text-align: center; text-decoration: none; font-size: 0.875rem;">Ouvrir un compte Pro</a>
@@ -180,9 +180,9 @@ export default function HomePage() {
                         <h3 style="font-size: 1.5rem; font-weight: 800; color: #111827; margin: 1rem 0 0.5rem;">Déménagements &amp; Courses</h3>
                         <p style="color: #4b5563; font-size: 0.875rem; line-height: 1.65;">Un besoin urgent d'acheminer des cartons, un meuble volumineux ou un déménagement étudiant ?</p>
                         <ul style="list-style: none; padding: 0; margin: 1.5rem 0 0;">
-                            <li style="padding: 0.35rem 0; font-size: 0.875rem; color: #374151;">⚡ Tarifs transparents dès 39€ TTC</li>
-                            <li style="padding: 0.35rem 0; font-size: 0.875rem; color: #374151;">⚡ Options d'aide à la manutention disponibles</li>
-                            <li style="padding: 0.35rem 0; font-size: 0.875rem; color: #374151;">⚡ Flexibilité totale de paiement (CB, Espèces)</li>
+                            <li style="padding: 0.4rem 0; font-size: 0.875rem; color: #374151; display: flex; align-items: flex-start; gap: 0.5rem;"><span style="color: #059669; font-weight: 700; flex-shrink: 0; line-height: 1.4;">✓</span><span>Tarifs transparents dès 39€ TTC</span></li>
+                            <li style="padding: 0.4rem 0; font-size: 0.875rem; color: #374151; display: flex; align-items: flex-start; gap: 0.5rem;"><span style="color: #059669; font-weight: 700; flex-shrink: 0; line-height: 1.4;">✓</span><span>Options d'aide à la manutention disponibles</span></li>
+                            <li style="padding: 0.4rem 0; font-size: 0.875rem; color: #374151; display: flex; align-items: flex-start; gap: 0.5rem;"><span style="color: #059669; font-weight: 700; flex-shrink: 0; line-height: 1.4;">✓</span><span>Flexibilité totale de paiement (CB, Espèces)</span></li>
                         </ul>
                     </div>
                     <a href="/booking" style="display: block; margin-top: 2rem; width: 100%; background: #2563eb; color: #fff; font-weight: 600; padding: 0.65rem 1rem; border-radius: 8px; text-align: center; text-decoration: none; font-size: 0.875rem;">Simuler un tarif particulier</a>
