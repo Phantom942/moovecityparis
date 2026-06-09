@@ -9,7 +9,7 @@
     'use strict';
 
     const CONFIG = {
-        phoneNumber: '+33751213255',
+        phoneNumber: '+33648745668',
         whatsappNumber: '33751213255',
         whatsappMessage: 'Bonjour, je souhaite obtenir un devis pour un transport.',
         delayMs: 3000

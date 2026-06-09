@@ -140,7 +140,7 @@ export default function HomePage() {
                             Payer et confirmer ma livraison
                         </button>
                         <!-- CTA secondaire : téléphone -->
-                        <a href="tel:+33751213255" id="cta-call-devis" class="cta-whatsapp" style="background: #334155;" onclick="trackDevisCall()" aria-label="Appeler Moove City">
+                        <a href="tel:+33648745668" id="cta-call-devis" class="cta-whatsapp" style="background: #334155;" onclick="trackDevisCall()" aria-label="Appeler Moove City">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
                             Appeler pour confirmer
                         </a>
@@ -172,7 +172,7 @@ export default function HomePage() {
                             <li style="padding: 0.4rem 0; font-size: 0.875rem; color: #374151; display: flex; align-items: flex-start; gap: 0.5rem;"><span style="color: #0284c7; font-weight: 700; flex-shrink: 0; line-height: 1.4;">✓</span><span>Assurance Transport de Marchandises incluse</span></li>
                         </ul>
                     </div>
-                    <a href="/transport-entreprises.html" style="display: block; margin-top: 2rem; width: 100%; background: #111827; color: #fff; font-weight: 600; padding: 0.65rem 1rem; border-radius: 8px; text-align: center; text-decoration: none; font-size: 0.875rem;">Ouvrir un compte Pro</a>
+                    <a href="/transport-entreprises.html" style="display: block; margin-top: 2rem; width: 100%; background: #111827; color: #fff; font-weight: 600; padding: 0.65rem 1rem; border-radius: 8px; text-align: center; text-decoration: none; font-size: 0.875rem;">Demander un devis entreprise</a>
                 </div>
                 <div class="fade-in stagger-delay-1" style="border: 1px solid #f3f4f6; background: #fff; padding: 2rem; border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); display: flex; flex-direction: column; justify-content: space-between;">
                     <div>
@@ -193,7 +193,7 @@ export default function HomePage() {
 
     <div class="fade-in" style="background: rgba(5, 150, 105, 0.08); padding: 1rem 1.5rem; text-align: center; border-top: 1px solid rgba(5, 150, 105, 0.2); border-bottom: 1px solid rgba(5, 150, 105, 0.2);">
         <p style="margin: 0 0 0.5rem; font-size: 0.95rem; color: var(--text-primary);">
-            <strong>Devis gratuit, sans engagement.</strong> Réponse sous 5 minutes · Intervention dans l’heure sur Paris et IDF · <a href="tel:+33751213255" style="color: #059669; font-weight: 600;">07 51 21 32 55</a> · <a href="https://wa.me/33751213255" style="color: #059669; font-weight: 600;">WhatsApp</a>
+            <strong>Devis gratuit, sans engagement.</strong> Réponse sous 5 minutes · Intervention dans l'heure sur Paris et IDF · <a href="tel:+33648745668" style="color: #059669; font-weight: 600;">06 48 74 56 68</a> · <a href="https://wa.me/33751213255" style="color: #059669; font-weight: 600;">WhatsApp</a>
         </p>
         <p style="margin: 0; font-size: 0.85rem; color: #64748b;">
             Transport · Déménagement · Livraison urgente · Course urgente · Mise à disposition événements · Tournées entreprises
@@ -253,7 +253,7 @@ export default function HomePage() {
                 <div class="feature-card fade-in stagger-delay-4">
                     <span class="feature-icon" aria-hidden="true">💳</span>
                     <h3>Moyens de paiement flexibles</h3>
-                    <p>Nous acceptons les paiements en espèces, carte bancaire et cryptomonnaie pour tous nos services de transport, déménagement et livraison. Flexibilité totale pour votre confort.</p>
+                    <p>Nous acceptons les paiements en espèces et carte bancaire pour tous nos services de transport, déménagement et livraison. Flexibilité totale pour votre confort.</p>
                 </div>
             </div>
         </div>
@@ -306,8 +306,8 @@ export default function HomePage() {
                     <li><strong>Zone :</strong> Paris, Île-de-France (75, 91, 92, 93, 94, 95), France entière, Europe.</li>
                     <li><strong>Disponibilité :</strong> 24h/24, 7j/7. Intervention possible dans l'heure, réponse sous 5 minutes.</li>
                     <li id="tarifs"><strong>Tarifs indicatifs :</strong> à partir de 40€ (URBAN 6m³), 50€ (EXPRESS 9m³), 70€ (PREMIUM 12m³), 110€ (TITAN 20m³).</li>
-                    <li><strong>Paiement :</strong> espèces, carte bancaire, cryptomonnaie.</li>
-                    <li><strong>Contact :</strong> 07 51 21 32 55 — WhatsApp — contact@moovecity.fr — <a href="/booking">devis gratuit en ligne</a>.</li>
+                    <li><strong>Paiement :</strong> espèces, carte bancaire.</li>
+                    <li><strong>Contact :</strong> <a href="tel:+33648745668">06 48 74 56 68</a> — <a href="https://wa.me/33751213255">WhatsApp</a> — contact@moovecity.fr — <a href="/booking">devis gratuit en ligne</a>.</li>
                 </ul>
                 <p style="margin-top: 1.5rem;">Réserver : <a href="/booking">formulaire de devis gratuit</a> sur le site ou par WhatsApp pour une confirmation rapide. <a href="/demenagement-paris.html">Déménagement Paris</a> · <a href="/livraison-express.html">Livraison express</a> · <a href="/transport-entreprises.html">Transport B2B</a>.</p>
             </div>
@@ -330,10 +330,9 @@ export default function HomePage() {
                     Facebook
                 </a>
                 <a href="https://www.instagram.com/moovecity/" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="display: inline-flex; align-items: center; gap: 0.5rem;">Instagram</a>
-                <a href="https://www.linkedin.com/company/moovecity" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="display: inline-flex; align-items: center; gap: 0.5rem;">LinkedIn</a>
             </div>
             <p style="text-align: center; margin-top: 1.5rem; font-size: 0.9rem; color: var(--text-secondary);">
-                Inscrit sur PagesJaunes, 118712 et annuaires professionnels. <a href="/booking">Devis gratuit</a> · <a href="tel:+33751213255">07 51 21 32 55</a>
+                Inscrit sur PagesJaunes, 118712 et annuaires professionnels. <a href="/booking">Devis gratuit</a> · <a href="tel:+33648745668">06 48 74 56 68</a>
             </p>
         </div>
     </section>
@@ -348,7 +347,7 @@ export default function HomePage() {
                 </details>
                 <details class="faq-item fade-in stagger-delay-2">
                     <summary>Quels moyens de paiement acceptez-vous ?</summary>
-                    <div>Espèces, carte bancaire et cryptomonnaie.</div>
+                    <div>Espèces et carte bancaire.</div>
                 </details>
                 <details class="faq-item fade-in stagger-delay-3">
                     <summary>Comment obtenir un devis ?</summary>
@@ -407,7 +406,7 @@ export default function HomePage() {
                 </div>
                 <div class="footer-section">
                     <h4>Contact</h4>
-                    <p>📞 <a href="tel:+33751213255">+33 7 51 21 32 55</a></p>
+                    <p>📞 <a href="tel:+33648745668">06 48 74 56 68</a></p>
                     <p style="margin-bottom: 0.75rem;">
                         <a href="https://wa.me/33751213255" target="_blank" rel="noopener noreferrer">
                             💬 WhatsApp
@@ -425,11 +424,6 @@ export default function HomePage() {
                             <a href="https://www.instagram.com/moovecity/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: rgba(255, 255, 255, 0.1); border-radius: 50%; transition: all 0.3s ease; text-decoration: none;">
                                 <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" style="color: rgba(255, 255, 255, 0.9);">
                                     <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                                </svg>
-                            </a>
-                            <a href="https://www.linkedin.com/company/moovecity" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" style="display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: rgba(255, 255, 255, 0.1); border-radius: 50%; transition: all 0.3s ease; text-decoration: none;">
-                                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" style="color: rgba(255, 255, 255, 0.9);">
-                                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                                 </svg>
                             </a>
                         </div>
@@ -450,7 +444,7 @@ export default function HomePage() {
     </footer>
 
     <nav class="sticky-mobile-footer" id="stickyMobileFooter" role="navigation" aria-label="Contact rapide">
-        <a href="tel:+33751213255" class="footer-btn footer-btn-call" aria-label="Appeler Moove City">
+        <a href="tel:+33648745668" class="footer-btn footer-btn-call" aria-label="Appeler Moove City">
             <svg viewBox="0 0 24 24" fill="currentColor">
                 <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
             </svg>

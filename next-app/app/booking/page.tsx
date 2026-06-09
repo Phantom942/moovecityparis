@@ -5,6 +5,12 @@ import "./booking.css";
 
 export default function BookingPage() {
   useEffect(() => {
+    document.body.classList.add("booking-page");
+    const mainScript = document.createElement("script");
+    mainScript.src = "/js/main.js";
+    mainScript.defer = true;
+    document.body.appendChild(mainScript);
+
     const sanitizeScript = document.createElement("script");
     sanitizeScript.src = "/js/sanitize.js";
     sanitizeScript.defer = true;
@@ -29,6 +35,8 @@ export default function BookingPage() {
     document.body.appendChild(addressScript);
 
     return () => {
+      document.body.classList.remove("booking-page");
+      mainScript.remove();
       sanitizeScript.remove();
       addressScript.remove();
       bookingScript.remove();
@@ -40,6 +48,29 @@ export default function BookingPage() {
     <main
       dangerouslySetInnerHTML={{
         __html: `
+    <header>
+        <nav class="container">
+            <a href="/" class="logo">
+                <img src="/brand/moove-city-logo.svg" alt="Moove City - Transport avec chauffeur Paris" width="96" height="96">
+                Moove City
+            </a>
+            <ul class="nav-menu">
+                <li><a href="/#vehicules">Nos véhicules</a></li>
+                <li><a href="/#galerie">Galerie</a></li>
+                <li><a href="/#faq">FAQ</a></li>
+                <li><a href="/zones-intervention/articles/">Articles</a></li>
+                <li><a href="/transport-entreprises.html">B2B</a></li>
+                <li><a href="/#contact">Contact</a></li>
+            </ul>
+            <div class="nav-buttons">
+                <a href="https://wa.me/33751213255" class="whatsapp-btn" target="_blank" rel="noopener noreferrer" aria-label="Contacter Moove City sur WhatsApp">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/></svg>
+                    WhatsApp
+                </a>
+                <a href="/booking" class="btn btn-primary" aria-label="Réserver un transport">RÉSERVER MAINTENANT</a>
+            </div>
+        </nav>
+    </header>
     <nav aria-label="Fil d'Ariane" class="breadcrumb-nav">
         <div class="container">
             <ol itemscope itemtype="https://schema.org/BreadcrumbList" class="breadcrumb-list">
@@ -57,30 +88,6 @@ export default function BookingPage() {
             </ol>
         </div>
     </nav>
-    <header class="topbar">
-        <div class="container">
-            <a class="logo" href="/">
-                <img src="/brand/moove-city-logo.svg" alt="Logo Moove City" width="96" height="96">
-                Moove City
-            </a>
-            <nav aria-label="Navigation principale">
-                <ul>
-                    <li><a href="/#vehicules">Nos véhicules</a></li>
-                    <li><a href="/#galerie">Galerie</a></li>
-                    <li><a href="/#faq">FAQ</a></li>
-                    <li><a href="/zones-intervention/articles/">Articles</a></li>
-                    <li><a href="/transport-entreprises.html">B2B</a></li>
-                    <li><a href="/#contact">Contact</a></li>
-                </ul>
-            </nav>
-            <div class="nav-buttons">
-                <a href="https://wa.me/33751213255" class="whatsapp-btn" target="_blank" rel="noopener noreferrer" aria-label="Contacter Moove City sur WhatsApp">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/></svg>
-                    WhatsApp
-                </a>
-            </div>
-        </div>
-    </header>
 
     <section class="hero booking-hero" id="hero" role="banner">
         <video class="hero-video" muted loop playsinline autoplay
@@ -193,7 +200,7 @@ export default function BookingPage() {
                         Payer et confirmer ma livraison
                     </button>
                     <!-- CTA secondaire : téléphone -->
-                    <a href="tel:+33751213255" id="cta-call-booking" onclick="trackBookingCall()" class="btn-whatsapp" style="background: #334155;">
+                    <a href="tel:+33648745668" id="cta-call-booking" onclick="trackBookingCall()" class="btn-whatsapp" style="background: #334155;">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
                         Appeler pour confirmer
                     </a>
@@ -227,7 +234,7 @@ export default function BookingPage() {
             <div class="contact-list">
                 <div class="contact-item">
                     <span>Téléphone</span>
-                    <a href="tel:+33751213255">+33 7 51 21 32 55</a>
+                    <a href="tel:+33648745668">06 48 74 56 68</a>
                 </div>
                 <div class="contact-item">
                     <span>WhatsApp</span>
@@ -278,7 +285,7 @@ export default function BookingPage() {
             <p>Choisissez la solution la plus pratique pour vous, nous intervenons en moins de 2 heures sur Paris et sa région.</p>
             <div class="cta-strip-actions">
                 <a class="cta-strip-btn cta-strip-btn-whatsapp" href="https://wa.me/33751213255" target="_blank" rel="noopener noreferrer">Démarrer la discussion WhatsApp</a>
-                <a class="cta-strip-btn cta-strip-btn-phone" href="tel:+33751213255">Appeler Moove City</a>
+                <a class="cta-strip-btn cta-strip-btn-phone" href="tel:+33648745668">Appeler Moove City</a>
             </div>
         </div>
     </section>
@@ -323,7 +330,7 @@ export default function BookingPage() {
                 </div>
                 <div class="footer-section">
                     <h4>Contact</h4>
-                    <p>📞 <a href="tel:+33751213255">+33 7 51 21 32 55</a></p>
+                    <p>📞 <a href="tel:+33648745668">06 48 74 56 68</a></p>
                     <p class="footer-contact-line">
                         <a href="https://wa.me/33751213255" target="_blank" rel="noopener noreferrer">
                             💬 WhatsApp
@@ -343,11 +350,6 @@ export default function BookingPage() {
                                     <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
                                 </svg>
                             </a>
-                            <a href="https://www.linkedin.com/company/moovecity" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                                </svg>
-                            </a>
                         </div>
                     </div>
                 </div>
@@ -364,6 +366,13 @@ export default function BookingPage() {
             </div>
         </div>
     </footer>
+
+    <nav class="sticky-mobile-footer" id="stickyMobileFooter" role="navigation" aria-label="Contact rapide">
+        <a href="tel:+33648745668" class="footer-btn footer-btn-call" aria-label="Appeler Moove City">Appeler</a>
+        <a href="https://wa.me/33751213255" class="footer-btn footer-btn-whatsapp" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">WhatsApp</a>
+    </nav>
+    <a href="https://wa.me/33751213255" class="whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Moove City"></a>
+    <button class="scroll-to-top" id="scrollToTop" aria-label="Retour en haut"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 15l-6-6-6 6"/></svg></button>
         `,
       }}
     />

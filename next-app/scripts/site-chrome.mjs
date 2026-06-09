@@ -1,121 +1,6 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Camion PREMIUM 12-14m³ Paris | Moove City - Déménagement Appartement & Transport Complet</title>
-    <meta name="description" content="Camion PREMIUM 12-14m³ avec chauffeur à Paris et Île-de-France. Confort et espace pour transports importants, appartements 2-3 pièces, déménagements complets. Intervention dans l'heure. Devis gratuit instantané. Paiement espèces, CB.">
-    <meta name="keywords" content="camion 12m3 Paris, camion 13m3 Paris, camion 14m3 Paris, transport 12m3 Paris, transport 13m3 Paris, transport 14m3 Paris, déménagement 3 pièces Paris, déménagement appartement Paris, transport complet Paris, déménagement complet Paris, camion premium Paris, transport confortable Paris">
-    <meta name="author" content="Moove City">
-    <meta name="robots" content="index, follow">
-    <meta name="language" content="fr">
-    <link rel="canonical" href="https://www.moovecity.fr/premium.html">
-    
-    <!-- Open Graph -->
-    <meta property="og:title" content="Camion PREMIUM 12-14m³ Paris | Moove City">
-    <meta property="og:description" content="Camion PREMIUM 12-14m³ avec chauffeur à Paris. Confort et espace pour transports importants. Intervention dans l'heure. Devis gratuit.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.moovecity.fr/premium.html">
-    <meta property="og:image" content="https://www.moovecity.fr/images/hero-moove-city.jpg">
-    <meta property="og:site_name" content="Moove City">
-    <meta property="og:locale" content="fr_FR">
-    
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Camion PREMIUM 12-14m³ Paris | Moove City">
-    <meta name="twitter:description" content="Camion PREMIUM 12-14m³ avec chauffeur à Paris. Confort et espace pour transports importants.">
-    <meta name="twitter:image" content="https://www.moovecity.fr/images/hero-moove-city.jpg">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WC9EEBKP2E"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-WC9EEBKP2E');
-    </script>
-    
-    <!-- Schema.org Structured Data -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Product",
-        "name": "Camion PREMIUM 12-14m³ avec chauffeur",
-        "description": "Camion PREMIUM 12-14m³ avec chauffeur professionnel à Paris et Île-de-France. Confort et espace pour transports importants, appartements 2-3 pièces, déménagements complets. Intervention dans l'heure.",
-        "brand": {
-            "@type": "Brand",
-            "name": "Moove City"
-        },
-        "offers": {
-            "@type": "Offer",
-            "url": "https://www.moovecity.fr/booking.html",
-            "price": "70",
-            "priceCurrency": "EUR",
-            "priceValidUntil": "2026-12-31",
-            "availability": "https://schema.org/InStock",
-            "seller": {
-                "@type": "LocalBusiness",
-                "name": "Moove City",
-                "telephone": "+33648745668"
-            },
-            "shippingDetails": {
-                "@type": "OfferShippingDetails",
-                "shippingDestination": {
-                    "@type": "DefinedRegion",
-                    "addressCountry": "FR",
-                    "addressRegion": ["Île-de-France"]
-                },
-                "deliveryTime": {
-                    "@type": "ShippingDeliveryTime",
-                    "handlingTime": {
-                        "@type": "QuantitativeValue",
-                        "minValue": 0,
-                        "maxValue": 1,
-                        "unitCode": "HUR"
-                    },
-                    "transitTime": {
-                        "@type": "QuantitativeValue",
-                        "minValue": 0,
-                        "maxValue": 24,
-                        "unitCode": "HUR"
-                    }
-                },
-                "shippingRate": {
-                    "@type": "MonetaryAmount",
-                    "value": "0",
-                    "currency": "EUR"
-                }
-            },
-            "hasMerchantReturnPolicy": {
-                "@type": "MerchantReturnPolicy",
-                "applicableCountry": "FR",
-                "returnPolicyCategory": "https://schema.org/MerchantReturnNotPermitted"
-            }
-        },
-        "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": "5",
-            "reviewCount": "2500"
-        }
-    }
-    </script>
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        "name": "Camion PREMIUM 12-14m³ Paris",
-        "description": "Camion PREMIUM 12-14m³ avec chauffeur à Paris. Confort et espace pour transports importants.",
-        "url": "https://www.moovecity.fr/premium.html"
-    }
-    </script>
-    
-    <script src="/js/main.js" defer></script>
-<link rel="stylesheet" href="/css/global.css">
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/pages.css">
-    </head>
-<body class="site-page">
-    <header>
+/** Chrome HTML partagé — source unique header / footer / widgets mobile */
+
+export const SITE_HEADER = `<header>
         <nav class="container">
             <a href="/" class="logo">
                 <img src="/brand/moove-city-logo.svg" alt="Moove City - Transport avec chauffeur Paris et Île-de-France" width="96" height="96">
@@ -139,123 +24,9 @@
                 <a href="/booking" class="btn btn-primary" aria-label="Réserver un transport avec chauffeur Paris">RÉSERVER MAINTENANT</a>
             </div>
         </nav>
-    </header>
+    </header>`;
 
-    <main>
-        <section class="page-hero">
-            <div class="container">
-                <h1>Camion PREMIUM 12 m³ — Déménagement avec Chauffeur à Paris</h1>
-                <div class="volume-badge">12 à 14m³</div>
-                <p>Déménagez un appartement 2-3 pièces en un seul aller-retour, sans stress. Le PREMIUM offre la capacité d'un vrai camion de déménagement avec la souplesse d'un service à la demande.</p>
-            </div>
-        </section>
-
-        <section class="content-section">
-            <div class="container">
-                <h2>Le choix confort pour déménager sans stress</h2>
-                <div class="advantages-grid">
-                    <div class="advantage-card">
-                        <div class="icon">🏡</div>
-                        <h3>Un T3 complet en un seul trajet</h3>
-                        <p>12 à 14 m³ absorbent la totalité d'un appartement 2-3 pièces : salon, chambre(s), cuisine. Pas besoin de faire deux rotations.</p>
-                    </div>
-                    <div class="advantage-card">
-                        <div class="icon">📐</div>
-                        <h3>Espace organisable par zones</h3>
-                        <p>La profondeur de la caisse permet de séparer fragile et lourd. Votre chauffeur empile méthodiquement pour optimiser chaque centimètre.</p>
-                    </div>
-                    <div class="advantage-card">
-                        <div class="icon">🛡️</div>
-                        <h3>Protection intégrée bois & verre</h3>
-                        <p>Couvertures matelassées, film à bulles, sangles à cliquet : miroirs, plateaux de table et vaisselle arrivent intacts.</p>
-                    </div>
-                    <div class="advantage-card">
-                        <div class="icon">👨‍👩‍👧</div>
-                        <h3>Pensé pour les familles</h3>
-                        <p>Poussette, vélo d'enfant, jouets volumineux : tout rentre. Le PREMIUM accompagne les déménagements familiaux sans laisser de carton derrière.</p>
-                    </div>
-                    <div class="advantage-card">
-                        <div class="icon">🤝</div>
-                        <h3>Accompagnement personnalisé</h3>
-                        <p>Votre chauffeur vous conseille sur l'ordre de chargement, démonte les pieds de meubles si nécessaire et s'adapte à votre rythme.</p>
-                    </div>
-                    <div class="advantage-card">
-                        <div class="icon">💶</div>
-                        <h3>Dès 70 € — qualité premium, prix accessible</h3>
-                        <p>Deux fois le volume de l'URBAN pour seulement 30 € de plus. Le rapport capacité / prix le plus intéressant de la gamme.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="content-section specs-section">
-            <div class="container">
-                <h2>Fiche technique du PREMIUM</h2>
-                <div class="specs-grid">
-                    <div class="spec-card">
-                        <strong>12–14 m³</strong>
-                        <span>Volume utile de caisse</span>
-                    </div>
-                    <div class="spec-card">
-                        <strong>Porte large 1,80 m</strong>
-                        <span>Passage canapé ou armoire sans démonter</span>
-                    </div>
-                    <div class="spec-card">
-                        <strong>Couvertures + sangles + film</strong>
-                        <span>Kit protection fragile inclus</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="content-section">
-            <div class="container">
-                <h2>Le PREMIUM est fait pour vous si…</h2>
-                <div class="use-cases-grid">
-                    <div class="use-case-card">
-                        <h4>🏠 Déménagement familial 2-3 pièces</h4>
-                        <ul>
-                            <li>Canapé d'angle + table basse + meuble TV</li>
-                            <li>Lit double, armoire penderie, commode</li>
-                            <li>Lave-linge, sèche-linge, réfrigérateur</li>
-                            <li>25 à 35 cartons, luminaires, tapis</li>
-                        </ul>
-                    </div>
-                    <div class="use-case-card">
-                        <h4>🏢 Transfert de bureau PME</h4>
-                        <ul>
-                            <li>3 à 5 postes de travail complets (bureau + caisson)</li>
-                            <li>Fauteuils ergonomiques empilés verticalement</li>
-                            <li>Armoires d'archivage et dossiers suspendus</li>
-                            <li>Écrans, unités centrales, imprimante</li>
-                        </ul>
-                    </div>
-                    <div class="use-case-card">
-                        <h4>🛋️ Livraison de mobilier grande taille</h4>
-                        <ul>
-                            <li>Canapé panoramique ou lit king-size</li>
-                            <li>Cuisine en kit complète (10 à 15 colis)</li>
-                            <li>Dressing ou bibliothèque en pièces détachées</li>
-                            <li>Matelas + sommier 180 × 200 cm</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="cta-section">
-            <div class="container">
-                <h2>Déménagez l'esprit tranquille avec le PREMIUM</h2>
-                <p>Décrivez votre projet en 2 minutes et recevez un tarif tout-compris. Protection, manutention et chauffeur inclus — aucun supplément caché.</p>
-                <div style="margin-top: 2rem;">
-                    <a href="/booking" class="btn btn-primary" style="background: white; color: var(--text-primary); margin-right: 1rem;">Estimer mon déménagement</a>
-                    <a href="https://wa.me/33751213255" class="whatsapp-btn" target="_blank" rel="noopener noreferrer">Réserver par WhatsApp</a>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer role="contentinfo" id="contact">
+export const SITE_FOOTER = `<footer role="contentinfo" id="contact">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
@@ -325,9 +96,9 @@
                 <p><a href="https://phantomdev.fr" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 0.5em; color: rgba(255,255,255,0.8); text-decoration: none; font-weight: 300; font-size: 0.85rem; letter-spacing: 0.15em; text-transform: uppercase;">Design by PhantomDev</a></p>
             </div>
         </div>
-    </footer>
-<script src="/js/main.js" defer></script>
-<nav class="sticky-mobile-footer" id="stickyMobileFooter" role="navigation" aria-label="Contact rapide">
+    </footer>`;
+
+export const MOBILE_WIDGETS = `<nav class="sticky-mobile-footer" id="stickyMobileFooter" role="navigation" aria-label="Contact rapide">
         <a href="tel:+33648745668" class="footer-btn footer-btn-call" aria-label="Appeler Moove City">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
             Appeler
@@ -342,8 +113,10 @@
     </a>
     <button class="scroll-to-top" id="scrollToTop" aria-label="Retour en haut de la page">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 15l-6-6-6 6"/></svg>
-    </button>
-    <script src="/js/main.js" defer></script>
-</body>
-</html>
+    </button>`;
 
+export const SITE_STYLES = `<link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/pages.css">`;
+
+export const SITE_SCRIPTS = `<script src="/js/main.js" defer></script>`;

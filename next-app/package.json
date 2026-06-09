@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "generate-webp": "node scripts/generate-webp.js",
-    "compress-images": "node scripts/compress-images.mjs"
+    "compress-images": "node scripts/compress-images.mjs",
+    "sync:layout": "node scripts/sync-site-layout.mjs"
   },
   "dependencies": {
     "next": "14.2.0",
